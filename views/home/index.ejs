@@ -1,0 +1,191 @@
+<header class="slider-main">
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+        <ol class="carousel-indicators">
+           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+           <div class="carousel-item active" style="background-image: url('images/monkIMG.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                 <h3>Welcome to monkLoans</h3>
+                 <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+           </div>
+           <div class="carousel-item" style="background-image: url('images/monkIMG03.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                 <h3>Welcome to monkLoans</h3>
+                 <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+           </div>
+           <div class="carousel-item" style="background-image: url('images/monkIMG01.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                 <h3>Welcome to monkLoans</h3>
+                 <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+           </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
+
+<div class="container">        
+   <!-- About Section -->
+   <div class="about-main">
+       <div class="row">
+        <div class="col-lg-6">
+          <h2>Welcome to monkLoans</h2>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <h5>Our smart approach</h5>
+          <ul>
+             <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
+             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+             <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+          </ul>
+       </div>
+        <div class="col-lg-6 applyLoanContainer container">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loanModalLabel">Get a Loan Upto K3000</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+              </div>
+              <div class="modal-body">
+                <form action="/loan-application" method="post">
+                  <div class="mb-3">
+                    <label for="loanAmount" class="form-label">How much would you like?</label>
+                    <input type="number" class="form-control" id="loanAmount" name="loanAmount" value="500">
+                  </div>
+                  <div class="mb-3">
+                    <label for="loanTerm" class="form-label">For how many Weeks?</label>
+                    <input type="number" class="form-control" id="loanTerm" name="loanTerm" value="4">
+                  </div>
+                  <div class="mb-3">
+                    <label for="loanType" class="form-label">What type of loan would you like?</label>
+                    <select class="form-select" id="loanType" name="loanType">
+                      <option value="business">Business Loan</option>
+                      <option value="scheme">Personal Loan</option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="serviceFee" class="form-label">Service Fee</label>
+                    <input type="number" class="form-control" id="serviceFee" name="serviceFee" value="5">
+                  </div>
+                  <div class="mb-3">
+                    <label for="amountReceived" class="form-label">Amount You Receive</label>
+                    <input type="number" class="form-control" id="amountReceived" name="amountReceived" value="495">
+                  </div>
+                  <div class="mb-3">
+                    <label for="repaymentAmount" class="form-label">Repayment</label>
+                    <input type="number" class="form-control" id="repaymentAmount" name="repaymentAmount" value="580">
+                  </div>
+                  <div class="mb-3">
+                    <label for="nextPaymentDate" class="form-label">Next Payment Date</label>
+                    <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="2023-10-31">
+                  </div>
+                  <button type="submit" class="btn btn-primary">APPLY</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+                <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+              </div>
+            </div>
+          </div>
+        </div>
+       </div>
+       <!-- /.row -->
+   </div>
+</div>	
+
+
+<div class="services-bar">
+  <div class="container">
+    <h1 class="py-4">Our Best Services and features </h1>
+    <!-- Services Section -->
+    <div class="row">
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Flexible Loan Terms </h4>
+            <p class="card-text">Offer flexible loan terms to accommodate students' needs, such as varying loan amounts and repayment periods.</p>
+          </div>
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Transparent Fees </h4>
+            <p class="card-text">Clearly outline any fees associated with loans, ensuring transparency in all financial transactions.</p>
+          </div>
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Investment Opportunities </h4>
+            <p class="card-text">Showcase various investment opportunities, such as peer-to-peer lending, microloans, and student startups.</p>
+          </div>
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Investment Tracking </h4>
+            <p class="card-text">Provide a dashboard where students can track their investments' performance in real-time.</p>
+          </div>						
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Loan Repayment Options </h4>
+            <p class="card-text">Provide multiple repayment options, including online payments, automatic deductions, and reminders.</p>
+          </div>						
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Loan Calculators</h4>
+            <p class="card-text">Include loan calculators that allow students to estimate their monthly payments and total loan costs.</p>
+          </div>
+        </div>
+       </div>
+    </div>
+    <!-- /.row -->
+  </div>
+</div>
+
+
+
+
+
+<!-- Add this in the <head> section -->
+   
