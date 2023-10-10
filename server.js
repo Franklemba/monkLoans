@@ -20,8 +20,9 @@ const { ensureAuthenticated} = require('./config/auth');
 const PORT = process.env.PORT || 3001;
 
 
-
-mongoose.connect("mongodb://127.0.0.1:27017/moakloans").then(() => {
+// mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?retryWrites=true&w=majority
+// mongodb://127.0.0.1:27017/moakloans
+mongoose.connect("// mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?retryWrites=true&w=majority").then(() => {
   console.log('database is connected')
 }).catch((err) => console.log('error connecting to database ', err))
 
