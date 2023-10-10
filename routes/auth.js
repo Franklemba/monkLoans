@@ -2,7 +2,7 @@ const express = require("express");
 const bcrypt = require('bcrypt');
 const passport = require('passport');
 const router = express.Router();
-const User = require('../models/UserSchema');
+const User = require('../models/userSchema');
 
 
 router.get("/", (req,res) => {
@@ -110,7 +110,6 @@ async function registerUser(firstName, lastName, email, nrc ,school,studentNumbe
     }
 }
   
-
 
 
   router.get('/logout', (req, res) => {
