@@ -1,0 +1,157 @@
+<header class="slider-main">
+    <div id="carouselExampleIndicators" class="carousel slide carousel-fade" data-ride="carousel">
+        <ol class="carousel-indicators">
+           <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+           <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+           <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner" role="listbox">
+           <div class="carousel-item active" style="background-image: url('images/monkIMG.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                 <h3>Welcome to monkloans</h3>
+                 <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+           </div>
+           <div class="carousel-item" style="background-image: url('images/monkIMG03.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                 <h3>Investments</h3>
+                 <p>Lorem ipsum dolor sit amet.</p>
+                
+
+
+              </div>
+           </div>
+           <div class="carousel-item" style="background-image: url('images/monkIMG01.jpg')">
+              <div class="carousel-caption d-none d-md-block">
+                 <h3>Savings</h3>
+                 <p>Lorem ipsum dolor sit amet.</p>
+              </div>
+           </div>
+        </div>
+        <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+        </a>
+        <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="sr-only">Next</span>
+        </a>
+    </div>
+</header>
+
+<!-- Page Content -->
+<div class="container">        
+  <!-- About Section -->
+  <div class="about-main">
+      <div class="row">
+         <div class="col-lg-6">
+            <h2>Monkloans</h2>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+            <div class="about-main-regulations">
+               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+              <h5>Our smart approach</h5>
+              <ul>
+                 <li>Sed at tellus eu quam posuere mattis.</li>
+                 <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
+                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+              </ul>
+             </div>
+
+         </div>
+         <div class="col-lg-6 simpleModalContainer container">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="simpleModalLabel">Lorem, ipsum dolor.</h5>
+              </div>
+              <div class="modal-body">
+                <!-- INVEST button with an icon -->
+                <button type="button" class="btn btn-primary btn-icon" id="investButton">
+                  <i class="bi bi-currency-dollar"></i> INVEST
+                </button>
+                
+                <!-- CREDIT button with an icon -->
+                <button type="button" class="btn btn-secondary btn-icon" id="creditButton">
+                  <i class="bi bi-credit-card"></i> CREDIT
+                </button>
+                
+                <!-- SAVE button with an icon -->
+                <button type="button" class="btn btn-secondary btn-icon" id="saveButton">
+                  <i class="bi bi-save"></i> SAVE
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+         
+      </div>
+      <!-- /.row -->
+  </div>
+</div>	
+
+
+
+<div class="services-bar">
+  <div class="container">
+    <h1 class="py-4">Our Best Services and features </h1>
+    <!-- Services Section -->
+    <div class="row">
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Invest </h4>
+            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni consequuntur saepe repudiandae autem!.</p>
+          </div>
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Credit</h4>
+            <p class="card-text">Lorem ipsum dolor, sit amet consectetur adipisicing elit. Accusamus natus suscipit dicta soluta.</p>
+          </div>
+        </div>
+       </div>
+       <div class="col-lg-4 mb-4">
+        <div class="card h-100">
+          <div class="card-img">
+            <img class="img-fluid" src="images/services-img-01.jpg" alt="" />
+          </div>
+          <div class="card-body">
+            <h4 class="card-header"> Save </h4>
+            <p class="card-text">Lorem ipsum dolor sit amet consectetur adipisicing elit. Cum aperiam magnam explicabo id omnis.</p>
+          </div>
+        </div>
+       </div>
+    </div>
+    <!-- /.row -->
+  </div>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+  // Add an event listener to the "SAVE" button using jQuery
+  $("#saveButton").click(function () {
+    // Redirect to the desired page when the button is clicked
+    window.location.href = "/save";
+  });
+  $("#investButton").click(function () {
+    // Redirect to the desired page when the button is clicked
+    window.location.href = "/invest";
+  });
+  $("#creditButton").click(function () {
+    // Redirect to the desired page when the button is clicked
+    window.location.href = "/credit";
+  });
+</script>
+
+

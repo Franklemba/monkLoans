@@ -8,7 +8,6 @@ const methodOverride = require('method-override');
 // const flash = require('flash');
 // const passport = require('passport');
 const homeRouter = require('./routes/index')
-// const adminRouter = require('./routes/admin')
 
 
 

@@ -1868,7 +1868,7 @@ footer p {
 	flex-direction: row;
 }
 
-.applyLoanContainer{
+.applyLoanContainer,.simpleModalContainer, .applyInvestmentContainer{
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 	/* width: 90% !important; */
 	padding-bottom: 2%;
@@ -1878,9 +1878,44 @@ footer p {
 
 @media (min-width:320px) and (max-width:575.98px){
   
-.applyLoanContainer{
+.applyLoanContainer,.simpleModalContainer, .applyInvestmentContainer{
 	width: 93% !important;
+}
+.about-main-regulations{
+	display: none;
 }
 	
 }
 
+
+.modalBottom .mb-3{
+    display: flex;
+	flex-direction: row;
+	justify-content: space-evenly;
+}
+
+.modalBottom .mb-3 input{
+    width: 40%;
+    text-align: center;
+	font-weight: lighter;
+}
+
+.modalBottom .mb-3 label{
+  font-weight: lighter;
+}
+
+.modal-header #loanModalLabel{
+	text-align: center;
+}
+
+.simpleModalContainer .modal-body{
+	display: flex;
+	justify-content: space-evenly;
+	/* align-items: center; */
+    flex-direction: column;
+	line-height: 5%;
+}
+
+.simpleModalContainer .modal-body button{
+  margin: 5%;
+}
