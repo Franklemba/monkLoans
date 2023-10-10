@@ -3,7 +3,7 @@ if(mongoose.connection.models['User']){
   delete mongoose.connection.models['User']
 }
 
-const UserSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema({
   firstName: {
     type: String,
     required: true,
@@ -48,4 +48,4 @@ const UserSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("User", UserSchema);
+module.exports = mongoose.model("User", userSchema);
