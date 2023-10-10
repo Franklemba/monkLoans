@@ -1897,7 +1897,8 @@ footer p {
 .modalBottom .mb-3 input{
     width: 40%;
     text-align: center;
-	font-weight: lighter;
+	font-weight: bold;
+	color: #000;
 }
 
 .modalBottom .mb-3 label{
