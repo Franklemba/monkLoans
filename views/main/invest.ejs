@@ -16,13 +16,20 @@
                 </div>
                 <div class="modal-body">
                   <form action="/investment-application" method="post">
+                    <hr>
                     <div class="mb-3">
                       <label for="investmentAmount" class="form-label">How much would you like to invest?</label>
                       <input type="number" class="form-control" id="investmentAmount" name="investmentAmount" value="500" min="100" max="5000">
                     </div>
                     <div class="mb-3">
-                      <label for="investmentTerm" class="form-label">Tenure(weeks)?</label>
-                      <input type="number" class="form-control" id="investmentTerm" name="investmentTerm" value="1" min="1" max="4">
+                      <label for="investmentTerm" class="form-label">Tenure (weeks):    </label>
+                      <!-- <input type="number" class="form-control" id="investmentTerm" name="investmentTerm" value="1" min="1" max="4"> -->
+                      <select name="investmentTerm" id="investmentTerm">
+                        <option value="1">1 week</option>
+                        <option value="2">2 weeks</option>
+                        <option value="3">3 weeks</option>
+                        <option value="4">4 weeks</option>
+                     </select>
                     </div>
                     <hr>
           

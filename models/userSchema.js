@@ -24,8 +24,8 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  student_number: {
-    type: number,
+  studentNumber: {
+    type: Number,
     required: true,
   },
   phoneNumber: {
@@ -34,7 +34,7 @@ const UserSchema = new mongoose.Schema({
   },
   registration_link: {
     type: String,
-    required: true,
+    required: false,
   },
   password: {
     type: String,

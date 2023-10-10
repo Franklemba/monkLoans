@@ -15,50 +15,51 @@
                   <h5 class="modal-title" id="investmentModalLabel">Create Account</h5>
                 </div>
                 <div class="modal-body">
-                  <form action="/investment-application" method="post">
+                  <form action="/auth/signUp" method="post">
+                    <hr>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">First Name</label>
-                      <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" placeholder="first name">
+                      <label for="firstName" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="first name" required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Last Name</label>
-                      <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" placeholder="last name">
+                      <label for="lastName" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="last name" required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentTerm" class="form-label">NRC</label>
-                      <input type="number" class="form-control" id="investmentTerm" name="investmentTerm" placeholder="111111/22/3">
+                      <label for="nrc" class="form-label">NRC</label>
+                      <input type="text" class="form-control" id="nrc" name="nrc" placeholder="111111/22/3" required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentTerm" class="form-label">School</label><br>
+                      <label for="school" class="form-label">School</label><br>
                       <select name="school" id="">
                         <option value="cbu">Copperbelt University</option>
                       </select>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Student Number</label>
-                      <input type="text" class="form-control" id="SIN" name="investmentAmount" placeholder="student number">
+                      <label for="studentNumber" class="form-label">Student Number</label>
+                      <input type="number" class="form-control" id="studentNumber" name="studentNumber" placeholder="student number" required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Email</label>
-                      <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" placeholder="email">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Phone number <small><i>(mobiley money number registered under your name)</i></small></label>
-                      <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" placeholder="phone number">
+                      <label for="phoneNumber" class="form-label">Phone number <small><i>(mobiley money number registered under your name)</i></small></label>
+                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="phone number" required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Registration form</label>
-                      <input type="file" class="form-control" id="investmentAmount" name="investmentAmount" placeholder="form">
+                      <label for="registrationForm" class="form-label">Registration form</label>
+                      <input type="file" class="form-control" id="registrationForm" name="registrationForm">
                     </div>
                    
                     <hr>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Password</label>
-                      <input type="password" class="form-control" >
+                      <label for="password" class="form-label">Password</label>
+                      <input type="password" class="form-control" name="password"  required>
                     </div>
                     <div class="mb-3">
-                      <label for="investmentAmount" class="form-label">Re-enter Password</label>
-                      <input type="password" class="form-control" >
+                      <label for="confirmedPassword" class="form-label">Re-enter Password</label>
+                      <input type="password" class="form-control" name="confirmedPassword" required>
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <hr>
@@ -80,3 +81,62 @@
 
 
 
+ <script>
+   $(document).ready(function () {
+     // Target the form by its ID
+     const $form = $('#yourFormId');
+ 
+     $form.on('submit', function (e) {
+       e.preventDefault();
+ 
+       // Validate form fields
+       const firstName = $('#firstName').val();
+       const lastName = $('#lastName').val();
+       const nrc = $('#nrc').val();
+       const studentNumber = $('#studentNumber').val();
+       const email = $('#email').val();
+       const phoneNumber = $('#phoneNumber').val();
+       const password = $('#password').val();
+       const confirmedPassword = $('#confirmedPassword').val();
+ 
+       // Basic validation example (you can customize these checks)
+       if (firstName === '') {
+         alert('First Name is required.');
+         return;
+       }
+       if (lastName === '') {
+         alert('Last Name is required.');
+         return;
+       }
+       if (nrc === '') {
+         alert('NRC is required.');
+         return;
+       }
+       if (studentNumber === '') {
+         alert('Student Number is required.');
+         return;
+       }
+       if (email === '') {
+         alert('Email is required.');
+         return;
+       }
+       if (phoneNumber === '') {
+         alert('Phone Number is required.');
+         return;
+       }
+       if (password === '') {
+         alert('Password is required.');
+         return;
+       }
+       if (password !== confirmedPassword) {
+         alert('Passwords do not match.');
+         return;
+       }
+ 
+       // If all fields are valid, you can submit the form
+       alert('Form submitted successfully.');
+       $form[0].reset(); // Optionally, reset the form
+     });
+   });
+ </script>
+ 

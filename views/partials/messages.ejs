@@ -1,0 +1,158 @@
+<% if (locals.message != null && locals.url != null) { %>
+    <div class="messageBg">
+      <div class="message">
+        <br>
+        <%- message %>
+        <% if (typeof buttonText !== 'undefined') { %>
+          <button id="partialButton"><%= buttonText %></button>
+        <% } %>
+      </div>
+    </div>
+    <% } %>
+    
+    <script>
+      // Check if the button exists before adding the event listener
+      var partialButton = document.getElementById("partialButton");
+      if (partialButton !== null) {
+        partialButton.addEventListener("click", function () {
+          // Check if url is defined before navigating
+          <% if (typeof url !== 'undefined') { %>
+            window.location.href = '<%= url %>'; // This will navigate to the specified URL
+          <% } %>
+        });
+      }
+    </script>
+      
+      <style>
+          .partialForm{
+              width: fit-content;
+              height: fit-content;
+              margin: 0;
+              padding: 0;
+              display: flex;
+              flex-direction: column;
+              z-index: 100;
+          }
+          .partialForm input{
+              width: 100%;
+          }
+        .messageBg {
+          display: fixed;
+          position: fixed;
+          width: 100%;
+          height: 100vh;
+          top: 0;
+          left: 0;
+          background-color: rgba(0, 0, 0, 0.871);
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          z-index: 999;
+          /* visibility: hidden; */
+        }
+        .message {
+          border-radius: 5px;
+          background-color: #ffffff;
+          /* background-color: #fff; */
+          display: flex;
+          flex-direction: column;
+          flex-wrap: nowrap;
+          justify-content: center;
+          align-items: center;
+          position: fixed;
+          margin: auto;
+          width: 70%;
+          max-width: 400px;
+          height: fit-content;
+          padding: 10px;
+          box-shadow: 2px 2px 8px;
+          z-index: 1000;
+          text-align: center;
+          padding: 15px;
+        }
+      
+        .message button {
+          border: none;
+          padding: 8px;
+          border-radius: 8px;
+          margin: 5%;
+          background-color: #ffc221;
+          width: fit-content;
+          text-align: center;
+        }
+        .message button a, .message button {
+          text-decoration: none;
+          color: #ffffff;
+          font-size: 15px;
+        }
+        .message p {
+          font-size: 18px;
+          color: black;
+          color: rgb(0, 0, 0);
+        }
+   
+  
+      .pform-group {
+          margin-bottom: 15px;
+          text-align: left;
+      }
+  
+      .pform-group label {
+          display: block;
+          margin-bottom: 5px;
+      }
+  
+      .pform-group input[type="text"],
+      .pform-group input[type="tel"],
+      .pform-group select {
+          width: 100%;
+          padding: 10px;
+          border: 1px solid #ccc;
+          border-radius: 4px;
+      }
+      .pform-group select{
+        width: 100%;
+        font: 16px;
+      }
+  
+      .pform-group select {
+          height: 35px;
+      }
+  
+  
+  
+     
+      </style>
+      
+      <!-- <script defer>
+        document.addEventListener("DOMContentLoaded", function() {
+            const countrySelect = document.getElementById("recipientCountry");
+            const accountTypeSelect = document.getElementById("recipientAccount");
+    
+            // Function to update account type options based on the selected country
+            function updateAccountTypeOptions() {
+                const selectedCountry = countrySelect.value;
+                const accountTypeOptions = accountTypeSelect.querySelectorAll("option");
+    
+                // Reset account type options
+                accountTypeOptions.forEach(option => {
+                    option.style.display = "none";
+                });
+    
+                // Show relevant account type options based on the selected country
+                if (selectedCountry === "Zambian") {
+                    accountTypeSelect.querySelector('option[value="Mobile"]').style.display = "block";
+                    accountTypeSelect.querySelector('option[value="Bank"]').style.display = "block";
+                } else if (selectedCountry === "Russian") {
+                    accountTypeSelect.querySelector('option[value="Bank"]').style.display = "block";
+                }
+            }
+    
+            // Add change event listener to the country select
+            countrySelect.addEventListener("change", updateAccountTypeOptions);
+    
+            // Initial update based on default selected country
+            updateAccountTypeOptions();
+        });
+    </script> -->
+    

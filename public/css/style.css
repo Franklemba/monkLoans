@@ -1928,3 +1928,19 @@ footer p {
 	justify-content: space-between;
 	flex-direction: row;
 }
+
+#errorDiv{
+	text-align: center;
+	padding: 10px;
+  }
+
+  .btn-icon i{
+	font-weight: bolder;
+	font-size: larger;
+}
+
+
+.navbar-brand span{
+	color: #000;
+	font-size: larger;
+}

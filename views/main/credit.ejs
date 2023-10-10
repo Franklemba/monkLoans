@@ -6,6 +6,10 @@
            <h2>Borrow</h2>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+           <button type="button" class="btn btn-primary btn-icon" id="investButton">
+            <i class="fas fa-tachometer-alt"></i> DASHBOARD
+          </button>
+          
         </div>
          <div class="col-lg-6 applyLoanContainer container">
            <div class="modal-dialog modal-dialog-centered">
@@ -16,13 +20,20 @@
                </div>
                <div class="modal-body">
                  <form action="/credit/page" method="post">
+                  <hr>
                    <div class="mb-3">
                      <label for="loanAmount" class="form-label">How much would you like?</label>
                      <input type="number" class="form-control" id="loanAmount" name="loanAmount" value="500" min="100" max="1500">
                    </div>
                    <div class="mb-3">
-                     <label for="loanTerm" class="form-label">Tenure(weeks)?</label>
-                     <input type="number" class="form-control" id="loanTerm" name="loanTerm" value="1" min="1" max="4">
+                     <label for="loanTerm" class="form-label">Tenure (weeks):</label>
+                     <!-- <input type="number" class="form-control" id="loanTerm" name="loanTerm" value="1" min="1" max="4"> -->
+                     <select name="loanTerm" id="loanTerm">
+                        <option value="1">1 week</option>
+                        <option value="2">2 weeks</option>
+                        <option value="3">3 weeks</option>
+                        <option value="4">4 weeks</option>
+                     </select>
                    </div>
                    
                    <hr>
