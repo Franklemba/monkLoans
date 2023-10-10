@@ -12,7 +12,7 @@
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="investmentModalLabel">Invest up to K5000</h5>
+                  <h5 class="modal-title" id="investmentModalLabel">Invest up to K2000</h5>
                 </div>
                 <div class="modal-body">
                   <form action="/investment-application" method="post">
@@ -21,14 +21,14 @@
                       <input type="number" class="form-control" id="investmentAmount" name="investmentAmount" value="500" min="100" max="5000">
                     </div>
                     <div class="mb-3">
-                      <label for="investmentTerm" class="form-label">For how many Weeks?</label>
-                      <input type="number" class="form-control" id="investmentTerm" name="investmentTerm" value="1" min="1" max="8">
+                      <label for="investmentTerm" class="form-label">Tenure(weeks)?</label>
+                      <input type="number" class="form-control" id="investmentTerm" name="investmentTerm" value="1" min="1" max="4">
                     </div>
                     <hr>
           
                     <div class="modalBottom">
                       <div class="mb-3">
-                        <label for="serviceFee" class="form-label">Service Fee</label>
+                        <label for="serviceFee" class="form-label">Commission</label>
                         <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="K3.00" disabled>
                       </div>
                       <div class="mb-3">
@@ -40,7 +40,7 @@
                         <input type="text" class="form-control" id="totalReturns" name="totalReturns" value="K600.00" disabled>
                       </div>
                       <div class="mb-3">
-                        <label for="nextPaymentDate" class="form-label">Next Payment Date</label>
+                        <label for="nextPaymentDate" class="form-label">Maturity Date</label>
                         <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="2023-10-31" disabled>
                       </div>
                     </div>
@@ -85,14 +85,10 @@
   $(document).ready(function () {
     // Define interest rates for different investment terms
     const interestRates = {
-      1: 0.05, // 5% for a 1-week term
-      2: 0.06, // 6% for a 2-week term
-      3: 0.07, // 7% for a 3-week term
-      4: 0.08, // 8% for a 4-week term
-      5: 0.09, // 9% for a 5-week term
-      6: 0.1,  // 10% for a 6-week term
-      7: 0.11, // 11% for a 7-week term
-      8: 0.12  // 12% for an 8-week term
+      1: 0.03, // 5% for a 1-week term
+      2: 0.08, // 6% for a 2-week term
+      3: 0.12, // 7% for a 3-week term
+      4: 0.18, // 8% for a 4-week term
     };
 
     // Function to calculate the investment details

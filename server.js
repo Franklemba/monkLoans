@@ -2,18 +2,13 @@ const express = require('express');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
 const bodyParser = require('body-parser');
-const mongoose = require('mongoose');
+// const mongoose = require('mongoose');
 const methodOverride = require('method-override');
 // const session = require('session');
 // const flash = require('flash');
 // const passport = require('passport');
 const homeRouter = require('./routes/index')
-
-
-
-// mongoose.connect().then(()=>{
-//     console.log('database is connected');
-// }).catch((err)=> console.log('error connecting to database', err));
+const authRouter = require('./routes/auth')
 
 
 const PORT = process.env.PORT || 3001;
@@ -29,8 +24,8 @@ app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'));
 
 app.use('/',homeRouter );
-// app.use('/auth',authRouter);
-// app.use('/admin', ensureAuthenticated,adminRouter);
+app.use('/auth',authRouter);
+
 
 
 app.listen(PORT,()=> console.log('Server is Running at port '+ PORT))

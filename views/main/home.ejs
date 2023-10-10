@@ -66,19 +66,11 @@
               </div>
               <div class="modal-body">
                 <!-- INVEST button with an icon -->
-                <button type="button" class="btn btn-primary btn-icon" id="investButton">
-                  <i class="bi bi-currency-dollar"></i> INVEST
-                </button>
+                <button type="button" class="btn btn-primary btn-icon" id="investButton"> INVEST </button>
                 
                 <!-- CREDIT button with an icon -->
-                <button type="button" class="btn btn-secondary btn-icon" id="creditButton">
-                  <i class="bi bi-credit-card"></i> CREDIT
-                </button>
-                
-                <!-- SAVE button with an icon -->
-                <button type="button" class="btn btn-secondary btn-icon" id="saveButton">
-                  <i class="bi bi-save"></i> SAVE
-                </button>
+                <button type="button" class="btn btn-secondary btn-icon" id="creditButton">BORROW </button>
+              
               </div>
             </div>
           </div>
@@ -139,11 +131,7 @@
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-  // Add an event listener to the "SAVE" button using jQuery
-  $("#saveButton").click(function () {
-    // Redirect to the desired page when the button is clicked
-    window.location.href = "/";
-  });
+ 
   $("#investButton").click(function () {
     // Redirect to the desired page when the button is clicked
     window.location.href = "/invest";
