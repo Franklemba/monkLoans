@@ -1879,7 +1879,7 @@ footer p {
 @media (min-width:320px) and (max-width:575.98px){
   
 .applyLoanContainer,.simpleModalContainer, .applyInvestmentContainer{
-	width: 93% !important;
+	width: 98% !important;
 }
 .about-main-regulations{
 	display: none;
@@ -1949,7 +1949,8 @@ footer p {
 }
 
 
-.navbar-brand span{
+.navbar-brand span {
 	color: #000;
-	font-size: larger;
-}
+	font-size: 5.5x;
+  }
+  

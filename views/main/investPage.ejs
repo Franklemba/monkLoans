@@ -6,14 +6,13 @@
            <div class="modal-dialog modal-dialog-centered">
              <div class="modal-content">
                <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">Loan Credentials</h5>
+                 <h5 class="modal-title" id="loanModalLabel">Investment Credentials</h5>
                  <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                
                </div>
                <div class="modal-body">
                  <form action="/loan-application" method="post">
                    <div class="modalBottom">
-                    <hr>
                     <div class="mb-3">
                         <label for="name" class="form-label">Student Name</label>
                         <input type="text" class="form-control" id="name" name="name" value="<%=user.firstName%> <%=user.lastName%>" disabled>
@@ -27,21 +26,29 @@
                         <label for="pnumber" class="form-label">Mobile Money Number</label>
                         <input type="text" class="form-control" id="pnumber" name="pnumber" value="<%=user.phoneNumber%> " disabled>
                       </div>
+                      <div class="mb-3">
+                        <label for="investmentAmount" class="form-label">Invested Amount</label>
+                        <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" value="K<%=investmentAmount%>" disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="serviceFee" class="form-label">Commission</label>
+                        <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="K<%=serviceFee%>" disabled>
+                      </div>
                    <div class="mb-3">
-                     <label for="amountReceived" class="form-label">Amount You Receive</label>
-                     <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=amountReceived%>" disabled>
+                     <label for="expectedReturns" class="form-label">Expected Returns</label>
+                     <input type="text" class="form-control" id="expectedReturns" name="expectedReturns" value="K<%=expectedReturns%>" disabled>
                    </div>
                    <div class="mb-3">
-                     <label for="repaymentAmount" class="form-label">Repayment</label>
-                     <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=totalRepayment%>" disabled>
+                     <label for="totalReturns" class="form-label">Total Returns</label>
+                     <input type="text" class="form-control" id="totalReturns" name="totalReturns" value="K<%=totalReturns%>" disabled>
                    </div>
                    <div class="mb-3">
                     <label for="period" class="form-label">Tenure</label>
-                    <input type="text" class="form-control" id="period" name="period" value="<%=loanTerm%> <%= loanTerm == 1 ? 'week' : 'weeks' %>" disabled>
+                    <input type="text" class="form-control" id="period" name="period" value="<%=investmentTerm%> <%= investmentTerm == 1 ? 'week' : 'weeks' %>" disabled>
                   </div>
                    <div class="mb-3">
-                     <label for="nextPaymentDate" class="form-label">Repayment Date</label>
-                     <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=repaymentDate%>" disabled>
+                     <label for="nextPaymentDate" class="form-label">Maturity Date</label>
+                     <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=maturityDate%>" disabled>
                    </div>
                    <hr>
                    <button type="submit" class="btn btn-primary">NEXT</button>
@@ -49,9 +56,7 @@
                   </div>
                  </form>
                </div>
-               <div class="modal-footer">
-                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-               </div>
+               
              </div>
            </div>
          </div>
