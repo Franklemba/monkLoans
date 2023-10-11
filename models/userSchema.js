@@ -32,10 +32,6 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  registration_link: {
-    type: String,
-    required: false,
-  },
   password: {
     type: String,
     required: true,

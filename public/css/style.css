@@ -1894,7 +1894,9 @@ footer p {
 }
 }
 
-
+.mb-3 label{
+	color: #000;
+}
 .modalBottom .mb-3{
     display: flex;
 	flex-direction: row;
@@ -1902,14 +1904,14 @@ footer p {
 }
 
 .modalBottom .mb-3 input{
-    width: 40%;
+    width: 44%;
     text-align: center;
 	/* font-weight: bold; */
 	color: #000;
 }
 
 .modalBottom .mb-3 label,.modalBottom .mb-3 span{
-  font-weight: lighter;
+  font-weight: light;
 }
 
 .modal-header #loanModalLabel{

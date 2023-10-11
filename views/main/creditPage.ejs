@@ -15,39 +15,32 @@
                    <div class="modalBottom">
                     <hr>
                     <div class="mb-3">
-                        <label for="serviceFee" class="form-label">Student Name</label>
-                        <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="Micheal Mwamba" disabled>
+                        <label for="name" class="form-label">Student Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<%=user.firstName%> <%=user.lastName%>" disabled>
                       </div>
                       <div class="mb-3">
-                        <label for="serviceFee" class="form-label">Student Number</label>
-                        <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="22148331" disabled>
+                        <label for="creditorStudentNumber" class="form-label">Student Number</label>
+                        <input type="number" class="form-control" id="creditorStudentNumber" name="creditorStudentNumber" value="<%=user.studentNumber%>" disabled>
                       </div>
+
                       <div class="mb-3">
-                        <label for="serviceFee" class="form-label">School</label>
-                        <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="Copperbelt University" disabled>
-                      </div>
-                      <div class="mb-3">
-                        <label for="serviceFee" class="form-label">NRC</label>
-                        <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="111111/22/3" disabled>
-                      </div>
-                      <div class="mb-3">
-                        <label for="serviceFee" class="form-label">Mobile Money Number</label>
-                        <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="0911112222" disabled>
+                        <label for="pnumber" class="form-label">Mobile Money Number</label>
+                        <input type="text" class="form-control" id="pnumber" name="pnumber" value="<%=user.phoneNumber%> " disabled>
                       </div>
                    <div class="mb-3">
                      <label for="amountReceived" class="form-label">Amount You Receive</label>
-                     <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K495.00" disabled>
+                     <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="<%=amountReceived%>" disabled>
                    </div>
                    <div class="mb-3">
                      <label for="repaymentAmount" class="form-label">Repayment</label>
-                     <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K580.00" disabled>
+                     <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="<%=totalRepayment%>" disabled>
                    </div>
                    <div class="mb-3">
-                     <label for="nextPaymentDate" class="form-label">Next Payment Date</label>
-                     <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="2023-10-31" disabled>
+                     <label for="nextPaymentDate" class="form-label">Repayment Date</label>
+                     <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=repaymentDate%>" disabled>
                    </div>
                    <hr>
-                   <button type="submit" class="btn btn-primary">CONFIRM</button>
+                   <button type="submit" class="btn btn-primary">NEXT</button>
                   
                   </div>
                  </form>
