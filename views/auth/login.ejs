@@ -3,14 +3,8 @@
     <div class="about-main">
         <div class="row">
          <div class="col-lg-6">
-           <h2>Sign up</h2>
-              <!-- <div id="errorDiv"></div>
-      <% if (typeof message !== 'undefined' && message !== null) { %>
-        <div><%= message %></div>
-      <% } else { %>
-      
-      <% } %>    -->
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+           <h2>Login</h2>
+             
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
            
         </div>
@@ -22,6 +16,7 @@
                 </div>
                 <div class="modal-body">
                   <form action="/auth/login" method="post" id="loginForm">
+                    <hr>
 
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
@@ -38,8 +33,10 @@
                     <hr>
                    <div class="mb-3 loginModalFooter">
                      <span> don't have an account? <a href="/auth/signUp">sign up</a></span> 
-                     <span><a href="/auth/forgot_password">forgot password</a></span> 
                     </div>
+                    <div class="mb-3 loginModalFooter">
+                      <span><a href="/auth/forgot_password">forgot password</a></span> 
+                     </div>
                   </form>
                 </div>
             

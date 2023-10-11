@@ -1884,7 +1884,14 @@ footer p {
 .about-main-regulations{
 	display: none;
 }
-	
+.loginModalFooter{
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+.loginModalFooter span{
+	font-size: small;
+}
 }
 
 
