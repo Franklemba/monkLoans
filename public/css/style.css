@@ -1958,3 +1958,41 @@ footer p {
 	padding: 20px 0px 30px 0px;
 	background: url(../images/dott.jpg);
   } */
+
+  .transactionSection{
+	/* background-color: #cccccc; */
+
+  }
+
+  .transactionItem{
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+  }
+  .transactionSection ul li:hover{
+	background-color: #dee2e6;
+	padding: 2%;
+	box-shadow: 3px 5px 15px rgba(0,0,0, .15);
+	cursor: pointer;
+  }
+
+  .transactionItem-modal{
+	padding: 5%;
+	background-color: #f5eeee;
+  }
+
+  .transactionItem-modal p{
+	color: #000;
+	font-weight: 500;
+  }
+
+  
+  .transactionItem-modal p span{
+	color: #000;
+	font-weight: normal;
+  }
+
+  #dashboardButton a{
+	 color: #fff;
+	 text-decoration: none; 
+  }

@@ -1,0 +1,53 @@
+<div class="container">        
+    <!-- About Section -->
+    <div class="about-main">
+        <div class="row">
+         <div class="col-lg-6">
+           <h2>Bank card details</h2>
+           <p><strong>Important Notice:</strong> We only accept bank card details from Zanaco bank.</p>
+           <p> Please ensure your card is issued by Zanaco before proceeding.</p>
+        </div>
+         <div class="col-lg-6 applyLoanContainer container">
+           <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title" id="loanModalLabel">Card details</h5>
+                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+               </div>
+               <div class="modal-body">
+                 <form action="/credit/card" method="post">
+                  <!-- <hr> -->
+                   <div class="mb-3">
+                    <label for="cardholderName">Cardholder Name</label>
+                    <input type="text" id="cardholderName" name="cardholderName" required>
+                   </div> 
+                       
+                   <div class="mb-3">
+                    <label for="cardNumber">Card Number</label>
+                    <input type="text" id="cardNumber" name="cardNumber" required>
+                   </div> 
+                   <div class="mb-3">
+                    <label for="expirationDate">Expiration Date (MM/YY)</label>
+                    <input type="text" id="expirationDate" name="expirationDate" required>
+                   </div>
+                   <div class="mb-3">
+                    <label for="cvv">CVV</label>
+                    <input type="text" id="cvv" name="cvv" required>
+                   </div>
+                   
+                   <hr>
+                   <button type="submit" class="btn btn-primary">APPLY</button>
+
+                   
+                 </form>
+               </div>
+               
+             </div>
+           </div>
+         </div>
+        </div>
+        <!-- /.row -->
+
+    </div>
+ </div>	
+

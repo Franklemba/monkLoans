@@ -6,8 +6,8 @@
            <h2>Borrow</h2>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-           <button type="button" class="btn btn-primary btn-icon" id="investButton">
-            <i class="fas fa-tachometer-alt"></i> DASHBOARD
+           <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
+            <a href="/credit/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
           </button>
           
         </div>
@@ -15,7 +15,7 @@
            <div class="modal-dialog modal-dialog-centered">
              <div class="modal-content">
                <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">Get a Loan Upto K1500</h5>
+                 <h5 class="modal-title" id="loanModalLabel">Get a Loan Upto K1000</h5>
                  <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                </div>
                <div class="modal-body">
@@ -23,7 +23,7 @@
                   <!-- <hr> -->
                    <div class="mb-3">
                      <label for="loanAmount" class="form-label">How much would you like?</label>
-                     <input type="number" class="form-control" id="loanAmount" name="loanAmount" value="500" min="100" max="1500">
+                     <input type="number" class="form-control" id="loanAmount" name="loanAmount" value="500" min="100" max="1000">
                    </div>
                    <div class="mb-3">
                      <label for="loanTerm" class="form-label">Tenure (weeks):</label>
@@ -59,10 +59,7 @@
                    <hr>
                    <button type="submit" class="btn btn-primary">APPLY</button>
 
-                   <hr>
-                   <div class="mb-3">
-                     <span> loan requirements</span> 
-                    </div>
+                   
                   </div>
                  </form>
                </div>
@@ -87,6 +84,16 @@
                  <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
               </ul>
            </div>
+           <div class="col-lg-6">
+            <h5>Requirements</h5>
+            <ul>
+               <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            </ul>
+         </div>
              
            </div>
     </div>

@@ -11,7 +11,7 @@
                
                </div>
                <div class="modal-body">
-                 <form action="/loan-application" method="post">
+                 <!-- <form action="/credit/card" method="post"> -->
                    <div class="modalBottom">
                     <div class="mb-3">
                         <label for="name" class="form-label">Student Name</label>
@@ -42,11 +42,12 @@
                      <label for="nextPaymentDate" class="form-label">Repayment Date</label>
                      <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=repaymentDate%>" disabled>
                    </div>
+                   
                    <hr>
-                   <button type="submit" class="btn btn-primary">NEXT</button>
+                   <button type="button" class="btn btn-primary" id="nextButton">NEXT</button>
                   
                   </div>
-                 </form>
+                 <!-- </form> -->
                </div>
                <div class="modal-footer">
                  <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
@@ -73,5 +74,18 @@
 
     </div>
  </div>	
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+ <script>
+ 
+  $("#nextButton").click(function () {
+    // Redirect to the desired page when the button is clicked
+    window.location.href = "/credit/card";
+  });
+  
+</script>
+
 
 

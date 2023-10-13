@@ -1,0 +1,115 @@
+<div class="container">        
+    <!-- About Section -->
+    <div class="about-main">
+        <div class="row">
+         <div class="col-lg-6 applyLoanContainer container">
+           <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title" id="loanModalLabel">Current loan details</h5>
+                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+               
+               </div>
+               <div class="modal-body">
+                 <!-- <form action="/loan-application" method="post"> -->
+                   <div class="modalBottom">
+
+                      <div class="mb-3">
+                        <label for="loanAmount" class="form-label">Loan Amount</label>
+                        <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K500.00" disabled>
+                      </div>
+                      <div class="mb-3">
+                          <label for="amountReceived" class="form-label">Amount You Received</label>
+                          <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K495.00" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="repaymentAmount" class="form-label">Repayment Amount</label>
+                        <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K530.00" disabled>
+                    </div>
+                    <div class="mb-3">
+                        <label for="period" class="form-label">Tenure</label>
+                        <input type="text" class="form-control" id="period" name="period" value="1 week" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label for="createdAt" class="form-label">Date Disbursed</label>
+                      <input type="date" class="form-control" id="createdAt" name="createdAt" value="12/10/2023" disabled>
+                    </div>
+                   <div class="mb-3">
+                     <label for="nextPaymentDate" class="form-label">Repayment Date</label>
+                     <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="19/10/2023" disabled>
+                   </div>
+                   <div class="mb-3">
+                    <label for="creditStatus" class="form-label">Status</label>
+                    <input type="text" class="form-control" id="creditStatus" name="creditStatus" value="unpaid" disabled>
+                  </div>
+                   <hr>
+                   <button type="submit" class="btn btn-primary">MAKE PAYMENT</button>
+                  
+                  </div>
+                 <!-- </form> -->
+               </div>
+               <div class="modal-footer">
+                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <br>
+         <br>
+         <div class="col-lg-6 transactionSection">
+            <h5>Trasactions</h5>
+            <ul>
+               <li id="transactionDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                  <div class="transactionItem">
+                    <span>K500.00</span>
+                    <span>12/10/2023</span>
+                  </div>
+                </li>
+                <div class="dropdown-menu dropdown-menu-center transactionItem-modal" aria-labelledby="transactionDropdownBlog">
+                   <p>Loan Amount: <span>K500</span></p>
+                   <p>Amount you received: <span>K495</span></p>
+                   <p>Amount payed: <span>K530</span></p>
+                   <p>Date payed: <span>19/10/2023</span></p>
+                   <p>Status: <span>paid</span></p>
+                </div>
+                <hr>
+                <li id="transactionDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                    <div class="transactionItem">
+                      <span>K500.00</span>
+                      <span>12/10/2023</span>
+                    </div>
+                  </li>
+                  <div class="dropdown-menu dropdown-menu-center transactionItem-modal" aria-labelledby="transactionDropdownBlog">
+                     <p>Loan Amount: <span>K500</span></p>
+                     <p>Amount you received: <span>K495</span></p>
+                     <p>Amount payed: <span>K530</span></p>
+                     <p>Date payed: <span>19/10/2023</span></p>
+                     <p>Status: <span>paid</span></p>
+                  </div>
+                  <hr>
+                  <li id="transactionDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" >
+                    <div class="transactionItem">
+                      <span>K500.00</span>
+                      <span>12/10/2023</span>
+                    </div>
+                  </li>
+                  <div class="dropdown-menu dropdown-menu-center transactionItem-modal" aria-labelledby="transactionDropdownBlog">
+                     <p>Loan Amount: <span>K500</span></p>
+                     <p>Amount you received: <span>K495</span></p>
+                     <p>Amount payed: <span>K530</span></p>
+                     <p>Date payed: <span>19/10/2023</span></p>
+                     <p>Status: <span>paid</span></p>
+                  </div>
+                  <hr>
+               
+            </ul>
+         </div>
+          
+        </div>
+        <!-- /.row -->
+
+    </div>
+ </div>	
+
+

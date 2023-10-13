@@ -6,20 +6,22 @@
            <h2>Invest</h2>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-           
+           <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
+            <a href="/invest/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
+          </button>
         </div>
         <div class="col-lg-6 applyInvestmentContainer container">
             <div class="modal-dialog modal-dialog-centered">
               <div class="modal-content">
                 <div class="modal-header">
-                  <h5 class="modal-title" id="investmentModalLabel">Invest up to K2000</h5>
+                  <h5 class="modal-title" id="investmentModalLabel">Invest up to K1000</h5>
                 </div>
                 <div class="modal-body">
                   <form action="/invest/page" method="post">
                     <hr>
                     <div class="mb-3">
                       <label for="investmentAmount" class="form-label">How much would you like to invest?</label>
-                      <input type="number" class="form-control" id="investmentAmount" name="investmentAmount" value="500" min="100" max="5000">
+                      <input type="number" class="form-control" id="investmentAmount" name="investmentAmount" value="500" min="100" max="1000">
                     </div>
                     <div class="mb-3">
                       <label for="investmentTerm" class="form-label">Tenure (weeks):    </label>

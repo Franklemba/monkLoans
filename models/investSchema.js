@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
-if(mongoose.connection.models['Creditor']){
-  delete mongoose.connection.models['Creditor']
+if(mongoose.connection.models['Investor']){
+  delete mongoose.connection.models['Investor']
 }
 
-const creditSchema = new mongoose.Schema({
-  creditorEmail: {
+const investSchema = new mongoose.Schema({
+  investorEmail: {
     type: String,
     required: true,
   },
-  creditorStudentNumber: {
+  investorStudentNumber: {
     type: String,
     required: true,
   },
-  loanAmount: {
+  investmentAmount: {
     type: Number,
     required: true,
   },
-  loanTerm: {
+  investmentTerm: {
     type: Number,
     required: true,
   },
@@ -24,25 +24,21 @@ const creditSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  amountReceived: {
+  expectedReturns: {
     type: Number,
     required: true,
   },
-  repaymentAmount: {
+  totalReturns: {
     type: Number,
     required: true,
   },
-  nextPaymentDate: {
+  maturityDate: {
     type: String,
-    required: false,
-  },
-  cardNumber: {
-    type: String,
-    required: false,
-  },
-  creditStatus:{
-    type: Boolean,
     required: true,
+  },
+  bankAccount: {
+    type: String,
+    required: false,
   },
   createdAt:{
      type: Date,
@@ -52,4 +48,4 @@ const creditSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Creditor", creditSchema);
+module.exports = mongoose.model("Investor", investSchema);
