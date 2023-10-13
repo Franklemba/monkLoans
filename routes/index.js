@@ -21,6 +21,7 @@ router.get("/", (req,res) => {
     })
 })
 
+
 //-------------------<CREDITOR SECTION>
 
 router.get("/credit", ensureAuthenticated, (req,res) => {
@@ -52,7 +53,7 @@ router.post("/credit/page", ensureAuthenticated, async (req,res) => {
         3: 0.15, // 7% for a 3-week term
         4: 0.2, // 8% for a 4-week term
       };
-      if (!isNaN(loanAmount) && !isNaN(loanTerm)) {
+      if (!isNaN(loanAmount) && !isNaN(loanTerm) && loanAmount > 0 && loanAmount < 1000) {
         // Calculate interest based on selected loan term
         const interestRate = interestRates[loanTerm];
         
@@ -155,7 +156,7 @@ router.post("/credit/card", ensureAuthenticated, async (req, res) => {
                 user,        
                 message: `
                     <h3>🎉 Account Approval was unsuccesful</h3>
-                <h3>make sure, your bank card is issed by Zanaco and you're on bursary</h3>
+                <h3>make sure, your bank card is issued by Zanaco and you're on bursary</h3>
                 <h3>hard luck!</h3>
                 `,
                 url: "/credit",
@@ -169,22 +170,101 @@ router.post("/credit/card", ensureAuthenticated, async (req, res) => {
 
 });
 
-
 router.get('/credit/dashboard', ensureAuthenticated, async (req,res) => {
      const user = req.user;
      const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+     const repayedLoan = await Creditor.find({ creditorEmail: user.email, creditStatus: false })
+     .sort({ createdAt: -1 });
 
      res.render("main/creditDashboard", {
         user,
-        credit
+        credit,
+        repayedLoan
      })
+})
+
+router.get('/credit/repayment', ensureAuthenticated, async (req,res) => {
+    const user = req.user;
+
+    const currentDate = new Date();
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+
+
+    const repayedLoan = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const filter = { creditorEmail: user.email, creditStatus: true };
+    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const update = { 
+        creditStatus: false,
+        nextPaymentDate: formattedDate
+    };
+
+    await Creditor.findOneAndUpdate(filter, update, {
+        new: true, // Return the updated document
+    });
+
+    res.render("main/creditDashboard", {
+        user,
+        credit,
+        repayedLoan,
+        message: `
+        <h3>Loan balance cleared succesfully</h3>
+        <h3>thank for using our service 🤝</h3>
+        `,
+        url: "/credit/dashboard",
+        buttonText:"exit"
+     })
+
+   
+})
+
+router.post('/credit/repayment', ensureAuthenticated, async (req,res) => {
+    const user = req.user;
+    const {newMMnumber} = req.body;
+    console.log(newMMnumber);
+
+    const currentDate = new Date();
+    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+    const formattedDate = currentDate.toLocaleDateString('en-US', options);
+
+
+
+    const repayedLoan = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const filter = { creditorEmail: user.email, creditStatus: true };
+    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const update = { 
+        creditStatus: false,
+        nextPaymentDate: formattedDate
+    };
+
+    await Creditor.findOneAndUpdate(filter, update, {
+        new: true, // Return the updated document
+    });
+
+    res.render("main/creditDashboard", {
+        user,
+        credit,
+        repayedLoan,
+        message: `
+        <h3>Loan balance cleared succesfully</h3>
+        <h3>thank for using our service 🤝</h3>
+        `,
+        url: "/credit/dashboard",
+        buttonText:"exit"
+     })
+
+   
 })
 
 //-------------------</CREDITOR SECTION>
 
+
+
+
+
+
 ///-------------------<INVESTOR SECTION>
-
-
 router.get("/invest", ensureAuthenticated, (req,res) => {
     const user = req.user;
     res.render("main/invest",{
@@ -201,14 +281,13 @@ router.post("/invest/page", ensureAuthenticated, (req,res) => {
         3: 0.12, // 7% for a 3-week term
         4: 0.18, // 8% for a 4-week term
       };
-   
+
     if (!isNaN(investmentAmount) && !isNaN(investmentTerm)) {
         // Calculate interest based on selected investment term
         const interestRate = interestRates[investmentTerm];
         
         // Calculate service fee (assuming a fixed fee of K3.00)
         const serviceFee = 3;
-        
         // Calculate expected returns
         const expectedReturns = investmentAmount * interestRate;
         
@@ -230,8 +309,7 @@ router.post("/invest/page", ensureAuthenticated, (req,res) => {
             investmentAmount
         })
         
-      }
-    
+      }    
 })
 
 router.get('/invest/dashboard', ensureAuthenticated, (req,res) => {
@@ -240,7 +318,6 @@ router.get('/invest/dashboard', ensureAuthenticated, (req,res) => {
        user,
     })
 })
-
 
 //-------------------   </INVESTOR SECTION>
 

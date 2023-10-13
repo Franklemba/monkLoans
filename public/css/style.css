@@ -1892,6 +1892,9 @@ footer p {
 .loginModalFooter span{
 	font-size: small;
 }
+.transactionSection{
+	 margin-top: 10%;
+  }
 }
 
 .mb-3 label{
@@ -1961,7 +1964,9 @@ footer p {
 
   .transactionSection{
 	/* background-color: #cccccc; */
-
+     max-height: 80vh;
+	 overflow-y: scroll;
+	 /* margin-top: 10%; */
   }
 
   .transactionItem{
@@ -1995,4 +2000,17 @@ footer p {
   #dashboardButton a{
 	 color: #fff;
 	 text-decoration: none; 
+  }
+
+  .null{
+	height: 60vh;
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+	align-items: center;
+  }
+
+  .null p{
+	color: #6f6f6f;
+	font-size: larger;
   }
