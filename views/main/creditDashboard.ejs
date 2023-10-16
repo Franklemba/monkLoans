@@ -68,6 +68,7 @@
                   <% } else { %>
                          <div class="null">
                             <p>you're loan free</p>
+                            
                             <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
                               <a href="/credit"><i class="fas fa-money-bill-wave"></i> get a Loan</a> 
                           </button>
@@ -88,6 +89,7 @@
          <br>
          <div class="col-lg-6 transactionSection">
             <h5>Trasactions</h5>
+            
             <% if (repayedLoan && repayedLoan.length > 0) { %>
               <% repayedLoan.forEach(function(loan) { %>
                 <ul>
@@ -97,7 +99,8 @@
                       <span><%= loan.createdAt.toLocaleDateString('en-US') %></span>
                     </div>
                   </li>
-                  <div class="dropdown-menu dropdown-menu-center transactionItem-modal" aria-labelledby="transactionDropdownBlog">
+                  <div class="dropdown-menu dropdown-menu-center transactionItem-modal" id="myModal"aria-labelledby="transactionDropdownBlog">
+                    <span id="closeModal" class="close">&times;</span>
                      <p>Loan Amount: <span>K<%=loan.loanAmount%></span></p>
                      <p>Amount you received: <span>K<%=loan.amountReceived%></span></p>
                      <p>Amount payed: <span>K<%=loan.repaymentAmount%></span></p>
@@ -120,5 +123,32 @@
     </div>
  </div>	
 
+<!-- 
+                 <button id="openModal">Open Modal</button>
+                            <div id="myModal" class="miniModal">
+                                <div class="miniModal-content">
+                                    <span id="closeModal" class="close">&times;</span>
+                                    <h2>Popup Modal</h2>
+                                    <p>This is a simple jQuery-based modal.</p>
+                                </div>
+                            </div> -->
 
 
+
+ 
+
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <script>
+   $(document).ready(function() {
+    $("#openModal").click(function() {
+        $("#myModal").fadeIn();
+    });
+
+    $("#closeModal").click(function() {
+        $("#myModal").fadeOut();
+    });
+});
+
+    </script>

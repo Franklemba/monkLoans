@@ -1879,7 +1879,7 @@ footer p {
 @media (min-width:320px) and (max-width:575.98px){
   
 .applyLoanContainer,.simpleModalContainer, .applyInvestmentContainer{
-	width: 98% !important;
+	width: 96% !important;
 }
 .about-main-regulations{
 	display: none;
@@ -1894,6 +1894,9 @@ footer p {
 }
 .transactionSection{
 	 margin-top: 10%;
+  }
+  .transactionSectionInvestor{
+	margin-top: 0%;
   }
 }
 
@@ -1952,9 +1955,20 @@ footer p {
 }
 
 
-.navbar-brand span {
+.navbar-brand span{
 	color: #000;
 	font-size: 5.5x;
+	display: inline-block;
+	width: 40px; /* Set the desired width for the circle */
+	height: 40px; /* Set the desired height for the circle */
+	background-color: blue;
+	border-radius: 50%; /* Makes it a circle */
+	text-align: center;
+	line-height: 40px; /* Vertically centers the initials */
+	color: white; /* Text color inside the circle */
+	font-size: 20px; /* Adjust the font size as needed */
+	text-decoration: none; /* Removes the underline */
+	text-transform: uppercase;
   }
   
   /* .about-main{
@@ -1962,7 +1976,7 @@ footer p {
 	background: url(../images/dott.jpg);
   } */
 
-  .transactionSection{
+  .transactionSection, .transactionSectionInvestor{
 	/* background-color: #cccccc; */
      max-height: 80vh;
 	 overflow-y: scroll;
@@ -1974,7 +1988,7 @@ footer p {
 	flex-direction: row;
 	justify-content: space-between;
   }
-  .transactionSection ul li:hover{
+  .transactionSection ul li,.transactionSectionInvestor ul li:hover{
 	background-color: #dee2e6;
 	padding: 2%;
 	box-shadow: 3px 5px 15px rgba(0,0,0, .15);
@@ -2014,3 +2028,45 @@ footer p {
 	color: #6f6f6f;
 	font-size: larger;
   }
+
+  /* Styles for the modal container */
+.miniModal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Styles for the modal content */
+.miniModal-content {
+    background-color: #fff;
+    width: 300px; /* Set the desired width for the modal */
+    padding: 20px;
+    border-radius: 5px;
+    text-align: center;
+    position: relative;
+}
+
+/* Styles for the close button */
+.close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+
+.investDepositModal .modal-content .modal-body{
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}

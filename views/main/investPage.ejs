@@ -11,21 +11,8 @@
                
                </div>
                <div class="modal-body">
-                 <form action="/loan-application" method="post">
+                <form action="/invest/deposit_fund" method="post">
                    <div class="modalBottom">
-                    <div class="mb-3">
-                        <label for="name" class="form-label">Student Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="<%=user.firstName%> <%=user.lastName%>" disabled>
-                      </div>
-                      <div class="mb-3">
-                        <label for="creditorStudentNumber" class="form-label">Student Number</label>
-                        <input type="number" class="form-control" id="creditorStudentNumber" name="creditorStudentNumber" value="<%=user.studentNumber%>" disabled>
-                      </div>
-
-                      <div class="mb-3">
-                        <label for="pnumber" class="form-label">MoMo Number</label>
-                        <input type="text" class="form-control" id="pnumber" name="pnumber" value="<%=user.phoneNumber%> " disabled>
-                      </div>
                       <div class="mb-3">
                         <label for="investmentAmount" class="form-label">Invested Amount</label>
                         <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" value="K<%=investmentAmount%>" disabled>
@@ -51,7 +38,24 @@
                      <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=maturityDate%>" disabled>
                    </div>
                    <hr>
-                   <button type="submit" class="btn btn-primary">NEXT</button>
+                   <button type="submit" class="btn btn-primary" id="repaymentDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Deposit</button>
+                   <div class="dropdown-menu dropdown-menu-center transactionItem-modal" aria-labelledby="repaymentDropdownBlog">
+                     <span>click number to proceed</span><br>
+                     <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
+                       <a href="/invest/deposit_fund"><%=user.phoneNumber%></a> 
+                   </button>
+                   <hr>
+                    <p>or</p>
+                    <hr>
+
+                     <form action="/invest/deposit_fund" method="post">
+                       <div class="mb-2">
+                         <label for="newMMnumber" class="form-label">user different number</label>
+                         <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
+                     </div>
+                     <button type="submit" class="btn btn-primary">submit</button>
+                     </form>
+                  </div>
                   
                   </div>
                  </form>

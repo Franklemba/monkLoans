@@ -40,6 +40,10 @@ const investSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
+  investmentStatus:{
+    type: Boolean,
+    required: true
+  },
   createdAt:{
      type: Date,
      required: true,

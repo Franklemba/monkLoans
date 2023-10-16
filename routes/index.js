@@ -7,6 +7,7 @@ const session = require('express-session');
 const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
 const Creditor = require('../models/creditSchema');
+const Investor = require('../models/investSchema');
 
 app.use(session({
     secret: 'mysecret',
@@ -97,8 +98,8 @@ router.get("/credit/card", ensureAuthenticated, (req, res) => {
             user: req.user
         });
    
-});
-
+}); 
+    //  save loan details to datatbase    
 router.post("/credit/card", ensureAuthenticated, async (req, res) => {
     // Retrieve the calculated data from the session
     
@@ -265,14 +266,14 @@ router.post('/credit/repayment', ensureAuthenticated, async (req,res) => {
 
 
 ///-------------------<INVESTOR SECTION>
-router.get("/invest", ensureAuthenticated, (req,res) => {
+router.get("/invest", ensureAuthenticated,  (req,res) => {
     const user = req.user;
     res.render("main/invest",{
         user
     })
 })
 
-router.post("/invest/page", ensureAuthenticated, (req,res) => {
+router.post("/invest/page", ensureAuthenticated, async (req,res) => {
     const user = req.user;
     const {investmentAmount, investmentTerm}  = req.body;
     const interestRates = {
@@ -298,8 +299,16 @@ router.post("/invest/page", ensureAuthenticated, (req,res) => {
         const today = new Date();
         const nextPaymentDate = new Date(today.getTime() + investmentTerm * 7 * 24 * 60 * 60 * 1000);
         const maturityDate = nextPaymentDate.toISOString().substr(0, 10);
-        
-        res.render("main/investPage",{
+
+        req.session.calculatedInvestedData = {
+            maturityDate,
+            totalReturns,
+            expectedReturns,
+            investmentTerm,
+            investmentAmount: parseFloat(investmentAmount),
+            serviceFee
+        };
+        await res.render("main/investPage",{
             user,
             serviceFee,
             maturityDate,
@@ -312,17 +321,97 @@ router.post("/invest/page", ensureAuthenticated, (req,res) => {
       }    
 })
 
-router.get('/invest/dashboard', ensureAuthenticated, (req,res) => {
+
+router.post('/invest/deposit_fund', ensureAuthenticated, async (req,res) => {
+    
+    
+    try {
+        const user = req.user;  
+        const calculatedInvestedData = req.session.calculatedInvestedData;
+        const {newMMnumber} = req.body;
+
+        if(calculatedInvestedData){
+
+            const maturityDate = calculatedInvestedData.maturityDate;
+            const totalReturns = calculatedInvestedData.totalReturns;
+            const expectedReturns = calculatedInvestedData.expectedReturns;
+            const investmentTerm = calculatedInvestedData.investmentTerm;
+            const investmentAmount = calculatedInvestedData.investmentAmount;
+            const serviceFee = calculatedInvestedData.serviceFee;
+
+            // ___________SAVING INVESTOR'S DETAILS __________//
+
+            const investor = new Investor({
+                investorEmail: user.email,
+                investorStudentNumber: user.studentNumber,
+                investmentAmount,
+                investmentTerm,
+                serviceFee,
+                expectedReturns,
+                totalReturns,
+                maturityDate,
+                investmentStatus: true
+            });
+
+            await investor.save();
+            
+            // render page once investment has been approved
+            res.render("main/invest",{   
+                user,        
+                message: `
+                    <h3>🎉Investment successfully done 🎉</h3>
+                    <hr>
+                
+                <h3>thank for using our service 🤝</h3>
+                `,
+                url: "/invest/dashboard",
+                buttonText:"exit"
+                }); //
+
+        }else{
+            res.render("main/invest",{   
+                user,        
+                message: `
+                    <h3>🎉 investment was unsuccesful</h3>
+                <h3>make sure, to enter the correct credentials</h3>
+                <h3>hard luck!</h3>
+                `,
+                url: "/invest",
+                buttonText:"exit"
+                }); 
+        }
+
+
+        
+    } catch (error) {
+        console.error('error saving user details', error);
+        res.redirect('/invest');
+    }
+})
+
+
+router.get('/invest/dashboard', ensureAuthenticated, async (req,res) => {
     const user = req.user;  
+    const invest = await Investor.find({investorEmail:user.email, investmentStatus: true });
+    const maturedInvestment = await Investor.find({investorEmail:user.email, investmentStatus: false });
+    const currentDate = new Date();
+    const formattedDate = currentDate.toISOString().split('T')[0];
+
+    console.log(formattedDate); // Output: "2023-10-23"
+    //  function to update all investments  
+
+    updateCreditors(user, formattedDate);
+
     res.render("main/investDashboard", {
        user,
+       invest,
+       maturedInvestment
     })
 })
 
+
+
 //-------------------   </INVESTOR SECTION>
-
-
-
 
 router.get("/profile", ensureAuthenticated, (req,res) => {
     const user = req.user;
@@ -330,6 +419,41 @@ router.get("/profile", ensureAuthenticated, (req,res) => {
         user
     })
 })
+
+
+
+
+
+
+// // FUNCTIONS are over here
+const updateCreditors = async (user, formattedDate ) => {
+
+    const investors = await Investor.find({
+        investorEmail: user.email,
+        investStatus: true,
+        maturityDate: { $eq: formattedDate }
+    });
+
+    if (investors.length > 0) {
+        const updatePromises = investors.map(investor => {
+            return Investor.findOneAndUpdate(
+                { _id: investor._id },
+                {
+                    investStatus: false,
+                },
+                { new: true }
+            );
+        });
+
+        const updatedInvestors = await Promise.all(updatePromises);
+        console.log(`${updatedInvestors.length} investors updated successfully.`);
+    } else {
+        console.log('No investors found for the specified date.');
+    }
+};
+
+// // Call the function with the user and formattedDate parameters
+
 
 
 

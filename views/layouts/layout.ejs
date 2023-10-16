@@ -29,7 +29,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-light top-nav">
         <div class="container">
             <% if (typeof user !== 'undefined' && user !== null) { %>
-                <a class="navbar-brand" href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="profile"><span class="fas fa-user-circle"></span></a>
+                <a class="navbar-brand " href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="profile"><span><%= user.firstName.charAt(0) + user.lastName.charAt(0) %></span></a>
                 <div class="dropdown-menu dropdown-menu-left" aria-labelledby="navbarDropdownBlog">
                     <p class="dropdown-item"><%=user.firstName%> <%=user.lastName%></p>
                     <a class="dropdown-item" href="/settings"><span class="fas fa-cog"></span>Settings</a>
