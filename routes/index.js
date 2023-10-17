@@ -8,6 +8,7 @@ const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
 const Creditor = require('../models/creditSchema');
 const Investor = require('../models/investSchema');
+const Profile = require('../models/profileSchema');
 
 app.use(session({
     secret: 'mysecret',
@@ -47,13 +48,15 @@ router.post("/credit/page", ensureAuthenticated, async (req,res) => {
             buttonText:"repay"
         })
     }else{
-        const {loanAmount,loanTerm} = req.body;
-    const interestRates = {
-        1: 0.05, // 5% for a 1-week term
-        2: 0.1, // 6% for a 2-week term
-        3: 0.15, // 7% for a 3-week term
-        4: 0.2, // 8% for a 4-week term
-      };
+
+            const { loanAmount,loanTerm } = req.body;
+            const interestRates = {
+                1: 0.05, // 5% for a 1-week term
+                2: 0.1, // 6% for a 2-week term
+                3: 0.15, // 7% for a 3-week term
+                4: 0.2, // 8% for a 4-week term
+            };
+
       if (!isNaN(loanAmount) && !isNaN(loanTerm) && loanAmount > 0 && loanAmount < 1000) {
         // Calculate interest based on selected loan term
         const interestRate = interestRates[loanTerm];
@@ -108,6 +111,7 @@ router.post("/credit/card", ensureAuthenticated, async (req, res) => {
         const {cardholderName,cardNumber,expirationDate,cvv}  = req.body;
         const calculatedData = req.session.calculatedData;
         const user = req.user;
+        const profile = await Profile.findOne({ userEmail: user.email});
         console.log(calculatedData)
         
         if (calculatedData) {     // when API is intergrated, this condition should also verify the bank details
@@ -136,7 +140,15 @@ router.post("/credit/card", ensureAuthenticated, async (req, res) => {
               });
              
              await creditor.save();
-    
+             await Profile.findOneAndUpdate(
+                { userEmail: user.email}, // Query for the document to update
+                { $set: { 
+                    totalCreditedAmount: profile.totalCreditedAmount += creditor.loanAmount,
+                    total_No_Of_Credits: profile.total_No_Of_Credits + 1,
+                 } }, 
+                { new: true } // Options to return the updated document
+              );
+             
     
             // render page to inform user that account has been successfuly approved
     
@@ -204,6 +216,8 @@ router.get('/credit/repayment', ensureAuthenticated, async (req,res) => {
     await Creditor.findOneAndUpdate(filter, update, {
         new: true, // Return the updated document
     });
+
+
 
     res.render("main/creditDashboard", {
         user,
@@ -329,6 +343,8 @@ router.post('/invest/deposit_fund', ensureAuthenticated, async (req,res) => {
         const user = req.user;  
         const calculatedInvestedData = req.session.calculatedInvestedData;
         const {newMMnumber} = req.body;
+        const profile = await Profile.findOne({ userEmail: user.email});
+
 
         if(calculatedInvestedData){
 
@@ -354,6 +370,14 @@ router.post('/invest/deposit_fund', ensureAuthenticated, async (req,res) => {
             });
 
             await investor.save();
+            const updatedProfile = await Profile.findOneAndUpdate(
+                { userEmail: user.email}, // Query for the document to update
+                { $set: { 
+                    totalInvestedAmount: profile.totalInvestedAmount += investor.investmentAmount,
+                    total_No_Of_Investments: profile.total_No_Of_Investments ++,
+                 } }, 
+                { new: true } // Options to return the updated document
+              );
             
             // render page once investment has been approved
             res.render("main/invest",{   

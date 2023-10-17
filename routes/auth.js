@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt');
 const passport = require('passport');
 const router = express.Router();
 const User = require('../models/userSchema');
-
+const Profile = require('../models/profileSchema');
 
 router.get("/", (req,res) => {
     res.render("auth/login")
@@ -43,7 +43,7 @@ router.post("/signUp", async (req,res)=>{
         <h3>Your journey with us to explore financial opportunities begins now. 🚀</h3>
         <h3>Whether you're looking to secure a loan or make smart investments, you've come to the right place. 💼</h3>
         <h3>At MoakLoans, we're dedicated to providing you with a safe🔒, seamless🤝, and swift financial experience.</h3>
-`,
+        `,
       url: "/",
       buttonText:"Proceed",
       user
@@ -101,6 +101,20 @@ async function registerUser(firstName, lastName, email, nrc ,school,studentNumbe
   
       // Save the user document to the database
       await user.save();
+
+      const profile = new Profile({ 
+        userEmail: user.email, 
+        userStudentNumber: user.studentNumber,
+        totalInvestedAmount: 0,
+        totalCreditedAmount: 0,
+        totalMaturedInvestments: 0,
+        total_No_Of_Investments: 0,
+        total_No_Of_Credits: 0,
+        total_No_Of_CreditsPayed: 0,
+        total_No_Of_CreditsUnPayed: 0
+      });
+     
+      await profile.save();
       return user;
       
       console.log(`User ${firstName} registered successfully`);
