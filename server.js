@@ -9,6 +9,8 @@ const flash = require('connect-flash');
 const passport = require('passport');
 const homeRouter = require('./routes/index')
 const authRouter = require('./routes/auth')
+const creditorRouter = require('./routes/creditor')
+const investorRouter = require('./routes/investor')
 
 
 require('./config/passport')(passport);
@@ -57,6 +59,8 @@ app.use(session({
 
 app.use('/',homeRouter );
 app.use('/auth',authRouter);
+app.use('/credit', creditorRouter)
+app.use('/invest', investorRouter)
 
 
 

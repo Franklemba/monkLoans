@@ -1,0 +1,122 @@
+<div class="container">        
+  <!-- About Section -->
+  <div class="about-main">
+      <div class="row">
+       <div class="col-lg-6">
+         <h2>Invest</h2>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+         <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+         <p>details about coupon and annuity interest</p>
+         <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
+          <a href="/invest/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
+        </button>
+      </div>
+      <div class="col-lg-6 applyInvestmentContainer container">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="investmentModalLabel">Invest up to 5000 for 1 Month</h5>
+              </div>
+              <div class="modal-body">
+                <form action="/invest/page" method="post">
+                  <hr>
+                  <div class="mb-3">
+                    <label for="investmentAmount" class="form-label">How much would you like to invest?</label>
+                    <input type="number" class="form-control" id="investmentAmount" name="investmentAmount" value="100" min="100" max="5000">
+                  </div>
+                  <hr>
+                  <div class="mb-3" style="display: flex; justify-content: space-between;">
+                    <label for="investmentType" class="form-label">Interest Type:</label> 
+                    <select name="investmentType" id="investmentType">
+                       <option value="coupon">Coupon Interest</option>
+                       <option value="annuity">Annuity Interest</option>
+                    </select>
+                  </div>
+                  
+                  <div class="modalBottom">
+                    <div class="mb-3">
+                      <label for="serviceFee" class="form-label">Commission</label>
+                      <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="K3.00" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label for="expectedReturns" class="form-label">Expected Returns</label>
+                      <input type="text" class="form-control" id="expectedReturns" name="expectedReturns" value="K40.00" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label for="totalReturns" class="form-label">Total Returns</label>
+                      <input type="text" class="form-control" id="totalReturns" name ="totalReturns" value="K537.00" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label for="nextPaymentDate" class="form-label">Maturity Date</label>
+                      <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="2023-10-19" disabled>
+                    </div>
+                  </div>
+                  <hr>
+                  <button type="submit" class="btn btn-primary">INVEST</button>
+                </form>
+              </div>
+              <div class="modal-footer">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- /.row -->
+      <br>
+      <br>
+      <div class="row">
+          <div class="col-lg-6">
+            <h5>Our Regulations</h5>
+            <ul>
+               <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            </ul>
+         </div>
+      </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+$(document).ready(function () {
+  // Define a fixed interest rate of 8% for a 1-month term
+  const interestRate = 0.15;
+
+  // Function to calculate the investment details
+  function calculateInvestment() {
+    const investmentAmount = parseFloat($("#investmentAmount").val());
+
+    if (!isNaN(investmentAmount)) {
+      // Calculate service fee (assuming a fixed fee of K3.00)
+      const serviceFee = 3;
+      
+      // Calculate expected returns
+      const expectedReturns = investmentAmount * interestRate;
+      
+      // Calculate total returns
+      const totalReturns = investmentAmount + expectedReturns - serviceFee;
+      
+      // Display calculated values
+      $("#serviceFee").val(`K${serviceFee.toFixed(2)}`);
+      $("#expectedReturns").val(`K${expectedReturns.toFixed(2)}`);
+      $("#totalReturns").val(`K${totalReturns.toFixed(2)}`);
+      
+      // Calculate and display next payment date (assuming 30 days for 1 month)
+      const today = new Date();
+      const nextPaymentDate = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
+      const formattedDate = nextPaymentDate.toISOString().substr(0, 10);
+      $("#nextPaymentDate").val(formattedDate);
+    }
+  }
+
+  // Add an event listener to the investmentAmount input
+  $("#investmentAmount").on("input", calculateInvestment);
+
+  // Calculate investment details on page load
+  calculateInvestment();
+});
+</script>

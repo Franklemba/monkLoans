@@ -16,10 +16,10 @@ const investSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  investmentTerm: {
-    type: Number,
+  investmentType:{
+    type: String,
     required: true,
-  },
+  },        // newly include, will compromise of the type of investment user has chosen
   serviceFee: {
     type: Number,
     required: true,

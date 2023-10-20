@@ -1,0 +1,268 @@
+<div class="container">        
+    <!-- About Section -->
+    <div>
+        <h2>Mobile Money door to door</h2>
+    </div>
+    <div class="about-main">
+        <div class="row">
+         <div class="col-lg-6">
+           <h2>how it works</h2>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          
+          
+        </div>
+         <div class="col-lg-6 applyLoanContainer container">
+           <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title" id="loanModalLabel">Withdraw</h5>
+                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+               </div>
+               <div class="modal-body">
+                   <div class="modalBottom">
+                       
+                   <div class="mb-3">
+                     <label for="cashAvailable" class="form-label">Cash Available</label>
+                     <input type="text" class="form-control" id="wCashAvailable" name="cashAvailable" value="K5000.00" disabled>
+                   </div>
+                   <div class="mb-3">
+                     <label for="agentNumber" class="form-label">Agent Number</label>
+                     <input type="text" class="form-control" id="wAgentNumber" name="agentNumber" value="0966121212" disabled>
+                   </div>
+                   <div class="mb-3">
+                     <label for="agentName" class="form-label">Agent Name</label>
+                     <input type="text" class="form-control" id="agentName" name="agentName" value="Jacob Mwanza" disabled>
+                   </div>
+                   <div class="mb-3">
+                     <label for="agentService" class="form-label">Agent Service</label>
+                     <div class="wAgentService">
+                        <img src="images/mtn.jpg" alt="mtn" width="30" height="20">
+                     <select name="agentService" id="wAgentService">
+                        <option value="mtn"> MTN</option>
+                        <option value="airtel">AIRTEL</option>
+                     </select>
+                     </div>
+                   </div>
+                   <hr>
+                   
+                   
+                </div>
+                <form action="/withdraw" method="post">
+                  <!-- <hr> -->
+                   <div class="mb-3">
+                     <label for="recipientName" class="form-label">Receipient Name</label>
+                     <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
+                   </div>
+                   <div class="mb-3">
+                    <label for="recipientPnumber" class="form-label">Receipient Phone Number</label>
+                    <input type="text" class="form-control" id="recipientPnumber" name="recipientPnumber" placeholder="mobile money name" required>
+                  </div>
+                   <div class="mb-3">
+                    <label for="location" class="form-label">Room number</label>
+                    <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
+                  </div>
+                  <div class="mb-3">
+                    <label for="withdrawAmount" class="form-label">Amount withdrawn</label>
+                    <input type="number" class="form-control" id="withdrawAmount" name="withdrawAmount" placeholder="amount you've withdrawn" required>
+
+                  </div>
+                  <div class="mb-3">
+                    <label for="txnID" class="form-label">Txn. ID</label>
+                    <input type="text" class="form-control" id="txnID" name="txnID" placeholder="txn. ID after transaction" required>
+                  </div>
+                   
+                  
+                  <hr>
+                  <button type="submit" class="btn btn-primary">send</button>
+ 
+                 </form>
+               </div>
+               
+             </div>
+           </div>
+         </div>
+        </div>
+        <!-- /.row -->
+
+
+        <br>
+        <br>
+        <div class="row">
+            <div class="col-lg-6 applyLoanContainer container">
+                <div class="modal-dialog modal-dialog-centered">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title" id="loanModalLabel">Deposit</h5>
+                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                    </div>
+                    <div class="modal-body">
+                        <div class="modalBottom">
+                            
+                        <div class="mb-3">
+                          <label for="cashAvailable" class="form-label">Cash Available</label>
+                          <input type="text" class="form-control" id="dCashAvailable" name="cashAvailable" value="K5000.00" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="agentNumber" class="form-label">Agent Number</label>
+                          <input type="text" class="form-control" id="dAgentNumber" name="agentNumber" value="0966121212" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="agentName" class="form-label">Agent Name</label>
+                          <input type="text" class="form-control" id="agentName" name="agentName" value="Jacob Mwanza" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="dAgentService" class="form-label">Agent Service</label>
+                          <div class="dAgentService">
+                            <img src="images/mtn.jpg" alt="mtn" width="30" height="20">
+                            <select name="agentService" id="dAgentService">
+                                <option value="mtn"> MTN</option>
+                                <option value="airtel">AIRTEL</option>
+                            </select>
+                         </div>
+                        </div>
+                        <hr>
+                        
+                        
+                     </div>
+                     <form action="/deposit" method="post">
+                       <!-- <hr> -->
+                        <div class="mb-3">
+                          <label for="recipientName" class="form-label">Receipient Name</label>
+                          <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
+                        </div>
+                        <div class="mb-3">
+                            <label for="recipientPnumber" class="form-label">Receipient Phone Number</label>
+                            <input type="number" class="form-control" id="recipientPnumber" name="recipientPnumber" placeholder="mobile money number" required>
+                          </div>
+                        <div class="mb-3">
+                         <label for="location" class="form-label">Room number</label>
+                         <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212">
+                       </div>
+                       <div class="mb-3">
+                         <label for="depositAmount" class="form-label">Deposit Amount</label>
+                         <input type="number" class="form-control" id="depositAmount" name="depositAmount" placeholder="amount to deposit"  required>
+                       </div> 
+                       <hr>
+                       <button type="submit" class="btn btn-primary">send</button>
+      
+                      </form>
+                    </div>
+                    
+                  </div>
+                </div>
+              </div>
+              <br>
+              <br>
+           <div class="col-lg-6">
+            <h5>Requlations</h5>
+            <ul>
+               <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
+            </ul>
+         </div>
+             
+           </div>
+    </div>
+ </div>	
+
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+$(document).ready(function() {
+  // Initial values
+  var initialCashAvailable = "K5000.00";
+  var initialImageSrc = "images/mtn.jpg";
+  var initialAgentNumber = "0966121212";
+
+  // Handle change event on the select element
+  $("#wAgentService").change(function() {
+    var selectedService = $(this).val();
+
+    // Define a mapping of service values to data
+    var serviceData = {
+      "mtn": {
+        cashAvailable: "K5000.00",
+        imageSrc: "images/mtn.jpg",
+        agentNumber: "0966121212"
+      },
+      "airtel": {
+        cashAvailable: "K3000.00",
+        imageSrc: "images/airtel.png",
+        agentNumber: "0973456789"
+      }
+      // Add more services as needed
+    };
+
+    // Get the data for the selected service
+    var selectedServiceData = serviceData[selectedService];
+
+    // Update the cash available value, image source, and agent number based on the selected service
+    if (selectedServiceData) {
+      // Update the cash available value
+      $("#wCashAvailable").val(selectedServiceData.cashAvailable);
+      // Update the image source
+      $(".wAgentService img").attr("src", selectedServiceData.imageSrc);
+      // Update the agent number input value
+      $("#wAgentNumber").val(selectedServiceData.agentNumber);
+    } else {
+      // Use the initial values if the service is not found in the mapping
+      $("#wCashAvailable").val(initialCashAvailable);
+      $(".wAgentService img").attr("src", initialImageSrc);
+      $("#wAgentNumber").val(initialAgentNumber);
+    }
+  });
+
+  // Trigger the change event to set the initial values
+ 
+  $("#dAgentService").change(function() {
+    var selectedService = $(this).val();
+
+    // Define a mapping of service values to data
+    var serviceData = {
+      "mtn": {
+        cashAvailable: "K5000.00",
+        imageSrc: "images/mtn.jpg",
+        agentNumber: "0966121212"
+      },
+      "airtel": {
+        cashAvailable: "K3000.00",
+        imageSrc: "images/airtel.png",
+        agentNumber: "0977121212"
+      }
+      // Add more services as needed
+    };
+
+    // Get the data for the selected service
+    var selectedServiceData = serviceData[selectedService];
+
+    // Update the cash available value, image source, and agent number based on the selected service
+    if (selectedServiceData) {
+      // Update the cash available value
+      $("#dCashAvailable").val(selectedServiceData.cashAvailable);
+      // Update the image source
+      $(".dAgentService img").attr("src", selectedServiceData.imageSrc);
+      // Update the agent number input value
+      $("#dAgentNumber").val(selectedServiceData.agentNumber);
+    } else {
+      // Use the initial values if the service is not found in the mapping
+      $("#dCashAvailable").val(initialCashAvailable);
+      $(".dAgentService img").attr("src", initialImageSrc);
+      $("#dAgentNumber").val(initialAgentNumber);
+    }
+  });
+
+  $("#wAgentService").change();
+
+  // Trigger the change event to set the initial values
+  $("#dAgentService").change();
+
+});
+</script>
+
+
+

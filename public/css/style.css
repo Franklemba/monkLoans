@@ -2070,3 +2070,18 @@ footer p {
 	align-items: center;
 	justify-content: space-between;
 }
+.dAgentService, .wAgentService{
+	position: relative;
+}
+.dAgentService select, .wAgentService select{
+	/* padding-left: 50%; */
+	width: 140px;
+	padding-top: 5%;
+	padding-bottom: 5%;
+}
+.dAgentService img , .wAgentService img{
+	position: absolute;
+	/* border-radius: 50%; */
+	right: 40px;
+	top: 5px;
+}
