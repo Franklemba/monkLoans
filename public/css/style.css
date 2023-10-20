@@ -2075,13 +2075,13 @@ footer p {
 }
 .dAgentService select, .wAgentService select{
 	/* padding-left: 50%; */
-	width: 140px;
-	padding-top: 5%;
-	padding-bottom: 5%;
+	width: 90px;
+	padding: 2%;
+
 }
 .dAgentService img , .wAgentService img{
 	position: absolute;
 	/* border-radius: 50%; */
-	right: 40px;
-	top: 5px;
+	right: 10px;
+	/* top: 5px; */
 }

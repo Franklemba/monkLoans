@@ -35,22 +35,22 @@
                      <label for="agentName" class="form-label">Agent Name</label>
                      <input type="text" class="form-control" id="agentName" name="agentName" value="Jacob Mwanza" disabled>
                    </div>
-                   <div class="mb-3">
-                     <label for="agentService" class="form-label">Agent Service</label>
-                     <div class="wAgentService">
-                        <img src="images/mtn.jpg" alt="mtn" width="30" height="20">
-                     <select name="agentService" id="wAgentService">
-                        <option value="mtn"> MTN</option>
-                        <option value="airtel">AIRTEL</option>
-                     </select>
-                     </div>
-                   </div>
                    <hr>
                    
                    
                 </div>
                 <form action="/withdraw" method="post">
-                  <!-- <hr> -->
+                    <!-- <hr> -->
+                    <div class="mb-3">
+                      <label for="agentService" class="form-label">Agent Service</label>
+                      <div class="wAgentService">
+                        <img src="images/mtn.jpg" alt="mtn" width="60" height="50">
+                        <select name="agentService" id="wAgentService">
+                            <option value="mtn"> MTN</option>
+                            <option value="airtel">AIRTEL</option>
+                        </select>
+                      </div>
+                    </div>
                    <div class="mb-3">
                      <label for="recipientName" class="form-label">Receipient Name</label>
                      <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
@@ -64,8 +64,8 @@
                     <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
                   </div>
                   <div class="mb-3">
-                    <label for="withdrawAmount" class="form-label">Amount withdrawn</label>
-                    <input type="number" class="form-control" id="withdrawAmount" name="withdrawAmount" placeholder="amount you've withdrawn" required>
+                    <label for="amountWithdrawn" class="form-label">Amount withdrawn</label>
+                    <input type="number" class="form-control" id="amountWithdrawn" name="amount" placeholder="amount you've withdrawn" required>
 
                   </div>
                   <div class="mb-3">
@@ -87,6 +87,10 @@
         <!-- /.row -->
 
 
+        <br>
+        <br>
+        <hr>
+        
         <br>
         <br>
         <div class="row">
@@ -112,22 +116,22 @@
                           <label for="agentName" class="form-label">Agent Name</label>
                           <input type="text" class="form-control" id="agentName" name="agentName" value="Jacob Mwanza" disabled>
                         </div>
+                        <hr>
+                        
+                        
+                    </div>
+                    <form action="/deposit" method="post">
+                        <!-- <hr> -->
                         <div class="mb-3">
                           <label for="dAgentService" class="form-label">Agent Service</label>
                           <div class="dAgentService">
-                            <img src="images/mtn.jpg" alt="mtn" width="30" height="20">
+                            <img src="images/mtn.jpg" alt="mtn" width="60" height="50">
                             <select name="agentService" id="dAgentService">
                                 <option value="mtn"> MTN</option>
                                 <option value="airtel">AIRTEL</option>
                             </select>
                          </div>
                         </div>
-                        <hr>
-                        
-                        
-                     </div>
-                     <form action="/deposit" method="post">
-                       <!-- <hr> -->
                         <div class="mb-3">
                           <label for="recipientName" class="form-label">Receipient Name</label>
                           <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
@@ -142,7 +146,7 @@
                        </div>
                        <div class="mb-3">
                          <label for="depositAmount" class="form-label">Deposit Amount</label>
-                         <input type="number" class="form-control" id="depositAmount" name="depositAmount" placeholder="amount to deposit"  required>
+                         <input type="number" class="form-control" id="depositAmount" name="amount" placeholder="amount to deposit"  required>
                        </div> 
                        <hr>
                        <button type="submit" class="btn btn-primary">send</button>

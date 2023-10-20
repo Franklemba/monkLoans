@@ -1,9 +1,9 @@
 const mongoose = require("mongoose");
-if(mongoose.connection.models['Withdraw']){
-  delete mongoose.connection.models['Withdraw']
+if(mongoose.connection.models['MmService']){
+  delete mongoose.connection.models['MmService']
 }
 
-const withdrawSchema = new mongoose.Schema({
+const mmServiceSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
@@ -21,20 +21,24 @@ const withdrawSchema = new mongoose.Schema({
     required: true,
   },
   agentService:{
-     type: String,
-     required: true,
-  },
+    type: String,
+    required: true,
+ },
   location: {
     type: String,
     required: true,
   },
-  amountWithdrawn: {
+  transactionAmount: {
     type: Number,
+    required: true,
+  },
+  serviceType: {
+    type: String,
     required: true,
   },
   txnID: {
     type: String,
-    required: true,
+    required: false,
   },
   createdAt:{
      type: Date,
@@ -44,4 +48,4 @@ const withdrawSchema = new mongoose.Schema({
 });
 
 
-module.exports = mongoose.model("Withdraw", withdrawSchema);
+module.exports = mongoose.model("MmService", mmServiceSchema);
