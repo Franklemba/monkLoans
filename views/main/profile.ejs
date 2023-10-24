@@ -1,3 +1,197 @@
-<div>
-    <h1>Profile page</h1>
+<div class="container">
+    <h1> <span class="fas fa-user"></span> Profile </h1>
+    <div class="about-main">
+        <div class="row">
+         <div class="col-lg-6  container">
+           <div class="modal-dialog modal-dialog-centered">
+             <div class="modal-content">
+               <div class="modal-header">
+                 <h5 class="modal-title" id="loanModalLabel">User Details</h5>
+                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+               
+               </div>
+               <div class="modal-body">
+                 <!-- <form action="/credit/card" method="post"> -->
+                   <div class="modalBottom">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" class="form-control" id="name" name="name" value="<%=user.firstName%> <%=user.lastName%>"  disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="studentNumber" class="form-label">Student Number</label>
+                        <input type="number" class="form-control" id="studentNumber" name="studentNumber" value="<%=user.studentNumber%>" disabled>
+                      </div>
+
+                      <div class="mb-3">
+                        <label for="number" class="form-label">Phone Number</label>
+                        <input type="text" class="form-control" id="number" name="number" value="<%=user.phoneNumber%> " disabled>
+                      </div>
+                   <div class="mb-3">
+                     <label for="school" class="form-label">School </label>
+                     <input type="text" class="form-control" id="school" name="school" value="<%=user.school%>" disabled>
+                   </div>
+                   <div class="mb-3">
+                     <label for="date" class="form-label">Date Joined</label>
+                     <input type="text" class="form-control" id="date" name="date" value="<%= new Date(user.createdAt).toLocaleDateString('en-US') %>" disabled>
+                   </div>
+                   
+                  
+                  
+                  </div>
+                 <!-- </form> -->
+               </div>
+               <div class="modal-footer">
+                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+               </div>
+             </div>
+           </div>
+         </div>
+         
+         <br>
+         <br>
+         <div class="col-lg-6">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="loanModalLabel">Statistics</h5>
+                    <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+                  
+                  </div>
+                  <div class="modal-body">
+                    <!-- <form action="/credit/card" method="post"> -->
+                      <div class="modalBottom">
+                        <% if (investor && investor.length > 0) { %>
+                            <% let totalInvestedAmount = 0; %>
+                            <% let totalEarnings = 0; %>
+                            <% let totalInvestments = 0; %>
+                           
+    
+                            <% investor.forEach(function(investment) { %>
+                                <% totalInvestedAmount += investment.investmentAmount; %>
+                                <% totalEarnings += investment.expectedReturns; %>
+                                <% totalInvestments++; %>
+                            <% }) %>
+                          <div class="mb-3">
+                              <label for="name" class="form-label">Total Invested</label>
+                              <input type="text" class="form-control" id="name" name="name" value="K<%= totalInvestedAmount %>"  disabled>
+                            </div>
+                            <div class="mb-3">
+                              <label for="email" class="form-label">Total Cash earned</label>
+                              <input type="email" class="form-control" id="email" name="email" value="K<%=totalEarnings%>" disabled>
+                            </div>
+               
+                            <div class="mb-3">
+                                <label for="number" class="form-label">Total Number of investments</label>
+                                <input type="text" class="form-control" id="number" name="number" value="<%=totalInvestments%> " disabled>
+                           </div>
+                           <% } else { %>
+                            <div class="mb-3">
+                                <label for="name" class="form-label">Total Invested</label>
+                                <input type="text" class="form-control" id="name" name="name" value="nil"  disabled>
+                              </div>
+                              <div class="mb-3">
+                                <label for="email" class="form-label">Total Cash earned</label>
+                                <input type="email" class="form-control" id="email" name="email" value="nil" disabled>
+                              </div>
+                 
+                              <div class="mb-3">
+                                  <label for="number" class="form-label">Total Number of investments</label>
+                                  <input type="text" class="form-control" id="number" name="number" value="nil" disabled>
+                             </div>
+
+                            <% } %>
+                        <% if (creditor && creditor.length > 0 ) { %>
+                            <% let totalCreditedAmount = 0; %>
+                            <% let totalCredits = 0; %>
+                           
+    
+                            <% creditor.forEach(function(credits) { %>
+                                <% totalCreditedAmount += credits.loanAmount; %>
+                                <% totalCredits++; %>
+                            <% }) %>
+                            <div class="mb-3">
+                              <label for="studentNumber" class="form-label">Total Borrowed Cash</label>
+                              <input type="text" class="form-control" id="studentNumber" name="studentNumber" value="K<%=totalCreditedAmount%>" disabled>
+                            </div>
+                      <div class="mb-3">
+                        <label for="school" class="form-label">Total Number of loans </label>
+                        <input type="text" class="form-control" id="school" name="school" value="<%=totalCredits%>" disabled>
+                      </div>
+                      <% } else { %>
+                        <div class="mb-3">
+                            <label for="studentNumber" class="form-label">Total Borrowed Cash</label>
+                            <input type="text" class="form-control" id="studentNumber" name="studentNumber" value="nil" disabled>
+                          </div>
+                    <div class="mb-3">
+                      <label for="school" class="form-label">Total Number of loans </label>
+                      <input type="text" class="form-control" id="school" name="school" value="nil" disabled>
+                    </div>
+                    <% } %>
+                      
+                     
+                     
+                     </div>
+                    <!-- </form> -->
+                  </div>
+                  <div class="modal-footer">
+                    <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
+                  </div>
+                </div>
+              </div>
+         </div>
+          
+        </div>
+        <!-- /.row -->
+
+    </div>
+
+
+    <div>
+        <!-- <canvas id="myChart" width="200" height="200"></canvas> -->
+
+    </div>
 </div>
+<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+<script>
+    
+    const totalInvestedAmount = 600;
+    const totalEarnings = 50;
+    const totalInvestments = 5;
+    const totalCreditedAmount = 8000;
+    const totalCredits = 16;
+  
+    const ctx = document.getElementById('myChart').getContext('2d');
+  
+    const data = {
+      labels: ['Total Invested', 'Total Cash Earned', 'Total Number of Investments', 'Total Borrowed Cash', 'Total Number of Loans'],
+      datasets: [
+        {
+          label: 'Values in K',
+          data: [totalInvestedAmount, totalEarnings, totalInvestments, totalCreditedAmount, totalCredits],
+          backgroundColor: ['blue', 'green', 'orange', 'red', 'purple'],
+        },
+      ],
+    };
+  
+    const options = {
+      scales: {
+        y: {
+          beginAtZero: true,
+        },
+      },
+    };
+  
+    const myChart = new Chart(ctx, {
+      type: 'bar',
+      data: data,
+      options: options,
+    });
+  </script> -->
+  

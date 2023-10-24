@@ -12,12 +12,9 @@ const authRouter = require('./routes/auth')
 const creditorRouter = require('./routes/creditor')
 const investorRouter = require('./routes/investor')
 
-
 require('./config/passport')(passport);
 
 const { ensureAuthenticated} = require('./config/auth');
-
-
 
 const PORT = process.env.PORT || 3001;
 

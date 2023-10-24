@@ -3,6 +3,8 @@ const router = express.Router();
 const app = express();
 const session = require('express-session');
 const MmService = require('../models/mmServiceSchema');
+const Investor = require('../models/investSchema');
+const Creditor = require('../models/creditSchema');
 
 const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
@@ -21,10 +23,14 @@ router.get("/", (req,res) => {
 })
 
 
-router.get("/profile", ensureAuthenticated, (req,res) => {
+router.get("/profile", ensureAuthenticated, async (req,res) => {
     const user = req.user;
+    const creditor = await Creditor.find({ creditorEmail: user.email});
+    const investor = await Investor.find({ investorEmail: user.email});
     res.render("main/profile",{
-        user
+        user,
+        creditor,
+        investor
     })
 })
 
@@ -32,7 +38,7 @@ router.get("/profile", ensureAuthenticated, (req,res) => {
 router.get("/mmoney", ensureAuthenticated, (req,res) => {
     const user = req.user;
     res.render("main/mmoney",{
-        user
+        user,
     })
 })
 

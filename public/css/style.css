@@ -1978,7 +1978,8 @@ footer p {
 
   .transactionSection, .transactionSectionInvestor{
 	/* background-color: #cccccc; */
-     max-height: 80vh;
+	 
+     height: 80vh;
 	 overflow-y: scroll;
 	 /* margin-top: 10%; */
   }

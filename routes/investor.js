@@ -158,6 +158,7 @@ router.get('/dashboard', ensureAuthenticated, async (req,res) => {
     const formattedDate = currentDate.toISOString().split('T')[0];
 
     console.log(formattedDate); // Output: "2023-10-23"
+    console.log(maturedInvestment)
     //  function to update all investments  
 
     updateInvestors(user, formattedDate);
@@ -174,7 +175,7 @@ const updateInvestors = async (user, formattedDate ) => {
 
     const investors = await Investor.find({
         investorEmail: user.email,
-        investStatus: true,
+        investmentStatus: true,
         maturityDate: { $eq: formattedDate }
     });
 
@@ -183,7 +184,7 @@ const updateInvestors = async (user, formattedDate ) => {
             return Investor.findOneAndUpdate(
                 { _id: investor._id },
                 {
-                    investStatus: false,
+                    investmentStatus: false,
                 },
                 { new: true }
             );
@@ -191,6 +192,7 @@ const updateInvestors = async (user, formattedDate ) => {
 
         const updatedInvestors = await Promise.all(updatePromises);
         console.log(`${updatedInvestors.length} investors updated successfully.`);
+        console.log(updatePromises)
     } else {
         console.log('No investors found for the specified date.');
     }
