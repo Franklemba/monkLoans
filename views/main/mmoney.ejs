@@ -4,12 +4,28 @@
         <h2>Mobile Money door to door</h2>
     </div>
     <div class="about-main">
+
         <div class="row">
          <div class="col-lg-6">
-           <h2>how it works</h2>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
+          <p>Lorem ipsum dolor sit. click more below for more informationon how this works</p>
+          <button id="open-modal">more</button>
+          <br>
+          <br>
+          <div class="modal container">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <p class="modalTitle">Order a mobile money agent</p>
+               <hr>
+               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>            
+            </div>
+        </div>
+
+         
+          
+           
           
           
         </div>
@@ -51,19 +67,19 @@
                         </select>
                       </div>
                     </div>
-                   <div class="mb-3">
+                   <!-- <div class="mb-3">
                      <label for="recipientName" class="form-label">Receipient Name</label>
                      <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
                    </div>
                    <div class="mb-3">
                     <label for="recipientPnumber" class="form-label">Receipient Phone Number</label>
                     <input type="text" class="form-control" id="recipientPnumber" name="recipientPnumber" placeholder="mobile money name" required>
-                  </div>
+                  </div> -->
                    <div class="mb-3">
                     <label for="location" class="form-label">Room number</label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
                   </div>
-                  <div class="mb-3">
+                  <!-- <div class="mb-3">
                     <label for="amountWithdrawn" class="form-label">Amount withdrawn</label>
                     <input type="number" class="form-control" id="amountWithdrawn" name="amount" placeholder="amount you've withdrawn" required>
 
@@ -71,7 +87,7 @@
                   <div class="mb-3">
                     <label for="txnID" class="form-label">Txn. ID</label>
                     <input type="text" class="form-control" id="txnID" name="txnID" placeholder="txn. ID after transaction" required>
-                  </div>
+                  </div> -->
                    
                   
                   <hr>
@@ -132,22 +148,22 @@
                             </select>
                          </div>
                         </div>
-                        <div class="mb-3">
+                        <!-- <div class="mb-3">
                           <label for="recipientName" class="form-label">Receipient Name</label>
-                          <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
+                          <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" value="" required>
                         </div>
                         <div class="mb-3">
                             <label for="recipientPnumber" class="form-label">Receipient Phone Number</label>
                             <input type="number" class="form-control" id="recipientPnumber" name="recipientPnumber" placeholder="mobile money number" required>
-                          </div>
+                          </div> -->
                         <div class="mb-3">
                          <label for="location" class="form-label">Room number</label>
                          <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212">
                        </div>
-                       <div class="mb-3">
+                       <!-- <div class="mb-3">
                          <label for="depositAmount" class="form-label">Deposit Amount</label>
                          <input type="number" class="form-control" id="depositAmount" name="amount" placeholder="amount to deposit"  required>
-                       </div> 
+                       </div>  -->
                        <hr>
                        <button type="submit" class="btn btn-primary">send</button>
       
@@ -159,20 +175,23 @@
               </div>
               <br>
               <br>
-           <div class="col-lg-6">
-            <h5>Requlations</h5>
-            <ul>
-               <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            </ul>
-         </div>
+           
              
            </div>
     </div>
  </div>	
+
+
+ <div class="background-blur"></div>
+
+<style>
+ 
+</style>
+
+
+
+
+
 
 
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -182,6 +201,10 @@ $(document).ready(function() {
   var initialCashAvailable = "K5000.00";
   var initialImageSrc = "images/mtn.jpg";
   var initialAgentNumber = "0966121212";
+
+  // Constants
+  const modal = $('.modal');
+    const backgroundBlur = $('.background-blur');
 
   // Handle change event on the select element
   $("#wAgentService").change(function() {
@@ -264,6 +287,26 @@ $(document).ready(function() {
 
   // Trigger the change event to set the initial values
   $("#dAgentService").change();
+
+
+
+  // modal js code
+  
+
+    $('#open-modal').on('click', function () {
+        modal.css('display', 'flex');
+        backgroundBlur.css('display', 'block');
+    });
+
+    $('.close').on('click', function () {
+        modal.css('display', 'none');
+        backgroundBlur.css('display', 'none');
+    });
+
+    backgroundBlur.on('click', function () {
+        modal.css('display', 'none');
+        backgroundBlur.css('display', 'none');
+    });
 
 });
 </script>

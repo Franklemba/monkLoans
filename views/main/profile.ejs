@@ -67,26 +67,29 @@
                         <% if (investor && investor.length > 0) { %>
                             <% let totalInvestedAmount = 0; %>
                             <% let totalEarnings = 0; %>
+                            <% let cashInTotal = 0; %>
                             <% let totalInvestments = 0; %>
                            
     
                             <% investor.forEach(function(investment) { %>
                                 <% totalInvestedAmount += investment.investmentAmount; %>
                                 <% totalEarnings += investment.expectedReturns; %>
+                                <% cashInTotal += investment.totalReturns; %>
                                 <% totalInvestments++; %>
                             <% }) %>
                           <div class="mb-3">
                               <label for="name" class="form-label">Total Invested</label>
-                              <input type="text" class="form-control" id="name" name="name" value="K<%= totalInvestedAmount %>"  disabled>
+                              <input type="text" class="form-control" id="totalInvestedAmount" name="name" value="K<%= totalInvestedAmount %>"  disabled>
                             </div>
                             <div class="mb-3">
-                              <label for="email" class="form-label">Total Cash earned</label>
-                              <input type="email" class="form-control" id="email" name="email" value="K<%=totalEarnings%>" disabled>
+                              <label for="totalEarnings" class="form-label">Total Cash earned</label>
+                              <input type="text" class="form-control" id="totalEarnings" name="totalEarnings" value="K<%=totalEarnings%>" disabled>
+                              <input type="text" class="form-control" id="cashInTotal" name="cashInTotal" value="<%=cashInTotal%>"  hidden>
                             </div>
                
                             <div class="mb-3">
-                                <label for="number" class="form-label">Total Number of investments</label>
-                                <input type="text" class="form-control" id="number" name="number" value="<%=totalInvestments%> " disabled>
+                                <label for="totalInvestments" class="form-label">Total Number of investments</label>
+                                <input type="text" class="form-control" id="totalInvestments" name="totalInvestments" value="<%=totalInvestments%> " disabled>
                            </div>
                            <% } else { %>
                             <div class="mb-3">
@@ -114,12 +117,12 @@
                                 <% totalCredits++; %>
                             <% }) %>
                             <div class="mb-3">
-                              <label for="studentNumber" class="form-label">Total Borrowed Cash</label>
-                              <input type="text" class="form-control" id="studentNumber" name="studentNumber" value="K<%=totalCreditedAmount%>" disabled>
+                              <label for="totalCreditedAmount" class="form-label">Total Borrowed Cash</label>
+                              <input type="text" class="form-control" id="totalCreditedAmount" name="totalCreditedAmount" value="K<%=totalCreditedAmount%>" disabled>
                             </div>
                       <div class="mb-3">
-                        <label for="school" class="form-label">Total Number of loans </label>
-                        <input type="text" class="form-control" id="school" name="school" value="<%=totalCredits%>" disabled>
+                        <label for="totalCredits" class="form-label">Total Number of loans </label>
+                        <input type="text" class="form-control" id="totalCredits" name="totalCredits" value="<%=totalCredits%>" disabled>
                       </div>
                       <% } else { %>
                         <div class="mb-3">
@@ -149,49 +152,52 @@
 
     </div>
 
+    <hr>
 
-    <div>
-        <!-- <canvas id="myChart" width="200" height="200"></canvas> -->
+    <div class="container chart">
+      <canvas id="myPieChart" width="400" height="400"></canvas>
 
     </div>
 </div>
-<!-- <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-    
-    const totalInvestedAmount = 600;
-    const totalEarnings = 50;
-    const totalInvestments = 5;
-    const totalCreditedAmount = 8000;
-    const totalCredits = 16;
-  
-    const ctx = document.getElementById('myChart').getContext('2d');
-  
-    const data = {
-      labels: ['Total Invested', 'Total Cash Earned', 'Total Number of Investments', 'Total Borrowed Cash', 'Total Number of Loans'],
-      datasets: [
-        {
-          label: 'Values in K',
-          data: [totalInvestedAmount, totalEarnings, totalInvestments, totalCreditedAmount, totalCredits],
-          backgroundColor: ['blue', 'green', 'orange', 'red', 'purple'],
-        },
-      ],
-    };
-  
-    const options = {
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
+  const ctxPie = document.getElementById('myPieChart').getContext('2d');
+
+  const dataPie = {
+    labels: ['Total Invested', 'Total Returns', 'Total Borrowed Cash'],
+    datasets: [
+      {
+        label: 'Values in K',
+        data: [
+          parseFloat($("#totalInvestedAmount").val().replace('K', '')),
+          parseFloat($("#cashInTotal").val()),
+          parseFloat($("#totalCreditedAmount").val().replace('K', '')),
+        
+        ],
+        backgroundColor: [
+          'blue',
+          'green',
+          'orange',
+          'red',
+          'purple'
+        ],
       },
-    };
-  
-    const myChart = new Chart(ctx, {
-      type: 'bar',
-      data: data,
-      options: options,
-    });
-  </script> -->
+    ],
+  };
+
+  const optionsPie = {
+    responsive: true,
+    maintainAspectRatio: false,
+  };
+
+  const myPieChart = new Chart(ctxPie, {
+    type: 'pie',
+    data: dataPie,
+    options: optionsPie,
+  });
+</script>
+
   

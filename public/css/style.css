@@ -11,6 +11,10 @@ body {
   font-size: 15px;
   color: #323232;
 }
+ a{
+	color: #fff;
+	 text-decoration: none; 
+ }
 
 
 @media (min-width: 992px) {
@@ -1876,29 +1880,6 @@ footer p {
 	border-radius: 1%;
 }
 
-@media (min-width:320px) and (max-width:575.98px){
-  
-.applyLoanContainer,.simpleModalContainer, .applyInvestmentContainer{
-	width: 96% !important;
-}
-.about-main-regulations{
-	display: none;
-}
-.loginModalFooter{
-	display: flex;
-	justify-content: space-around;
-	flex-direction: column;
-}
-.loginModalFooter span{
-	font-size: small;
-}
-.transactionSection{
-	 margin-top: 10%;
-  }
-  .transactionSectionInvestor{
-	margin-top: 0%;
-  }
-}
 
 .mb-3 label{
 	color: #000;
@@ -2064,6 +2045,35 @@ footer p {
     cursor: pointer;
 }
 
+@media (min-width:320px) and (max-width:575.98px){
+  
+.applyLoanContainer,.simpleModalContainer, .applyInvestmentContainer{
+	width: 96% !important;
+}
+.about-main-regulations{
+	display: none;
+}
+.loginModalFooter{
+	display: flex;
+	justify-content: space-around;
+	flex-direction: column;
+}
+.loginModalFooter span{
+	font-size: small;
+}
+.transactionSection{
+	 margin-top: 10%;
+  }
+  .transactionSectionInvestor{
+	margin-top: 0%;
+  }
+  .modal {
+  
+	max-width: 90vw;
+	width: fit-content;
+	
+}
+}
 
 .investDepositModal .modal-content .modal-body{
 	display: flex;
@@ -2085,4 +2095,51 @@ footer p {
 	/* border-radius: 50%; */
 	right: 10px;
 	/* top: 5px; */
+}
+
+.chart{
+	height: 60vh;
+	width: 80vw;
+	padding-bottom: 10%;
+}
+
+
+/* modal on mmoney */
+.modal {
+    display: none;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    /* max-width: 80%; */
+    width: fit-content;
+    text-align: center;
+    position: fixed;
+    /* top: 20%;
+    bottom: 20%;
+    left: 10%; */
+    margin: auto;
+    height: fit-content;
+    z-index: 700;
+    align-items: center;
+    padding: 10px;
+    justify-content: center;
+
+}
+.close {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.background-blur {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    z-index: 200;
 }

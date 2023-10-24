@@ -79,7 +79,6 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
         const user = req.user;  
         const calculatedInvestedData = req.session.calculatedInvestedData;
         const {newMMnumber} = req.body;
-        const profile = await Profile.findOne({ userEmail: user.email});
 
 
         if(calculatedInvestedData){
@@ -106,14 +105,7 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
             });
 
             await investor.save();
-            await Profile.findOneAndUpdate(
-                { userEmail: user.email}, // Query for the document to update
-                { $set: { 
-                    totalInvestedAmount: profile.totalInvestedAmount += investor.investmentAmount,
-                    total_No_Of_Investments: profile.total_No_Of_Investments ++,
-                 } }, 
-                { new: true } // Options to return the updated document
-              );
+        
             
             // render page once investment has been approved
             res.render("main/investor/invest",{   

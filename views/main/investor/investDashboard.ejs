@@ -12,11 +12,26 @@
                  <!-- <form action="/loan-application" method="post"> -->
                    <div class="modalBottom">
 
+                    <% if (maturedInvestment && maturedInvestment.length > 0) { %>
+                      <% let totalMaturedAmount = 0; %>
 
-                      <div class="mb-3">
-                        <label for="loanAmount" class="form-label">Account Value</label>
-                        <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K120.00" disabled>
-                      </div>
+                      <% maturedInvestment.forEach(function(Invested) { %>
+                        <% totalMaturedAmount += Invested.investmentAmount; %>
+                        <%})%>
+
+                        <div class="mb-3">
+                          <label for="loanAmount" class="form-label">Account Value</label>
+                          <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K<%= totalMaturedAmount %>" disabled>
+                        </div>
+
+                        <% } else { %>
+                          <div class="mb-3">
+                            <label for="loanAmount" class="form-label">Account Value</label>
+                            <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="nil" disabled>
+                          </div>
+  
+                          <% } %> 
+
                       <% if (invest && invest.length > 0) { %>
                         <% let totalInvestedAmount = 0; %>
                         <% let totalInvestments = 0; %>
@@ -58,15 +73,28 @@
           <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
               <div class="modal-body">
-                <!-- INVEST button with an icon -->
-                <button type="button" class="btn btn-primary btn-icon" id="investButton">
-                  <i class="fas fa-money-bill"></i> Withdraw funds
-                </button>
-                 <br>
-                <!-- BORROW button with a new icon -->
-                <button type="button" class="btn btn-secondary btn-icon" id="creditButton">
-                  <i class="fas fa-arrow-circle-up"></i> Deposit funds
-                </button>
+
+                <% if (maturedInvestment && maturedInvestment.length > 0) { %>
+                 
+                    <!-- INVEST button with an icon -->
+                      <button type="button" class="btn btn-primary btn-icon" id="investButton">
+                        <i class="fas fa-money-bill"></i> Withdraw 
+                      </button>
+                      <br>
+                      <!-- BORROW button with a new icon -->
+                      <button type="button" class="btn btn-secondary btn-icon" id="creditButton">
+                        <i class="fas fa-arrow-circle-up"></i> Re-Invest 
+                      </button>
+
+                    <% } else { %>
+                      
+                      <button type="button" class="btn btn-primary btn-icon" id="investButton">
+                        <i class="fas fa-hand-holding-usd"></i> INVEST
+                      </button>
+ 
+                      <% } %> 
+
+                
               
               </div>
             </div>
@@ -184,6 +212,19 @@
 
   </div>
  </div>	
+
+
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+ <script>
+ 
+  $("#investButton").click(function () {
+    // Redirect to the desired page when the button is clicked
+    window.location.href = "/invest";
+  });
+ 
+</script>
 
 
 

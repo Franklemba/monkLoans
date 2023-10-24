@@ -45,17 +45,13 @@ router.get("/mmoney", ensureAuthenticated, (req,res) => {
 
 router.post("/withdraw", ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const {recipientName,recipientPnumber,location,agentService,amount,txnID}  = req.body;
+    const {location,agentService}  = req.body;
     const mmService = new MmService({ 
         email: user.email, 
         studentNumber: user.studentNumber,
-        recipientName, 
-        recipientNumber:recipientPnumber ,
         location,
         agentService,
-        transactionAmount: amount,
         serviceType: 'withdraw',
-        txnID
       });
      
      await mmService.save();
@@ -63,9 +59,9 @@ router.post("/withdraw", ensureAuthenticated, async (req,res) => {
         res.render("main/mmoney",{
             user,
             message: `
-            <h3>withdraw transaction message approved</h3>
+            <h3>Agent order set</h3>
             <hr>
-            <h3>will attend to you shortly</h3>
+            <h3>${agentService} agent will attend to you shortly</h3>
             <hr>
             <h3>thank for using our service 🤝</h3>
             `,
@@ -81,13 +77,9 @@ router.post("/deposit", ensureAuthenticated, async (req,res) => {
     const mmService = new MmService({ 
         email: user.email, 
         studentNumber: user.studentNumber,
-        recipientName, 
-        recipientNumber: recipientPnumber ,
         location,
         agentService,
-        transactionAmount: amount,
         serviceType: 'deposit',
-        txnID: 'null'
       });
      
      await mmService.save();
@@ -95,9 +87,9 @@ router.post("/deposit", ensureAuthenticated, async (req,res) => {
         res.render("main/mmoney",{
             user,
             message: `
-            <h3>deposit transaction message received</h3>
+            <h3>Agent order set</h3>
             <hr>
-            <h3>will attend to you shortly</h3>
+            <h3>${agentService} agent will attend to you shortly</h3>
             <hr>
             <h3>thank for using our service 🤝</h3>
             `,
