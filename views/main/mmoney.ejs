@@ -55,7 +55,7 @@
                    
                    
                 </div>
-                <form action="/withdraw" method="post">
+                <form action="/mmoney" method="post">
                     <!-- <hr> -->
                     <div class="mb-3">
                       <label for="agentService" class="form-label">Agent Service</label>
@@ -67,29 +67,13 @@
                         </select>
                       </div>
                     </div>
-                   <!-- <div class="mb-3">
-                     <label for="recipientName" class="form-label">Receipient Name</label>
-                     <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" required>
-                   </div>
-                   <div class="mb-3">
-                    <label for="recipientPnumber" class="form-label">Receipient Phone Number</label>
-                    <input type="text" class="form-control" id="recipientPnumber" name="recipientPnumber" placeholder="mobile money name" required>
-                  </div> -->
+                  
                    <div class="mb-3">
                     <label for="location" class="form-label">Room number</label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
+                    <input type="text" class="serviceType" id="serviceType" value="withdraw" name="serviceType" hidden>
                   </div>
-                  <!-- <div class="mb-3">
-                    <label for="amountWithdrawn" class="form-label">Amount withdrawn</label>
-                    <input type="number" class="form-control" id="amountWithdrawn" name="amount" placeholder="amount you've withdrawn" required>
-
-                  </div>
-                  <div class="mb-3">
-                    <label for="txnID" class="form-label">Txn. ID</label>
-                    <input type="text" class="form-control" id="txnID" name="txnID" placeholder="txn. ID after transaction" required>
-                  </div> -->
-                   
-                  
+                 
                   <hr>
                   <button type="submit" class="btn btn-primary">send</button>
  
@@ -136,7 +120,7 @@
                         
                         
                     </div>
-                    <form action="/deposit" method="post">
+                    <form action="/mmoney" method="post">
                         <!-- <hr> -->
                         <div class="mb-3">
                           <label for="dAgentService" class="form-label">Agent Service</label>
@@ -148,22 +132,12 @@
                             </select>
                          </div>
                         </div>
-                        <!-- <div class="mb-3">
-                          <label for="recipientName" class="form-label">Receipient Name</label>
-                          <input type="text" class="form-control" id="recipientName" name="recipientName" placeholder="mobile money name" value="" required>
-                        </div>
-                        <div class="mb-3">
-                            <label for="recipientPnumber" class="form-label">Receipient Phone Number</label>
-                            <input type="number" class="form-control" id="recipientPnumber" name="recipientPnumber" placeholder="mobile money number" required>
-                          </div> -->
                         <div class="mb-3">
                          <label for="location" class="form-label">Room number</label>
                          <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212">
+                         <input type="text" class="serviceType" id="serviceType" value="deposit" name="serviceType" hidden>
                        </div>
-                       <!-- <div class="mb-3">
-                         <label for="depositAmount" class="form-label">Deposit Amount</label>
-                         <input type="number" class="form-control" id="depositAmount" name="amount" placeholder="amount to deposit"  required>
-                       </div>  -->
+                       
                        <hr>
                        <button type="submit" class="btn btn-primary">send</button>
       

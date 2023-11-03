@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require('express');
 const app = express();
 const expressLayouts = require('express-ejs-layouts');
@@ -7,10 +8,10 @@ const methodOverride = require('method-override');
 const session = require('express-session');
 const flash = require('connect-flash');
 const passport = require('passport');
-const homeRouter = require('./routes/index')
-const authRouter = require('./routes/auth')
-const creditorRouter = require('./routes/creditor')
-const investorRouter = require('./routes/investor')
+const homeRouter = require('./routes/index');
+const authRouter = require('./routes/auth');
+const creditorRouter = require('./routes/creditor');
+const investorRouter = require('./routes/investor');
 
 require('./config/passport')(passport);
 

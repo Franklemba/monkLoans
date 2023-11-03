@@ -1,30 +1,45 @@
-const LocalStrategy = require('passport-local').Strategy;
+const GoogleStrategy = require('passport-google-oauth2').Strategy;
 const User = require('../models/userSchema');
 const bcrypt = require('bcrypt');
 
 
 module.exports = function (passport) {
   passport.use(
-    new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
-      try {
-        // Find user by email
-        const user = await User.findOne({ email });
+    new GoogleStrategy(
+      {
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: '/auth/google/callback',
+				passReqToCallback: true
+      },
+      async (accessToken, refreshToken, profile, done) => {
+        //get the user data from google 
+        const newUser = {
+          googleId: profile.id,
+          displayName: profile.displayName,
+          firstName: profile.name.givenName,
+          lastName: profile.name.familyName,
+          image: profile.photos[0].value,
+          email: profile.emails[0].value
+        }
 
-        if (!user) {
-          return done(null, false, { message: 'That email is not registered' });
+        try {
+          //find the user in our database 
+          let user = await User.findOne({ googleId: profile.id })
+
+          if (user) {
+            //If user present in our database.
+            done(null, user)
+          } else {
+            // if user is not preset in our database save user data to database.
+            user = await User.create(newUser)
+            done(null, user)
+          }
+        } catch (err) {
+          console.error(err)
         }
-        // Match password
-        const isMatch = await bcrypt.compare(password, user.password);
-        if (isMatch) {
-          // Successfully logged in
-          return done(null, user);
-        } else {
-          return done(null, false, { message: 'Password incorrect' });
-        }
-      } catch (err) {
-        return done(err);
       }
-    })
+    )
   );
 
   passport.serializeUser((user, done) => {

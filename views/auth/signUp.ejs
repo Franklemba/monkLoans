@@ -24,10 +24,10 @@
                       <label for="lastName" class="form-label">Last Name</label>
                       <input type="text" class="form-control" id="lastName" name="lastName" placeholder="last name" required>
                     </div>
-                    <div class="mb-3">
+                    <!-- <div class="mb-3">
                       <label for="nrc" class="form-label">NRC</label>
                       <input type="text" class="form-control" id="nrc" name="nrc" placeholder="111111/22/3" required>
-                    </div>
+                    </div> -->
                     <div class="mb-3">
                       <label for="school" class="form-label">School</label><br>
                       <select name="school" id="">
@@ -43,7 +43,8 @@
                       <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
                     </div>
                     <div class="mb-3">
-                      <label for="phoneNumber" class="form-label">Phone number <small><i>(preferably mobiley money number registered under your name)</i></small></label>
+                      <!-- <label for="phoneNumber" class="form-label">Phone number <small><i>(preferably mobiley money number registered under your name)</i></small></label> -->
+                      <label for="phoneNumber" class="form-label">Phone number </label>
                       <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="phone number" required>
                     </div>
                     
@@ -59,9 +60,13 @@
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <hr>
                    <div class="mb-3">
-                     <span> already have an account? <a href="/auth/login">login</a></span> 
+                     <span> already have an account? <a href="/auth/login" style="color: blue;">login</a></span> 
                     </div>
                   </form>
+
+                  <!-- <div class="g-signin2" data-onsuccess="onSignIn">
+                     <button type="button">sign in with google</button>
+                  </div> -->
                 </div>
             
               </div>

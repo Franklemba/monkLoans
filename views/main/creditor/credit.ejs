@@ -15,7 +15,7 @@
            <div class="modal-dialog modal-dialog-centered">
              <div class="modal-content">
                <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">Get a Loan Upto K1000</h5>
+                 <h5 class="modal-title" id="loanModalLabel">Get a Loan Upto K500</h5>
                  <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                </div>
                <div class="modal-body">
@@ -119,6 +119,24 @@
       const loanAmount = parseFloat($("#loanAmount").val());
       const loanTerm = parseInt($("#loanTerm").val());
 
+      var delayTimer;
+
+    $("#loanAmount").on("input", function() {
+      clearTimeout(delayTimer); // Clear the previous timer (if any)
+      var inputValue = parseInt($(this).val(), 10);
+
+      // Define the delay (in milliseconds) before applying the change
+      var delay = 500; // Adjust this value as needed
+
+      delayTimer = setTimeout(function() {
+        if (inputValue < 100) {
+          $("#loanAmount").val(100);
+        } else if (inputValue > 500) {
+          $("#loanAmount").val(500);
+        }
+      }, delay);
+    });
+    
       if (!isNaN(loanAmount) && !isNaN(loanTerm)) {
         // Calculate interest based on selected loan term
         const interestRate = interestRates[loanTerm];

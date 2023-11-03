@@ -361,7 +361,7 @@ button.btn-secondary:hover{
 }
 .about-main p{
 	font-size: 15px;
-	text-transform: capitalize;
+	/* text-transform: ; */
 }
 .about-main ul{
 	padding-left: 20px;
@@ -2142,4 +2142,9 @@ footer p {
     height: 100%;
     background: rgba(0, 0, 0, 0.7);
     z-index: 200;
+}
+
+.footer-content{
+	color: #fff;
+	font-size: small;
 }
