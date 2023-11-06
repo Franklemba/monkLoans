@@ -7,7 +7,7 @@ const Investor = require('../models/investSchema');
 const Creditor = require('../models/creditSchema');
 
 const { use } = require("./auth");
-const { ensureAuthenticated } = require('../config/auth');
+const { ensureAuthenticated} = require('../config/auth');
 
 app.use(session({
     secret: 'mysecret',

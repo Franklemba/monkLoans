@@ -40,7 +40,7 @@
                    <div class="modalBottom">
                        
                    <div class="mb-3">
-                     <label for="cashAvailable" class="form-label">Cash Available</label>
+                     <label for="cashAvailable" class="form-label">Float Available</label>
                      <input type="text" class="form-control" id="wCashAvailable" name="cashAvailable" value="K5000.00" disabled>
                    </div>
                    <div class="mb-3">
@@ -67,15 +67,19 @@
                         </select>
                       </div>
                     </div>
+                    <div class="mb-3">
+                      <label for="agentName" class="form-label">Withdraw Amount</label>
+                      <input type="number" class="form-control" id="withdrawAmount" name="depositAmount">
+                    </div>
                   
                    <div class="mb-3">
-                    <label for="location" class="form-label">Room number</label>
+                    <label for="location" class="form-label">Room number/current location</label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
                     <input type="text" class="serviceType" id="serviceType" value="withdraw" name="serviceType" hidden>
                   </div>
                  
                   <hr>
-                  <button type="submit" class="btn btn-primary">send</button>
+                  <button type="submit" class="btn btn-primary">place order</button>
  
                  </form>
                </div>
@@ -133,13 +137,17 @@
                          </div>
                         </div>
                         <div class="mb-3">
-                         <label for="location" class="form-label">Room number</label>
+                          <label for="agentName" class="form-label">Deposit Amount</label>
+                          <input type="number" class="form-control" id="depositAmount" name="depositAmount">
+                        </div>
+                        <div class="mb-3">
+                         <label for="location" class="form-label">Room number/current location</label>
                          <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212">
                          <input type="text" class="serviceType" id="serviceType" value="deposit" name="serviceType" hidden>
                        </div>
                        
                        <hr>
-                       <button type="submit" class="btn btn-primary">send</button>
+                       <button type="submit" class="btn btn-primary">place order</button>
       
                       </form>
                     </div>

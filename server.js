@@ -28,9 +28,6 @@ mongoose.connect('mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net
     console.log('database is connected')
 }).catch((err) => console.log(err));
 
-
-
-
 app.set('view engine', 'ejs')
 app.set('views', __dirname + '/views/')
 app.set('layout','layouts/layout')

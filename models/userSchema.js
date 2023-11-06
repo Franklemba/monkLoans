@@ -4,10 +4,6 @@ if(mongoose.connection.models['User']){
 }
 
 const userSchema = new mongoose.Schema({
-  googleId: {
-    type: String,
-    required: true,
-  },
   firstName: {
     type: String,
     required: true,
@@ -20,25 +16,25 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  image:{
-   type: String,
-   required: false,
+  nrc: {
+    type: String,
+    required: false,
   },
   school: {
     type: String,
-    required: false,
+    required: true,
   },
   studentNumber: {
     type: Number,
-    required: false,
+    required: true,
   },
   phoneNumber: {
     type: String,
-    required: false,
+    required: true,
   },
   password: {
     type: String,
-    required: false,
+    required: true,
   },
   createdAt:{
      type: Date,
