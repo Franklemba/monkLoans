@@ -55,7 +55,7 @@ app.use(session({
 app.use('/',homeRouter );
 app.use('/auth',authRouter);
 app.use('/credit', creditorRouter)
-app.use('/invest', investorRouter)
+app.use('/invest',ensureAuthenticated, investorRouter)
 
 
 
