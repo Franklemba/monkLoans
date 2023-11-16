@@ -244,7 +244,6 @@ button.btn-secondary:hover{
 .dropdown-toggle::after{
 	display: none;
 }
-
 .navbar-expand-lg.top-nav .navbar-nav .dropdown-menu{
 	margin: 0px;
 	box-shadow: 3px 5px 15px rgba(0,0,0, .15);
@@ -273,8 +272,6 @@ button.btn-secondary:hover{
 	color: #1273eb;
 	border-color: #1273eb;
 }
-
-
 .slider-main .carousel ol li{
 	height: 15px;
 	border-radius: 6px;
@@ -470,14 +467,12 @@ button.btn-secondary:hover{
 .portfolio-main .card:hover .overlay{
 	bottom: 0px;
 }
-
 .blog-slide h2{
 	font-weight: 600;
 	font-size: 45px;
 	margin-bottom: 20px;
 	text-align: center;
 }
-
 .post-slide{
     margin: 0 15px;
     background: #fff;
@@ -1044,8 +1039,6 @@ footer p {
 	margin-bottom: 30px;
 }
 
-
-
 /* ---- All Pages CSS ---- */
 
 .full-title{
@@ -1314,8 +1307,6 @@ footer p {
 .portfolio-item .card:hover .dot-full i{
 	opacity: 1;
 }
-
-
 .item-pro{
 	padding: 30px 0px;
 }
@@ -1339,8 +1330,6 @@ footer p {
 	-ms-flex: 1;
 	flex: 1;
 }
-
-
 .project-inner h3{
 	font-size: 20px;
 	font-weight: 500;
@@ -1423,7 +1412,6 @@ footer p {
 	font-style: italic;
 	font-size: 20px;
 }
-
 .pagination_bar_arrow .pagination .page-item .page-link{
 	font-size: 20px;
 	background: #323232;
@@ -1561,7 +1549,6 @@ footer p {
 	box-shadow: 0 5px 30px rgba(105,106,119,.1);
 	border: none;
 }
-
 .pricing-box .card .card-header{
 	padding: 80px 15px;
 	text-align: center;
@@ -1596,6 +1583,7 @@ footer p {
 	font-size: 24px;
 	margin-bottom: 20px;
 }
+
 .contact-right h3{
 	font-weight: 600;
 	font-size: 24px;
@@ -1761,11 +1749,17 @@ footer p {
 	}
 }
 
+/* .modal{
+	z-index: 1500;
+}
 
+.modal-backdrop{
+	display: none !important;
+} */
 
-/* newly added css into the code */
+/* newly added css into the code */ 
 
-   .modal {
+   /* .modal {
 	position: fixed;
 	top: 0;
 	left: 0;
@@ -1776,7 +1770,7 @@ footer p {
 	overflow: auto;
 	background-color: rgba(0, 0, 0, 0.5);
   }
-  
+   */
   .modal-dialog {
 	position: relative;
 	width: auto;
@@ -1799,7 +1793,7 @@ footer p {
   }
   
   .modal-content {
-	position: relative;
+	position: relative !important;
 	display: flex;
 	flex-direction: column;
 	width: 100%;
@@ -2067,12 +2061,11 @@ footer p {
   .transactionSectionInvestor{
 	margin-top: 0%;
   }
-  .modal {
+  /* .modal {
   
-	max-width: 90vw;
+	max-width: 100vw;
 	width: fit-content;
-	
-}
+} */
 }
 
 .investDepositModal .modal-content .modal-body{
@@ -2084,9 +2077,9 @@ footer p {
 .dAgentService, .wAgentService{
 	position: relative;
 }
-.dAgentService select, .wAgentService select{
+.dAgentService select, .wAgentService select, .agentType select {
 	/* padding-left: 50%; */
-	width: 90px;
+	width: fit-content;
 	padding: 2%;
 
 }
@@ -2107,22 +2100,16 @@ footer p {
 /* modal on mmoney */
 .modal {
     display: none;
-    background-color: #fff;
-    border-radius: 5px;
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
-    /* max-width: 80%; */
     width: fit-content;
     text-align: center;
-    position: fixed;
-    /* top: 20%;
-    bottom: 20%;
-    left: 10%; */
-    margin: auto;
-    height: fit-content;
-    z-index: 700;
+    /* position: fixed; */
+	position: fixed;
+    
     align-items: center;
-    padding: 10px;
-    justify-content: center;
+    /* padding: 10px; */
+	top: 10% !important;
+	left: 15% !important;
+    /* justify-content: center; */
 
 }
 .close {
@@ -2147,4 +2134,40 @@ footer p {
 .footer-content{
 	color: #fff;
 	font-size: small;
+}
+
+
+.modal-content {
+	border-radius: 10px;
+	box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal-header {
+	background-color: #007bff;
+	color: #fff;
+	border-radius: 10px 10px 0 0;
+}
+
+.modal-body {
+	padding: 20px;
+}
+
+.modal-footer {
+	border-radius: 0 0 10px 10px;
+}
+
+.serviceBtn{
+	display: flex;
+	flex-direction: column;
+	width: 50%;
+	align-items: center;
+	justify-content: center;
+}
+
+#carouselExampleIndicators{
+	height: 50vh;
+}
+
+.slider-main .carousel .carousel-inner .carousel-item{
+	height: 50vh;
 }

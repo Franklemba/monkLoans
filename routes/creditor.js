@@ -7,6 +7,7 @@ const session = require('express-session');
 const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
 const Creditor = require('../models/creditSchema');
+const Profile = require('../models/profileSchema');
 
 app.use(session({
     secret: 'mysecret',
@@ -261,9 +262,6 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
    
 })
 
-
-
 // /
-
 
 module.exports = router;

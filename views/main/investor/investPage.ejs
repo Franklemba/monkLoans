@@ -2,8 +2,8 @@
     <!-- About Section -->
     <div class="about-main">
         <div class="row">
-         <div class="col-lg-6 applyLoanContainer container">
-           <div class="modal-dialog modal-dialog-centered">
+         <div class="col-lg-6  container">
+           <div class="modal-dialog ">
              <div class="modal-content">
                <div class="modal-header">
                  <h5 class="modal-title" id="loanModalLabel">Investment Credentials</h5>
@@ -38,24 +38,47 @@
                      <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=maturityDate%>" disabled>
                    </div>
                    <hr>
-                   <button type="submit" class="btn btn-primary" id="repaymentDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Deposit</button>
-                   <div class="dropdown-menu dropdown-menu-center transactionItem-modal" aria-labelledby="repaymentDropdownBlog">
-                     <span>click number to proceed</span><br>
-                     <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
-                       <a href="/invest/deposit_fund"><%=user.phoneNumber%></a> 
-                   </button>
-                   <hr>
-                    <p>or</p>
-                    <hr>
+                   <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal">Deposit</button>
 
-                     <form action="/invest/deposit_fund" method="post">
-                       <div class="mb-2">
-                         <label for="newMMnumber" class="form-label">user different number</label>
-                         <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
-                     </div>
-                     <button type="submit" class="btn btn-primary">submit</button>
-                     </form>
-                  </div>
+                   
+                          <div class="modal fade" id="depositModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog ">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">Mobile wallet</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                      <form action="/invest/deposit_fund" method="post">
+
+                                        <span>click number to proceed</span><br>
+                                        <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" value="<%=user.phoneNumber%>"  required hidden>
+                                        <button type="submit" class="btn btn-primary btn-icon" id="dashboardButton">
+                                          <%=user.phoneNumber%>
+                                        </button>
+                                      </form>
+                                    <hr>
+                                      <p>or</p>
+                                      <hr>
+
+                                      <form action="/invest/deposit_fund" method="post">
+                                        <div class="mb-2">
+                                          <label for="newMMnumber" class="form-label">user different number</label>
+                                          <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
+                                      </div>
+                                      <button type="submit" class="btn btn-primary">submit</button>
+                                      </form>
+
+                                    </div>
+                                  
+                                </div>
+                            </div>
+                          </div>
+                   
+                   
+                   
                   
                   </div>
                  </form>
@@ -63,9 +86,12 @@
                
              </div>
            </div>
+           <br>
+         <br>
          </div>
          <br>
          <br>
+ 
          <div class="col-lg-6">
             <h5>Our Regulations</h5>
             <ul>
@@ -82,5 +108,6 @@
 
     </div>
  </div>	
+
 
 

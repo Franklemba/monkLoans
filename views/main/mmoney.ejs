@@ -29,11 +29,11 @@
           
           
         </div>
-         <div class="col-lg-6 applyLoanContainer container">
-           <div class="modal-dialog modal-dialog-centered">
+         <div class="col-lg-6  container">
+           <div class="modal-dialog ">
              <div class="modal-content">
                <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">Withdraw</h5>
+                 <h5 class="modal-title" id="loanModalLabel">Order a mobile money agent</h5>
                  <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                </div>
                <div class="modal-body">
@@ -57,6 +57,7 @@
                 </div>
                 <form action="/mmoney" method="post">
                     <!-- <hr> -->
+                    
                     <div class="mb-3">
                       <label for="agentService" class="form-label">Agent Service</label>
                       <div class="wAgentService">
@@ -69,10 +70,19 @@
                       </div>
                     </div>
                     <div class="mb-3">
-                      <label for="agentName" class="form-label">Withdraw Amount</label>
-                      <input type="number" class="form-control" id="withdrawAmount" name="depositAmount">
+                      <label for="agentType" class="form-label">Service Type</label>
+                      <div class="agentType">
+                        <select name="agentType" id="agentType">
+                            <option value="mtn"> Withdraw</option>
+                            <option value="airtel">Deposit</option>
+                        </select>
+                      </div>
                     </div>
-                  
+                    <div class="mb-3">
+                      <label for="agentName" class="form-label">Amount</label>
+                      <input type="number" class="form-control" id="withdrawAmount" placeholder="transaction amount" name="depositAmount">
+                    </div>
+                   
                    <div class="mb-3">
                     <label for="location" class="form-label">Room number/current location</label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
@@ -91,7 +101,7 @@
         </div>
         <!-- /.row -->
 
-
+<!-- 
         <br>
         <br>
         <hr>
@@ -104,7 +114,6 @@
                   <div class="modal-content">
                     <div class="modal-header">
                       <h5 class="modal-title" id="loanModalLabel">Deposit</h5>
-                      <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                     </div>
                     <div class="modal-body">
                         <div class="modalBottom">
@@ -126,7 +135,6 @@
                         
                     </div>
                     <form action="/mmoney" method="post">
-                        <!-- <hr> -->
                         <div class="mb-3">
                           <label for="dAgentService" class="form-label">Agent Service</label>
                           <div class="dAgentService">
@@ -169,7 +177,7 @@
                 
               </div>
              
-           </div>
+           </div> -->
     </div>
  </div>	
 

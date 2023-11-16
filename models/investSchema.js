@@ -44,6 +44,19 @@ const investSchema = new mongoose.Schema({
     type: Boolean,
     required: true
   },
+  isTXNsuccessful:{
+    type: Boolean,
+    required: true,
+    default: false
+  },
+  transactionReference:{
+    type: String,
+    required: false,
+  },
+  transactionToken:{
+    type:String,
+    required: false
+  },
   createdAt:{
      type: Date,
      required: true,
