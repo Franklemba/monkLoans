@@ -40,16 +40,16 @@
                    <div class="modalBottom">
                        
                    <div class="mb-3">
-                     <label for="cashAvailable" class="form-label">Float Available</label>
-                     <input type="text" class="form-control" id="wCashAvailable" name="cashAvailable" value="K5000.00" disabled>
+                     <label for="cashAvailable" class="form-label">Amount Available</label>
+                     <input type="text" class="form-control" id="CashAvailable" name="cashAvailable" value="K<%=momoService.mtnCash%>" disabled>
                    </div>
                    <div class="mb-3">
                      <label for="agentNumber" class="form-label">Agent Number</label>
-                     <input type="text" class="form-control" id="wAgentNumber" name="agentNumber" value="0966121212" disabled>
+                     <input type="text" class="form-control" id="AgentNumber" name="agentNumber" value="<%=momoService.mtnAgentNumber%>" disabled>
                    </div>
                    <div class="mb-3">
                      <label for="agentName" class="form-label">Agent Name</label>
-                     <input type="text" class="form-control" id="agentName" name="agentName" value="Jacob Mwanza" disabled>
+                     <input type="text" class="form-control" id="agentName" name="agentName" value="<%=momoService.agentName%>" disabled>
                    </div>
                    <hr>
                    
@@ -60,9 +60,9 @@
                     
                     <div class="mb-3">
                       <label for="agentService" class="form-label">Agent Service</label>
-                      <div class="wAgentService">
+                      <div class="AgentService">
                         <img src="images/mtn.jpg" alt="mtn" width="60" height="50">
-                        <select name="agentService" id="wAgentService">
+                        <select name="agentService" id="AgentService">
                             <option value="mtn"> MTN</option>
                             <option value="airtel">AIRTEL</option>
                             <option value="zamtel">ZAMTEL</option>
@@ -70,23 +70,22 @@
                       </div>
                     </div>
                     <div class="mb-3">
-                      <label for="agentType" class="form-label">Service Type</label>
-                      <div class="agentType">
-                        <select name="agentType" id="agentType">
-                            <option value="mtn"> Withdraw</option>
-                            <option value="airtel">Deposit</option>
+                      <label for="serviceType" class="form-label">Service Type</label>
+                      <div class="serviceType">
+                        <select name="serviceType" id="serviceType">
+                            <option value="withdraw"> Withdraw</option>
+                            <option value="deposit">Deposit</option>
                         </select>
                       </div>
                     </div>
                     <div class="mb-3">
-                      <label for="agentName" class="form-label">Amount</label>
-                      <input type="number" class="form-control" id="withdrawAmount" placeholder="transaction amount" name="depositAmount">
+                      <label for="amount" class="form-label">Amount</label>
+                      <input type="number" class="form-control" id="withdrawAmount" placeholder="transaction amount" name="amount">
                     </div>
                    
                    <div class="mb-3">
                     <label for="location" class="form-label">Room number/current location</label>
                     <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
-                    <input type="text" class="serviceType" id="serviceType" value="withdraw" name="serviceType" hidden>
                   </div>
                  
                   <hr>
@@ -101,83 +100,6 @@
         </div>
         <!-- /.row -->
 
-<!-- 
-        <br>
-        <br>
-        <hr>
-        
-        <br>
-        <br>
-        <div class="row">
-            <div class="col-lg-6 applyLoanContainer container">
-                <div class="modal-dialog modal-dialog-centered">
-                  <div class="modal-content">
-                    <div class="modal-header">
-                      <h5 class="modal-title" id="loanModalLabel">Deposit</h5>
-                    </div>
-                    <div class="modal-body">
-                        <div class="modalBottom">
-                            
-                        <div class="mb-3">
-                          <label for="cashAvailable" class="form-label">Cash Available</label>
-                          <input type="text" class="form-control" id="dCashAvailable" name="cashAvailable" value="K5000.00" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="agentNumber" class="form-label">Agent Number</label>
-                          <input type="text" class="form-control" id="dAgentNumber" name="agentNumber" value="0966121212" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="agentName" class="form-label">Agent Name</label>
-                          <input type="text" class="form-control" id="agentName" name="agentName" value="Jacob Mwanza" disabled>
-                        </div>
-                        <hr>
-                        
-                        
-                    </div>
-                    <form action="/mmoney" method="post">
-                        <div class="mb-3">
-                          <label for="dAgentService" class="form-label">Agent Service</label>
-                          <div class="dAgentService">
-                            <img src="images/mtn.jpg" alt="mtn" width="60" height="50">
-                            <select name="agentService" id="dAgentService">
-                                <option value="mtn"> MTN</option>
-                                <option value="airtel">AIRTEL</option>
-                            <option value="zamtel">ZAMTEL</option>
-                            </select>
-                         </div>
-                        </div>
-                        <div class="mb-3">
-                          <label for="agentName" class="form-label">Deposit Amount</label>
-                          <input type="number" class="form-control" id="depositAmount" name="depositAmount">
-                        </div>
-                        <div class="mb-3">
-                         <label for="location" class="form-label">Room number/current location</label>
-                         <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212">
-                         <input type="text" class="serviceType" id="serviceType" value="deposit" name="serviceType" hidden>
-                       </div>
-                       
-                       <hr>
-                       <button type="submit" class="btn btn-primary">place order</button>
-      
-                      </form>
-                    </div>
-                    
-                  </div>
-                </div>
-              </div>
-              <br>
-              <br>
-              <div class="col-lg-6">
-                
-      
-               
-                
-                 
-                
-                
-              </div>
-             
-           </div> -->
     </div>
  </div>	
 
@@ -198,34 +120,34 @@
 <script>
 $(document).ready(function() {
   // Initial values
-  var initialCashAvailable = "K5000.00";
+  var initialCashAvailable = "K<%=momoService.mtnCash%>";
   var initialImageSrc = "images/mtn.jpg";
-  var initialAgentNumber = "0966121212";
+  var initialAgentNumber = "<%=momoService.mtnAgentNumber%>";
 
   // Constants
   const modal = $('.modal');
     const backgroundBlur = $('.background-blur');
 
   // Handle change event on the select element
-  $("#wAgentService").change(function() {
+  $("#AgentService").change(function() {
     var selectedService = $(this).val();
 
     // Define a mapping of service values to data
     var serviceData = {
       "mtn": {
-        cashAvailable: "K5000.00",
+        cashAvailable: "K<%=momoService.mtnCash%>",
         imageSrc: "images/mtn.jpg",
-        agentNumber: "0966121212"
+        agentNumber: "<%=momoService.mtnAgentNumber%>"
       },
       "airtel": {
-        cashAvailable: "K3000.00",
+        cashAvailable: "K<%=momoService.airtelCash%>",
         imageSrc: "images/airtel.png",
-        agentNumber: "0973456789"
+        agentNumber: "<%=momoService.airtelAgentNumber%>"
       },
       "zamtel": {
-        cashAvailable: "K3000.00",
+        cashAvailable: "K<%=momoService.zamtelCash%>",
         imageSrc: "images/zamtel.png",
-        agentNumber: "0955345679"
+        agentNumber: "<%=momoService.zamtelAgentNumber%>"
       }
       // Add more services as needed
     };
@@ -236,67 +158,67 @@ $(document).ready(function() {
     // Update the cash available value, image source, and agent number based on the selected service
     if (selectedServiceData) {
       // Update the cash available value
-      $("#wCashAvailable").val(selectedServiceData.cashAvailable);
+      $("#CashAvailable").val(selectedServiceData.cashAvailable);
       // Update the image source
-      $(".wAgentService img").attr("src", selectedServiceData.imageSrc);
+      $(".AgentService img").attr("src", selectedServiceData.imageSrc);
       // Update the agent number input value
-      $("#wAgentNumber").val(selectedServiceData.agentNumber);
+      $("#AgentNumber").val(selectedServiceData.agentNumber);
     } else {
       // Use the initial values if the service is not found in the mapping
-      $("#wCashAvailable").val(initialCashAvailable);
-      $(".wAgentService img").attr("src", initialImageSrc);
-      $("#wAgentNumber").val(initialAgentNumber);
+      $("#CashAvailable").val(initialCashAvailable);
+      $(".AgentService img").attr("src", initialImageSrc);
+      $("#AgentNumber").val(initialAgentNumber);
     }
   });
 
   // Trigger the change event to set the initial values
  
-  $("#dAgentService").change(function() {
-    var selectedService = $(this).val();
+  // $("#dAgentService").change(function() {
+  //   var selectedService = $(this).val();
 
-    // Define a mapping of service values to data
-    var serviceData = {
-      "mtn": {
-        cashAvailable: "K5000.00",
-        imageSrc: "images/mtn.jpg",
-        agentNumber: "0966121212"
-      },
-      "airtel": {
-        cashAvailable: "K3000.00",
-        imageSrc: "images/airtel.png",
-        agentNumber: "0977121212"
-      },
-      "zamtel": {
-        cashAvailable: "K3000.00",
-        imageSrc: "images/zamtel.png",
-        agentNumber: "0955345679"
-      }
-      // Add more services as needed
-    };
+  //   // Define a mapping of service values to data
+  //   var serviceData = {
+  //     "mtn": {
+  //       cashAvailable: "K5000.00",
+  //       imageSrc: "images/mtn.jpg",
+  //       agentNumber: "0966121212"
+  //     },
+  //     "airtel": {
+  //       cashAvailable: "K3000.00",
+  //       imageSrc: "images/airtel.png",
+  //       agentNumber: "0977121212"
+  //     },
+  //     "zamtel": {
+  //       cashAvailable: "K3000.00",
+  //       imageSrc: "images/zamtel.png",
+  //       agentNumber: "0955345679"
+  //     }
+  //     // Add more services as needed
+  //   };
 
-    // Get the data for the selected service
-    var selectedServiceData = serviceData[selectedService];
+  //   // Get the data for the selected service
+  //   var selectedServiceData = serviceData[selectedService];
 
-    // Update the cash available value, image source, and agent number based on the selected service
-    if (selectedServiceData) {
-      // Update the cash available value
-      $("#dCashAvailable").val(selectedServiceData.cashAvailable);
-      // Update the image source
-      $(".dAgentService img").attr("src", selectedServiceData.imageSrc);
-      // Update the agent number input value
-      $("#dAgentNumber").val(selectedServiceData.agentNumber);
-    } else {
-      // Use the initial values if the service is not found in the mapping
-      $("#dCashAvailable").val(initialCashAvailable);
-      $(".dAgentService img").attr("src", initialImageSrc);
-      $("#dAgentNumber").val(initialAgentNumber);
-    }
-  });
+  //   // Update the cash available value, image source, and agent number based on the selected service
+  //   if (selectedServiceData) {
+  //     // Update the cash available value
+  //     $("#dCashAvailable").val(selectedServiceData.cashAvailable);
+  //     // Update the image source
+  //     $(".dAgentService img").attr("src", selectedServiceData.imageSrc);
+  //     // Update the agent number input value
+  //     $("#dAgentNumber").val(selectedServiceData.agentNumber);
+  //   } else {
+  //     // Use the initial values if the service is not found in the mapping
+  //     $("#dCashAvailable").val(initialCashAvailable);
+  //     $(".dAgentService img").attr("src", initialImageSrc);
+  //     $("#dAgentNumber").val(initialAgentNumber);
+  //   }
+  // });
 
-  $("#wAgentService").change();
+  $("#AgentService").change();
 
   // Trigger the change event to set the initial values
-  $("#dAgentService").change();
+  // $("#dAgentService").change();
 
 
 

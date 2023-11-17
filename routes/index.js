@@ -3,6 +3,7 @@ const router = express.Router();
 const app = express();
 const session = require('express-session');
 const MmService = require('../models/mmServiceSchema');
+const MomoService = require('../models/mmobileSchema');
 const Investor = require('../models/investSchema');
 const Creditor = require('../models/creditSchema');
 
@@ -24,7 +25,7 @@ router.get("/", (req,res) => {
 })
 
 // profile page route
-router.get("/profile", ensureAuthenticated, async (req,res) => {
+router.get("/profile",  ensureAuthenticated, async (req,res) => {
     const user = req.user;
     const creditor = await Creditor.find({ creditorEmail: user.email});
     const investor = await Investor.find({ investorEmail: user.email});
@@ -36,29 +37,35 @@ router.get("/profile", ensureAuthenticated, async (req,res) => {
 })
 
   //___________  <MOBILE MONEY>
-router.get("/mmoney", ensureAuthenticated, (req,res) => {
+router.get("/mmoney", ensureAuthenticated, async (req,res) => {
     const user = req.user;
+    const momoService = await MomoService.findOne({ agentName: 'Jacob Mwanza'});
+
     res.render("main/mmoney",{
         user,
+        momoService
     })
 })
 
 
 router.post("/mmoney", ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const {location,agentService,serviceType}  = req.body;
+    const {amount,location,agentService,serviceType}  = req.body;
+    const momoService = await MomoService.findOne({ agentName: 'Jacob Mwanza'});
     const mmService = new MmService({ 
         email: user.email, 
-        studentNumber: user.studentNumber,
-        location,
+        name: user.firstName +' '+user.lastName,
         agentService,
-        serviceType
+        serviceType,
+        amount,
+        location,
       });
      
      await mmService.save();
 
         res.render("main/mmoney",{
             user,
+            momoService,
             message: `
             <h3>Agent order set</h3>
             <hr>
@@ -77,7 +84,7 @@ router.post("/mmoney", ensureAuthenticated, async (req,res) => {
 
 
 //   services information routes
-router.get('/invest_info', (req,res)=>{
+router.get('/invest_info', ensureAuthenticated, (req,res)=>{
     const user = req.user;
 
     res.render('main/invest_info',{
@@ -86,7 +93,7 @@ router.get('/invest_info', (req,res)=>{
 
 })
 
-router.get('/loan_info', (req,res)=>{
+router.get('/loan_info', ensureAuthenticated, (req,res)=>{
     const user = req.user;
 
     res.render('main/loan_info',{
@@ -95,7 +102,7 @@ router.get('/loan_info', (req,res)=>{
 
 })
 
-router.get('/mmoney_info', (req,res)=>{
+router.get('/mmoney_info', ensureAuthenticated, (req,res)=>{
     const user = req.user;
 
     res.render('main/mmoney_info',{

@@ -8,21 +8,30 @@ const mmServiceSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  studentNumber: {
+  name: {
     type: String,
-    required: true,
+    required: true
   },
-  agentService:{
-    type: String,
-    required: true,
- },
-  location: {
+  agentService: {
     type: String,
     required: true,
   },
   serviceType: {
     type: String,
     required: true,
+  },
+  amount: {
+    type: Number,
+    required: true,
+  },
+  location: {
+    type: String,
+    required: true,
+  },
+  isProcessed:{
+    type: Boolean,
+    required: true,
+    default: false
   },
   createdAt:{
      type: Date,

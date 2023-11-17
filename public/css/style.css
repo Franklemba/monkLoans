@@ -2074,16 +2074,16 @@ footer p {
 	align-items: center;
 	justify-content: space-between;
 }
-.dAgentService, .wAgentService{
+.dAgentService, .AgentService{
 	position: relative;
 }
-.dAgentService select, .wAgentService select, .agentType select {
+.dAgentService select, .AgentService select, .agentType select {
 	/* padding-left: 50%; */
 	width: fit-content;
 	padding: 2%;
 
 }
-.dAgentService img , .wAgentService img{
+.dAgentService img , .AgentService img{
 	position: absolute;
 	/* border-radius: 50%; */
 	right: 10px;
@@ -2171,3 +2171,5 @@ footer p {
 .slider-main .carousel .carousel-inner .carousel-item{
 	height: 50vh;
 }
+
+  

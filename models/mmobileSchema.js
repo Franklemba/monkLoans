@@ -4,30 +4,40 @@ if(mongoose.connection.models['Mmoney']){
 }
 
 const mmoneySchema = new mongoose.Schema({
-  mtnCashAvailable: {
+  mtnCash:{
     type: Number,
     required: true,
+    default: 0
   },
-  airtelCashAvailable: {
+  airtelCash:{
     type: Number,
     required: true,
+    default: 0
   },
-  agentName: {
+  zamtelCash:{
+    type: Number,
+    required: true,
+    default: 0
+  },
+  mtnAgentNumber:{
     type: String,
     required: true,
+    default: '0761111111'
   },
-  mtnAgentNumber: {
-    type: Number,
+  airtelAgentNumber:{
+    type: String,
     required: true,
+    default: '0771111111'
   },
-  airtelAgentNumber: {
-    type: Number,
+  zamtelAgentNumber:{
+    type: String,
     required: true,
+    default: '0751111111'
   },
-  createdAt:{
-     type: Date,
-     required: true,
-     default: Date.now
+  agentName:{
+    type: String,
+    required: true,
+    default: 'Jacob Mwanza'
   }
 });
 
