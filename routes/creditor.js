@@ -119,6 +119,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
             const creditor = new Creditor({ 
                 creditorEmail: user.email, 
                 creditorStudentNumber: user.studentNumber,
+                creditorName: user.firstName +' '+ user.lastName,
                 loanAmount, 
                 loanTerm ,
                 serviceFee,

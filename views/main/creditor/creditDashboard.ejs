@@ -17,72 +17,74 @@
 
                     <% if (credit && credit.length > 0) { %>
       
-                        <div class="mb-3">
-                          <label for="loanAmount" class="form-label">Loan Amount</label>
-                          <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K<%=credit[0].loanAmount%>" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="amountReceived" class="form-label">Amount You Received</label>
-                            <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=credit[0].amountReceived%>" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="repaymentAmount" class="form-label">Repayment Amount</label>
-                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=credit[0].repaymentAmount%>" disabled>
-                        </div>
-                        <div class="mb-3">
-                            <label for="period" class="form-label">Tenure</label>
-                            <input type="text" class="form-control" id="period" name="period" value="<%=credit[0].loanTerm%> <%= credit[0].loanTerm === 1 ? 'week' : 'weeks' %>" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="createdAt" class="form-label">Date Disbursed</label>
-                            <input type="text" class="form-control" id="createdAt" name="createdAt" value="<%=credit[0].createdAt.toLocaleDateString('en-US')%>" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="nextPaymentDate" class="form-label">Repayment Date</label>
-                          <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=credit[0].nextPaymentDate%>" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="creditStatus" class="form-label">Status</label>
-                          <input type="text" class="form-control" id="creditStatus" name="creditStatus" value="<%= credit[0].creditStatus === true ? 'unpaid' : 'paid' %>" disabled>
-                        </div>
-                          <hr>
-                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal">MAKE PAYMENT</button>
-                      <div class="modal" id="paymentModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog ">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="paymentModal">Mobile wallet</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                  <form action="/credit/repayment" method="post">
-
-                                    <span>click number to proceed</span><br>
-                                    <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" value="<%=user.phoneNumber%>"  required hidden>
-                                    <button type="submit" class="btn btn-primary btn-icon" id="dashboardButton">
-                                      <%=user.phoneNumber%>
-                                    </button>
-                                  </form>
-                                <hr>
-                                  <p>or</p>
-                                  <hr>
-
-                                  <form action="/credit/repayment" method="post">
-                                    <div class="mb-2">
-                                      <label for="newMMnumber" class="form-label">user different number</label>
-                                      <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
-                                  </div>
-                                  <button type="submit" class="btn btn-primary">submit</button>
-                                  </form>
-
-                                </div>
-                              
-                            </div>
-                        </div>
+                     <div class="modalBottom">
+                      <div class="mb-3">
+                        <label for="loanAmount" class="form-label">Loan Amount</label>
+                        <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K<%=credit[0].loanAmount%>" disabled>
                       </div>
-                     
+                      <div class="mb-3">
+                          <label for="amountReceived" class="form-label">Amount You Received</label>
+                          <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=credit[0].amountReceived%>" disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="repaymentAmount" class="form-label">Repayment Amount</label>
+                        <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=credit[0].repaymentAmount%>" disabled>
+                      </div>
+                      <div class="mb-3">
+                          <label for="period" class="form-label">Tenure</label>
+                          <input type="text" class="form-control" id="period" name="period" value="<%=credit[0].loanTerm%> <%= credit[0].loanTerm === 1 ? 'week' : 'weeks' %>" disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="createdAt" class="form-label">Date Disbursed</label>
+                          <input type="text" class="form-control" id="createdAt" name="createdAt" value="<%=credit[0].createdAt.toLocaleDateString('en-US')%>" disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="nextPaymentDate" class="form-label">Repayment Date</label>
+                        <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=credit[0].nextPaymentDate%>" disabled>
+                      </div>
+                      <div class="mb-3">
+                        <label for="creditStatus" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="creditStatus" name="creditStatus" value="<%= credit[0].creditStatus === true ? 'unpaid' : 'paid' %>" disabled>
+                      </div>
+                        <hr>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal">MAKE PAYMENT</button>
+                    <div class="modal" id="paymentModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                      <div class="modal-dialog ">
+                          <div class="modal-content">
+                              <div class="modal-header">
+                                  <h5 class="modal-title" id="paymentModal">Mobile wallet</h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                      <span aria-hidden="true">&times;</span>
+                                  </button>
+                              </div>
+                              <div class="modal-body">
+                                <form action="/credit/repayment" method="post">
+
+                                  <span>click number to proceed</span><br>
+                                  <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" value="<%=user.phoneNumber%>"  required hidden>
+                                  <button type="submit" class="btn btn-primary btn-icon" id="dashboardButton">
+                                    <%=user.phoneNumber%>
+                                  </button>
+                                </form>
+                              <hr>
+                                <p>or</p>
+                                <hr>
+
+                                <form action="/credit/repayment" method="post">
+                                  <div class="mb-2">
+                                    <label for="newMMnumber" class="form-label">user different number</label>
+                                    <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
+                                </div>
+                                <button type="submit" class="btn btn-primary">submit</button>
+                                </form>
+
+                              </div>
+                            
+                          </div>
+                      </div>
+                    </div>
+                   
+                     </div>
 
                   <% } else { %>
                          <div class="">

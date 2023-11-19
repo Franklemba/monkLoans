@@ -12,6 +12,11 @@ const creditSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  creditorName:{
+    type: String,
+    required: true,
+    default: 'Ambitious Ohns'
+  },
   loanAmount: {
     type: Number,
     required: true,
@@ -43,6 +48,11 @@ const creditSchema = new mongoose.Schema({
   creditStatus:{
     type: Boolean,
     required: true,
+  },
+  isApproved: {
+     type: Boolean,
+     required: true,
+     default: false,
   },
   createdAt:{
      type: Date,
