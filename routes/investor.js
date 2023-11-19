@@ -4,7 +4,7 @@ const router = express.Router();
 const app = express();
 const session = require('express-session');
 const fetch = require('node-fetch').default;
-
+const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
 
 const { use } = require("./auth");
 // const { = require('../config/auth');
@@ -378,23 +378,23 @@ const updateInvestors = async (user, formattedDate ) => {
 };
 
 
-  const verifyTransaction = async (merchantReference, token) => {
-    const apiUrl = `https://live.sparco.io/gateway/api/v1/transaction/query?merchantReference=${merchantReference}`;
+  // const verifyTransaction = async (merchantReference, token) => {
+  //   const apiUrl = `https://live.sparco.io/gateway/api/v1/transaction/query?merchantReference=${merchantReference}`;
     
-    try {
-      const response = await fetch(apiUrl, {
-        method: 'GET',
-        headers: {
-          'token': token,
-        },
-      });
+  //   try {
+  //     const response = await fetch(apiUrl, {
+  //       method: 'GET',
+  //       headers: {
+  //         'token': token,
+  //       },
+  //     });
   
-      const result = await response.json();
-      return result;
-    } catch (error) {
-      throw error;
-    }
-  };
+  //     const result = await response.json();
+  //     return result;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // };
 
 
 

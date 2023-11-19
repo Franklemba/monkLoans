@@ -8,6 +8,17 @@ const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
 const Creditor = require('../models/creditSchema');
 const Profile = require('../models/profileSchema');
+const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
+
+
+const jwt = require("jsonwebtoken");
+const uuid = require('crypto').randomBytes(16).toString('hex');
+const axios = require('axios');
+
+const SEC_KEY = "477fea6108f74de3a08aac794416046a";
+const PUB_KEY = "c8ef713758684420b3e33eedacb3c626";
+
+merchantPublicKey = "c8ef713758684420b3e33eedacb3c626";
 
 app.use(session({
     secret: 'mysecret',
@@ -187,48 +198,10 @@ router.get('/dashboard', ensureAuthenticated, async (req,res) => {
      })
 })
 
-router.get('/repayment', ensureAuthenticated, async (req,res) => {
-    const user = req.user;
-
-    const currentDate = new Date();
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const formattedDate = currentDate.toLocaleDateString('en-US', options);
-
-
-
-    const repayedLoan = await Creditor.find({creditorEmail:user.email, creditStatus: true });
-    const filter = { creditorEmail: user.email, creditStatus: true };
-    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
-    const update = { 
-        creditStatus: false,
-        nextPaymentDate: formattedDate
-    };
-
-    await Creditor.findOneAndUpdate(filter, update, {
-        new: true, // Return the updated document
-    });
-
-
-
-    res.render("main/creditor/creditDashboard", {
-        user,
-        credit,
-        repayedLoan,
-        message: `
-        <h3>Loan balance cleared succesfully</h3>
-        <h3>thank for using our service 🤝</h3>
-        `,
-        url: "/credit/dashboard",
-        buttonText:"exit"
-     })
-
-   
-})
 
 router.post('/repayment', ensureAuthenticated, async (req,res) => {
     const user = req.user;
     const {newMMnumber} = req.body;
-    console.log(newMMnumber);
 
     const currentDate = new Date();
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
@@ -244,22 +217,142 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
         nextPaymentDate: formattedDate
     };
 
-    await Creditor.findOneAndUpdate(filter, update, {
-        new: true, // Return the updated document
-    });
+    payload = {
+        amount: `${credit[0].repaymentAmount}`,
+        currency: "ZMW",
+        customerEmail: `${user.email}`,
+        customerFirstName: `${user.firstName}`,
+        customerLastName: `${user.lastName}`,
+        customerPhone: `${newMMnumber}`,
+        merchantPublicKey: PUB_KEY,
+        transactionName: "Monk Pay Investment",
+        transactionReference: uuid,
+        wallet: `${newMMnumber}`,
+        returnUrl: `http://localhost:3001?ref=${uuid}`,
+        // autoReturn: varValue,
+        chargeMe: true,
+    };
 
-    res.render("main/creditor/creditDashboard", {
-        user,
-        credit,
-        repayedLoan,
-        message: `
-        <h3>Loan balance cleared succesfully</h3>
-        <h3>thank for using our service 🤝</h3>
-        `,
-        url: "/credit/dashboard",
-        buttonText:"exit"
-     })
+        const encoded_payload = jwt.sign(payload, SEC_KEY);
+    
+        console.log(encoded_payload);
+        // res.send(encoded_payload);
+        console.log(newMMnumber)
+   
+        var data = JSON.stringify({
+            "payload": `${encoded_payload}`
+          });
+  
+          var config = {
+            method: 'post',
+          maxBodyLength: Infinity,
+            url: 'https://live.sparco.io/gateway/api/v1/momo/debit',
+            headers: { 
+              'X-PUB-KEY': PUB_KEY, 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
 
+          axios(config)
+          .then(async function (response) {
+
+            const responseData = response.data;
+            console.log(JSON.stringify(response.data));
+
+            switch (responseData.status) {
+                case "TXN_AUTH_PENDING":
+                    let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
+                    const checkStatus = async () => {
+                        if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
+                        console.log(verifyData.status + ': ' + verifyData.status);
+                        console.log(verifyData);
+                            res.render("main/creditor/creditDashboard", {
+                                user,
+                                credit,
+                                repayedLoan,
+                                message: `
+                                <h3>Loan balance clearance was unsuccesfull</h3>
+                                <h3>please try again and repay</h3>
+                                `,
+                                url: "/credit/dashboard",
+                                buttonText:"exit"
+                            })
+                        } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
+
+                            console.log(verifyData.status + ': ' + verifyData.status);
+                            console.log(verifyData);
+                         //------------------ update credit in database
+                            await Creditor.findOneAndUpdate(filter, update, {
+                                new: true, // Return the updated document
+                            });
+
+                            res.render("main/creditor/creditDashboard", {
+                                user,
+                                credit,
+                                repayedLoan,
+                                message: `
+                                <h3>Loan balance cleared succesfully</h3>
+                                <h3>thank for using our service 🤝</h3>
+                                `,
+                                url: "/credit/dashboard",
+                                buttonText:"exit"
+                            })
+                        
+                        } else {
+                        verifyTransaction(responseData.transactionReference, encoded_payload).then((newVerifyData) => {
+                            verifyData = newVerifyData;
+                            checkStatus(); // Recursively call checkStatus
+                        });
+                        
+                        }
+                        
+                    };
+
+                    checkStatus();
+
+                break;
+              case "TXN_FAILED":
+                res.render("main/creditor/credit",{   
+                  user,        
+                  message: `
+                      <h3>Transaction failed 😞</h3>
+                      <hr>
+                  
+                  <p>please make sure the number you are using is valid</p>
+                  `,
+                  url: `/credit`,
+                  buttonText:"back"
+                  }); //
+                break;
+               
+              // Add more cases as needed for other statuses
+        
+              default:
+                res.render("main/investor/invest",{   
+                  user,        
+                  message: `
+                      <h3>Transaction failed 😞</h3>
+                      <hr>
+                  
+                  <p>
+                       an error occured, try again later.. if problem persists contact
+                       our customer service
+                  </p>
+                  `,
+                  url: `/credit`,
+                  buttonText:"back"
+                  }); //
+                  
+                // Handle other cases or do nothing
+            }
+
+          })
+          .catch(function (error) {
+            console.log(error);
+            res.redirect('/credit')
+            // console.log('')
+          });
    
 })
 
