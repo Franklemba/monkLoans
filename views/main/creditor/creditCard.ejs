@@ -3,37 +3,50 @@
     <div class="about-main">
         <div class="row">
          <div class="col-lg-6">
-           <h2>Bank card details</h2>
-           <p><strong>Important Notice:</strong> We only accept bank card details from Zanaco bank.</p>
-           <p> Please ensure your card is issued by Zanaco before proceeding.</p>
-           <p><a href="">terms and conditions</a></p>
+           <h2>Loan details</h2>
+           <p>Lorem ipsum dolor sit amet consectetur.</p>
+           <p>Lorem ipsum dolor sit amet consectetur.</p>
+           
         </div>
          <div class="col-lg-6 container">
            <div class="modal-dialog ">
              <div class="modal-content">
                <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">Card details</h5>
+                 <h5 class="modal-title" id="loanModalLabel">Details</h5>
                  <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                </div>
                <div class="modal-body">
                  <form action="/credit/card" method="post">
                   <!-- <hr> -->
-                   <div class="mb-3">
-                    <label for="cardholderName">Cardholder Name</label>
-                    <input type="text" id="cardholderName" name="cardholderName" required>
-                   </div> 
+                  <div class="mb-3">
+                    <label for="cardholderName">Location</label>
+                    <select name="residence" id="locationSelector">
+                        <option value="campus">Campus</option>
+                        <option value="bh">Boarding house</option>
+                    </select>
+                </div>
                        
+                    <div class="campus mb-3">
+                      <label for="roomNumber">Room Number</label>
+                      <input type="text" id="roomNumber" name="campusLocation" placeholder="e.g nmh201" required>
+                  </div>
+              
+                  <div class="bh mb-3">
+                      <label for="bhLocation">Boarding house location</label>
+                      <textarea name="bhLocation" id="bhLocation" placeholder="e.g. kopa street, along bla bla, plot No. 2310, room number 5, etc." required></textarea>
+                  </div>
+
                    <div class="mb-3">
-                    <label for="cardNumber">Card Number</label>
-                    <input type="text" id="cardNumber" name="cardNumber" required>
-                   </div> 
-                   <div class="mb-3">
-                    <label for="expirationDate">Expiration Date (MM/YY)</label>
-                    <input type="text" id="expirationDate" name="expirationDate" required>
+                    <label for="roomMatePhoneNumber">Roommate phone number</label>
+                    <input type="text" id="roomMatePhoneNumber" name="roomMatePhoneNumber" required>
                    </div>
                    <div class="mb-3">
-                    <label for="cvv">CVV</label>
-                    <input type="text" id="cvv" name="cvv" required>
+                    <label for="collateralItem">Collateral Item Description</label>
+                    <textarea name="collateralItem" id="" placeholder="e.g. iphone 6, 32gb storage, black color, etc."></textarea>
+                   </div>
+                   <div class="mb-3">
+                    <label for="otherPhoneNumber">Other phone number(Optional)</label>
+                    <input type="text" id="otherPhoneNumber" name="otherPhoneNumber" >
                    </div>
                    
                    <hr>
@@ -51,4 +64,30 @@
 
     </div>
  </div>	
+ 
+ <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 
+ <script>
+  $(document).ready(function() {
+      // Hide/show elements and toggle required attribute based on the initial selection
+      updateVisibilityAndRequired();
+
+      // Attach an event handler to the location selector
+      $('#locationSelector').on('change', function() {
+          updateVisibilityAndRequired();
+      });
+
+      // Function to update the visibility and required attribute based on the selection
+      function updateVisibilityAndRequired() {
+          var selectedLocation = $('#locationSelector').val();
+
+          if (selectedLocation === 'campus') {
+              $('.campus').show().find('input').prop('required', true);
+              $('.bh').hide().find('textarea').prop('required', false);
+          } else if (selectedLocation === 'bh') {
+              $('.campus').hide().find('input').prop('required', false);
+              $('.bh').show().find('textarea').prop('required', true);
+          }
+      }
+  });
+</script>

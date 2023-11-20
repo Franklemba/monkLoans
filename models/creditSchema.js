@@ -41,9 +41,21 @@ const creditSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  cardNumber: {
+  location:{
     type: String,
-    required: false,
+    required: true
+  },
+  roomMatePhoneNumber:{
+    type: String,
+    required: true
+  },
+  itemDescription:{
+    type: String,
+    required: true
+  },
+  otherPhoneNumber:{
+    type: String,
+    required: false
   },
   creditStatus:{
     type: Boolean,

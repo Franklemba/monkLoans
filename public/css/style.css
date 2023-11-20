@@ -2172,4 +2172,14 @@ footer p {
 	height: 50vh;
 }
 
-  
+textarea {
+	width: 100%; /* Make the textarea take up 100% of its container's width */
+	box-sizing: border-box; /* Include padding and border in the total width */
+	resize: vertical; /* Allow vertical resizing only */
+	padding: 10px; /* Add padding for better appearance */
+	font-size: 16px; /* Set the font size to a normal value */
+}
+
+.bh {
+	display: none; /* Hide the boarding house elements by default */
+}

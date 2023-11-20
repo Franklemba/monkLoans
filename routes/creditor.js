@@ -109,7 +109,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
     
     
     try {
-        const {cardholderName,cardNumber,expirationDate,cvv}  = req.body;
+        const {campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber}  = req.body;
         const calculatedData = req.session.calculatedData;
         const user = req.user;
         const profile = await Profile.findOne({ userEmail: user.email});
@@ -137,8 +137,11 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
                 amountReceived,
                 repaymentAmount:totalRepayment,
                 nextPaymentDate:repaymentDate, 
-                cardNumber,
-                creditStatus: true
+                creditStatus: true,
+                location: campusLocation +''+bhLocation,
+                roomMatePhoneNumber,
+                itemDescription : collateralItem,
+                otherPhoneNumber
               });
              
              await creditor.save();
@@ -182,6 +185,8 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
         console.error('error verifying credit card', error);
         res.redirect('/credit');
     }
+
+    res.send(req.body)
 
 });
 
