@@ -158,8 +158,6 @@ router.post('/deposit_fund', async (req,res) => {
 
                       const investor = new Investor({
                         investorEmail: user.email,
-                        investorStudentNumber: user.studentNumber,
-                        investorName: user.firstName + ' ' + user.lastName,
                         investmentAmount,
                         serviceFee,
                         expectedReturns,

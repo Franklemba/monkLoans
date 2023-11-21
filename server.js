@@ -19,7 +19,6 @@ const { ensureAuthenticated} = require('./config/auth');
 
 const PORT = process.env.PORT || 3001;
 
-
 // mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?retryWrites=true&w=majority
 // mongodb://127.0.0.1:27017/moakloans
 mongoose.set('strictQuery', true);
@@ -43,14 +42,11 @@ app.use(session({
     secret: 'mysecret',
     resave: false,
     saveUninitialized: false    
-  }));
+}));
   
-  app.use(flash());
-  app.use(passport.initialize());
-  app.use(passport.session());
-  
-  
-
+app.use(flash());
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use('/',homeRouter );
 app.use('/auth',authRouter);

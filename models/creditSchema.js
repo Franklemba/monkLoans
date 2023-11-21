@@ -8,15 +8,7 @@ const creditSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  creditorStudentNumber: {
-    type: String,
-    required: true,
-  },
-  creditorName:{
-    type: String,
-    required: true,
-    default: 'Ambitious Ohns'
-  },
+
   loanAmount: {
     type: Number,
     required: true,

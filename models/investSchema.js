@@ -8,15 +8,6 @@ const investSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  investorName:{
-      type: String,
-      required: true,
-      default: 'Ambitious Ohns'
-  },
-  investorStudentNumber: {
-    type: String,
-    required: true,
-  },
   investmentAmount: {
     type: Number,
     required: true,

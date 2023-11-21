@@ -35,18 +35,31 @@ app.use(session({
 
 router.post("/page", ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true ,isApproved: true});
+    const unapprovedCredit = await Creditor.find({ creditorEmail: user.email, creditStatus: true, isApproved: false });
 
     if(credit.length > 0){
         res.render("main/creditor/credit",{
             user,        
             message: `
-                <h3>You're ineligible to get a loan</h3>
+                <h3>You're ineligible to get a loan 😒</h3>
             <h3>repay balance of K ${credit[0].repaymentAmount} first</h3>
             `,
             url: "/credit/dashboard",
             buttonText:"repay"
         })
+
+    }else if(unapprovedCredit.length > 0){
+        res.render("main/creditor/credit",{
+            user,        
+            message: `
+                <h3>you have unapproved loan of K ${unapprovedCredit[0].repaymentAmount}</h3>
+            <h3>wait for approval 🙂</h3>
+            `,
+            url: "/credit/dashboard",
+            buttonText:"exit"
+        })
+ 
     }else{
 
             const { loanAmount,loanTerm } = req.body;
@@ -128,9 +141,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
         // ___________SAVING CREDITORS DETAILS __________//
     
             const creditor = new Creditor({ 
-                creditorEmail: user.email, 
-                creditorStudentNumber: user.studentNumber,
-                creditorName: user.firstName +' '+ user.lastName,
+                creditorEmail: user.email,
                 loanAmount, 
                 loanTerm ,
                 serviceFee,
@@ -160,9 +171,9 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
             res.render("main/creditor/credit",{   
             user,        
             message: `
-                <h3>🎉 Account Approval was successful 🎉</h3>
+                <h3> Account Approval is pending </h3>
                 <hr>
-            <h3>you'll receive your amount shortly</h3>
+            <h3>an agent will attend to you shortly🙂</h3>
             <hr>
             <h3>thank for using our service 🤝</h3>
             `,
@@ -170,30 +181,20 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
             buttonText:"exit"
             }); // You may want to redirect to the "/credit/page" route to calculate the data if it's not available
         }else{
-            res.render("main/creditor/credit",{   
-                user,        
-                message: `
-                    <h3>🎉 Account Approval was unsuccesful</h3>
-                <h3>make sure, your bank card is issued by Zanaco and you're on bursary</h3>
-                <h3>hard luck!</h3>
-                `,
-                url: "/credit",
-                buttonText:"exit"
-                }); 
+            res.redirect('/');
         }
     } catch (error) {
         console.error('error verifying credit card', error);
         res.redirect('/credit');
     }
 
-    res.send(req.body)
 
 });
 
 router.get('/dashboard', ensureAuthenticated, async (req,res) => {
      const user = req.user;
-     const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
-     const repayedLoan = await Creditor.find({ creditorEmail: user.email, creditStatus: false })
+     const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true, isApproved: true});
+     const repayedLoan = await Creditor.find({ creditorEmail: user.email, creditStatus: false, isApproved: true })
      .sort({ createdAt: -1 });
 
      res.render("main/creditor/creditDashboard", {

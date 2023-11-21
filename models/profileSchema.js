@@ -9,10 +9,6 @@ const profileSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  userStudentNumber: {
-    type: String,
-    required: true,
-  },
   totalInvestedAmount: {
     type: Number,
     required: false,
@@ -40,6 +36,11 @@ const profileSchema = new mongoose.Schema({
   total_No_Of_CreditsUnPayed: {
     type: Number,
     required: false,
+  },
+  totalRevenue:{
+    type: Number,
+    required: false,
+    default: 0
   },
   createdAt:{
      type: Date,
