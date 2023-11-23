@@ -18,7 +18,7 @@ const axios = require('axios');
 const SEC_KEY = "477fea6108f74de3a08aac794416046a";
 const PUB_KEY = "c8ef713758684420b3e33eedacb3c626";
 
-merchantPublicKey = "c8ef713758684420b3e33eedacb3c626";
+// merchantPublicKey = "c8ef713758684420b3e33eedacb3c626";
 app.use(session({
     secret: 'mysecret',
     resave: false,
@@ -92,171 +92,190 @@ router.post('/deposit_fund', async (req,res) => {
     const user = req.user;  
     const calculatedInvestedData = req.session.calculatedInvestedData;
     const {newMMnumber} = req.body;
-    
-    try {
 
-        // if(calculatedInvestedData){
+    if(user.isVerified == true){
 
-            const maturityDate = calculatedInvestedData.maturityDate;
-            const totalReturns = calculatedInvestedData.totalReturns;
-            const expectedReturns = calculatedInvestedData.expectedReturns;
-            const investmentAmount = calculatedInvestedData.investmentAmount;
-            const serviceFee = calculatedInvestedData.serviceFee;
-            const investmentType = calculatedInvestedData.investmentType;
-
-      
-        payload = {
-            amount: `${investmentAmount}`,
-            currency: "ZMW",
-            customerEmail: `${user.email}`,
-            customerFirstName: `${user.firstName}`,
-            customerLastName: `${user.lastName}`,
-            customerPhone: `${newMMnumber}`,
-            merchantPublicKey: PUB_KEY,
-            transactionName: "Monk Pay Investment",
-            transactionReference: uuid,
-            wallet: `${newMMnumber}`,
-            returnUrl: `http://localhost:3001?ref=${uuid}`,
-            // autoReturn: varValue,
-            chargeMe: true,
-            };
-
-            const encoded_payload = jwt.sign(payload, SEC_KEY);
+      try {
+  
+          // if(calculatedInvestedData){
+  
+              const maturityDate = calculatedInvestedData.maturityDate;
+              const totalReturns = calculatedInvestedData.totalReturns;
+              const expectedReturns = calculatedInvestedData.expectedReturns;
+              const investmentAmount = calculatedInvestedData.investmentAmount;
+              const serviceFee = calculatedInvestedData.serviceFee;
+              const investmentType = calculatedInvestedData.investmentType;
+  
         
-            console.log(encoded_payload);
-            // res.send(encoded_payload);
-            console.log(newMMnumber)
-       
-
-        
-        var data = JSON.stringify({
-          "payload": `${encoded_payload}`
-        });
-
-        var config = {
-          method: 'post',
-        maxBodyLength: Infinity,
-          url: 'https://live.sparco.io/gateway/api/v1/momo/debit',
-          headers: { 
-            'X-PUB-KEY': PUB_KEY, 
-            'Content-Type': 'application/json'
-          },
-          data : data
-        };
-
-
-        axios(config)
-          .then(async function (response) {
-
-            const responseData = response.data;
-            console.log(JSON.stringify(response.data));
-
-            switch (responseData.status) {
-                case "TXN_AUTH_PENDING":
-
-                   // ___________SAVING INVESTOR'S DETAILS __________//
-
-                      const investor = new Investor({
-                        investorEmail: user.email,
-                        investmentAmount,
-                        serviceFee,
-                        expectedReturns,
-                        totalReturns,
-                        maturityDate,
-                        investmentType,
-                        investmentStatus: true,
-                        transactionReference: responseData.transactionReference,
-                        transactionToken: encoded_payload
-                    });
-
-                    await investor.save();
-                
-                  
-                  
-                  let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
-                  res.render("main/investor/invest",{   
-                            user,        
-                            message: `
-                                <p>🎉transaction for debiting your mmoney account, will appear on your phone soon 🎉</p>
-                                <p>please be patient, </p>
-                                <hr>
-                            
-                            <h3>please wait for transaction</h3>
-                            `,
-                            url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
-                            buttonText:"verify"
-                    }); //
-               
-
-                        const checkStatus = async () => {
-                          if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
-                            console.log(verifyData.status + ': ' + verifyData.status);
-                            console.log(verifyData);
-                            await Investor.findOneAndDelete({transactionReference: responseData.transactionReference});
-                          } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
-                            console.log(verifyData.status + ': ' + verifyData.status);
-                            console.log(verifyData);
-                            await Investor.findOneAndUpdate({ transactionReference: responseData.transactionReference, isTXNsuccessful: true  })
-                            
-                          } else {
-                            verifyTransaction(responseData.transactionReference, encoded_payload).then((newVerifyData) => {
-                              verifyData = newVerifyData;
-                              checkStatus(); // Recursively call checkStatus
-                            });
-                           
-                          }
-                          
-                        };
-
-                        checkStatus();
-
-                break;
-              case "TXN_FAILED":
-                res.render("main/investor/invest",{   
-                  user,        
-                  message: `
-                      <h3>Transaction failed 😞</h3>
-                      <hr>
-                  
-                  <p>please make sure the number you are using is valid</p>
-                  `,
-                  url: `/invest`,
-                  buttonText:"back"
-                  }); //
-                break;
-               
-              // Add more cases as needed for other statuses
-        
-              default:
-                res.render("main/investor/invest",{   
-                  user,        
-                  message: `
-                      <h3>Transaction failed 😞</h3>
-                      <hr>
-                  
-                  <p>please make sure the number you are using is valid</p>
-                  `,
-                  url: `/invest`,
-                  buttonText:"back"
-                  }); //
-                  
-                // Handle other cases or do nothing
-            }
-
-          })
-          .catch(function (error) {
-            console.log(error);
-            res.redirect('/invest')
-            // console.log('')
+          payload = {
+              amount: `${investmentAmount}`,
+              currency: "ZMW",
+              customerEmail: `${user.email}`,
+              customerFirstName: `${user.firstName}`,
+              customerLastName: `${user.lastName}`,
+              customerPhone: `${newMMnumber}`,
+              merchantPublicKey: PUB_KEY,
+              transactionName: "Monk Pay Investment",
+              transactionReference: uuid,
+              wallet: `${newMMnumber}`,
+              returnUrl: `http://localhost:3001?ref=${uuid}`,
+              // autoReturn: varValue,
+              chargeMe: true,
+              };
+  
+              const encoded_payload = jwt.sign(payload, SEC_KEY);
+          
+              console.log(encoded_payload);
+              // res.send(encoded_payload);
+              console.log(newMMnumber)
+         
+  
+          
+          var data = JSON.stringify({
+            "payload": `${encoded_payload}`
           });
+  
+          var config = {
+            method: 'post',
+          maxBodyLength: Infinity,
+            url: 'https://live.sparco.io/gateway/api/v1/momo/debit',
+            headers: { 
+              'X-PUB-KEY': PUB_KEY, 
+              'Content-Type': 'application/json'
+            },
+            data : data
+          };
+  
+  
+          axios(config)
+            .then(async function (response) {
+  
+              const responseData = response.data;
+              console.log(JSON.stringify(response.data));
+  
+              switch (responseData.status) {
+                  case "TXN_AUTH_PENDING":
+  
+                     // ___________SAVING INVESTOR'S DETAILS __________//
+  
+                        const investor = new Investor({
+                          investorEmail: user.email,
+                          investmentAmount,
+                          serviceFee,
+                          expectedReturns,
+                          totalReturns,
+                          maturityDate,
+                          investmentType,
+                          investmentStatus: true,
+                          transactionReference: responseData.transactionReference,
+                          transactionToken: encoded_payload
+                      });
+  
+                      await investor.save();
+                  
+                    
+                    
+                    let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
+                    res.render("main/investor/invest",{   
+                              user,        
+                              message: `
+                                  <p>🎉transaction for debiting your mmoney account, will appear on your phone soon 🎉</p>
+                                  <p>please be patient, </p>
+                                  <hr>
+                              
+                              <h3>please wait for transaction</h3>
+                              `,
+                              url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
+                              buttonText:"verify"
+                      }); //
+                 
+  
+                          const checkStatus = async () => {
+                            if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
+                              console.log(verifyData.status + ': ' + verifyData.status);
+                              console.log(verifyData);
+                              await Investor.findOneAndDelete({transactionReference: responseData.transactionReference});
+                            } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
+                              console.log(verifyData.status + ': ' + verifyData.status);
+                              console.log(verifyData);
+                              await Investor.findOneAndUpdate({ transactionReference: responseData.transactionReference, isTXNsuccessful: true  })
+                              
+                            } else {
+                              verifyTransaction(responseData.transactionReference, encoded_payload).then((newVerifyData) => {
+                                verifyData = newVerifyData;
+                                checkStatus(); // Recursively call checkStatus
+                              });
+                             
+                            }
+                            
+                          };
+  
+                          checkStatus();
+  
+                  break;
+                case "TXN_FAILED":
+                  res.render("main/investor/invest",{   
+                    user,        
+                    message: `
+                        <h3>Transaction failed 😞</h3>
+                        <hr>
+                    
+                    <p>please make sure the number you are using is valid</p>
+                    `,
+                    url: `/invest`,
+                    buttonText:"back"
+                    }); //
+                  break;
+                 
+                // Add more cases as needed for other statuses
+          
+                default:
+                  res.render("main/investor/invest",{   
+                    user,        
+                    message: `
+                        <h3>Transaction failed 😞</h3>
+                        <hr>
+                    
+                    <p>please make sure the number you are using is valid</p>
+                    `,
+                    url: `/invest`,
+                    buttonText:"back"
+                    }); //
+                    
+                  // Handle other cases or do nothing
+              }
+  
+            })
+            .catch(function (error) {
+              console.log(error);
+              res.redirect('/invest')
+              // console.log('')
+            });
+  
+  
+  
+          
+      } catch (error) {
+          console.error('error saving user details', error);
+          res.redirect('/invest');
+      }
 
-
-
-        
-    } catch (error) {
-        console.error('error saving user details', error);
-        res.redirect('/invest');
+    }else{
+      res.render("main/investor/invest",{   
+        user,        
+        message: `
+            <h3>Account is not verified,</h3>
+            <hr>
+        <h3>please complete registration proceess </h3>
+        <hr>
+        <p>if registration already complete, please wait patiently for account to be verified </p>
+        <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
+        `,
+        url: "/verify",
+        buttonText:"exit"
+    }); 
     }
+    
 })
 
 

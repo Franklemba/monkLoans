@@ -110,83 +110,107 @@ router.post("/page", ensureAuthenticated, async (req,res) => {
 })
 
 router.get("/card", ensureAuthenticated, (req, res) => {
-     
+
+    const calculatedData = req.session.calculatedData;
+    if(calculatedData){
         res.render("main/creditor/creditCard", {
             user: req.user
         });
+    }else{
+        res.redirect('/');
+    }
+     
    
 }); 
     //  save loan details to datatbase    
 router.post("/card", ensureAuthenticated, async (req, res) => {
     // Retrieve the calculated data from the session
     
-    
-    try {
-        const {campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber}  = req.body;
-        const calculatedData = req.session.calculatedData;
-        const user = req.user;
-        const profile = await Profile.findOne({ userEmail: user.email});
-        console.log(calculatedData)
-        
-        if (calculatedData) {     // when API is intergrated, this condition should also verify the bank details
-    
-            const repaymentDate = calculatedData.repaymentDate;
-            const totalRepayment = calculatedData.totalRepayment;
-            const amountReceived = calculatedData.amountReceived;
-            const loanTerm = calculatedData.loanTerm;
-            const loanAmount = calculatedData.loanAmount;
-            const serviceFee = calculatedData.serviceFee;
+    const user = req.user;
+    if(user.isVerified == true){
 
+        try {
+            const {campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber}  = req.body;
+            const calculatedData = req.session.calculatedData;
+            const profile = await Profile.findOne({ userEmail: user.email});
+            console.log(calculatedData)
+            
+            if (calculatedData) {     // when API is intergrated, this condition should also verify the bank details
+        
+                const repaymentDate = calculatedData.repaymentDate;
+                const totalRepayment = calculatedData.totalRepayment;
+                const amountReceived = calculatedData.amountReceived;
+                const loanTerm = calculatedData.loanTerm;
+                const loanAmount = calculatedData.loanAmount;
+                const serviceFee = calculatedData.serviceFee;
     
-        // ___________SAVING CREDITORS DETAILS __________//
-    
-            const creditor = new Creditor({ 
-                creditorEmail: user.email,
-                loanAmount, 
-                loanTerm ,
-                serviceFee,
-                amountReceived,
-                repaymentAmount:totalRepayment,
-                nextPaymentDate:repaymentDate, 
-                creditStatus: true,
-                location: campusLocation +''+bhLocation,
-                roomMatePhoneNumber,
-                itemDescription : collateralItem,
-                otherPhoneNumber
-              });
-             
-             await creditor.save();
-             await Profile.findOneAndUpdate(
-                { userEmail: user.email}, // Query for the document to update
-                { $set: { 
-                    totalCreditedAmount: profile.totalCreditedAmount += creditor.loanAmount,
-                    total_No_Of_Credits: profile.total_No_Of_Credits + 1,
-                 } }, 
-                { new: true } // Options to return the updated document
-              );
-             
-    
-            // render page to inform user that account has been successfuly approved
-    
-            res.render("main/creditor/credit",{   
+        
+            // ___________SAVING CREDITORS DETAILS __________//
+        
+                const creditor = new Creditor({ 
+                    creditorEmail: user.email,
+                    loanAmount, 
+                    loanTerm ,
+                    serviceFee,
+                    amountReceived,
+                    repaymentAmount:totalRepayment,
+                    nextPaymentDate:repaymentDate, 
+                    creditStatus: true,
+                    location: campusLocation +''+bhLocation,
+                    roomMatePhoneNumber,
+                    itemDescription : collateralItem,
+                    otherPhoneNumber
+                  });
+                 
+                 await creditor.save();
+                 await Profile.findOneAndUpdate(
+                    { userEmail: user.email}, // Query for the document to update
+                    { $set: { 
+                        totalCreditedAmount: profile.totalCreditedAmount += creditor.loanAmount,
+                        total_No_Of_Credits: profile.total_No_Of_Credits + 1,
+                     } }, 
+                    { new: true } // Options to return the updated document
+                  );
+                 
+        
+                // render page to inform user that account has been successfuly approved
+        
+                res.render("main/creditor/credit",{   
+                user,        
+                message: `
+                    <h3> Account Approval is pending </h3>
+                    <hr>
+                <h3>an agent will attend to you shortly🙂</h3>
+                <hr>
+                <h3>thank for using our service 🤝</h3>
+                `,
+                url: "/credit/dashboard",
+                buttonText:"exit"
+                }); // You may want to redirect to the "/credit/page" route to calculate the data if it's not available
+            }else{
+                res.redirect('/');
+            }
+        } catch (error) {
+            console.error('error verifying credit card', error);
+            res.redirect('/credit');
+        }
+
+    }else{
+        res.render("main/creditor/credit",{   
             user,        
             message: `
-                <h3> Account Approval is pending </h3>
+                <h3>Account is not verified,</h3>
                 <hr>
-            <h3>an agent will attend to you shortly🙂</h3>
+            <h3>please complete registration proceess </h3>
             <hr>
-            <h3>thank for using our service 🤝</h3>
+            <p>if registration already complete, please wait patiently for account to be verified </p>
+            <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
             `,
             url: "/credit/dashboard",
             buttonText:"exit"
-            }); // You may want to redirect to the "/credit/page" route to calculate the data if it's not available
-        }else{
-            res.redirect('/');
-        }
-    } catch (error) {
-        console.error('error verifying credit card', error);
-        res.redirect('/credit');
+        }); 
     }
+    
 
 
 });

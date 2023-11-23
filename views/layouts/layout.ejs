@@ -21,9 +21,6 @@
         <link href="/css/style.css" rel="stylesheet">
         <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
 
-       
-
-     
     </head>
 <body>
 <div class="wrapper-main">
@@ -74,6 +71,13 @@
                                 <a class="dropdown-item" href="/invest/dashboard">Investor dashboard</a>
                             </div>
                         </li>
+                        
+                        <% if (user.isVerified == false) { %>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="/verify" title="verification page">Complete registration</a>
+                            </li>
+                            
+                        <% } %>
                       <%}else{ %> 
 
                         <li class="nav-item">

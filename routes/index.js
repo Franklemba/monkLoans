@@ -50,6 +50,9 @@ router.get("/mmoney", ensureAuthenticated, async (req,res) => {
 
 router.post("/mmoney", ensureAuthenticated, async (req,res) => {
     const user = req.user;
+
+    if(user.isVerified == true){
+
     const {amount,location,agentService,serviceType}  = req.body;
     const momoService = await MomoService.findOne({ agentName: 'Jacob Mwanza'});
     const mmService = new MmService({ 
@@ -61,23 +64,46 @@ router.post("/mmoney", ensureAuthenticated, async (req,res) => {
         location,
       });
      
-     await mmService.save();
+    await mmService.save();
 
-        res.render("main/mmoney",{
-            user,
-            momoService,
+    res.render("main/mmoney",{
+        user,
+        momoService,
+        message: `
+        <h3>Agent order set</h3>
+        <hr>
+        <h3>${agentService} agent will attend to you shortly</h3>
+        <hr>
+        <h3>thank for using our service 🤝</h3>
+        `,
+        url: "/mmoney",
+        buttonText:"exit"
+    })
+
+    }else{
+        res.render("main/verificationPage",{   
+            user,        
             message: `
-            <h3>Agent order set</h3>
+                <h3>Account is not verified,</h3>
+                <hr>
+            <h3>please complete registration proceess </h3>
             <hr>
-            <h3>${agentService} agent will attend to you shortly</h3>
-            <hr>
-            <h3>thank for using our service 🤝</h3>
+            <p>if registration already complete, please wait patiently for account to be verified </p>
+            <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
             `,
-            url: "/mmoney",
+            url: "/verify",
             buttonText:"exit"
-        })
+        }); 
+    }
 })
 
+
+router.get('/verify', ensureAuthenticated, (req,res)=>{
+    const user = req.user;
+    res.render('main/verificationPage',{
+        user
+    })
+})
 
 
   //___________<MOBILE MONEY/>
