@@ -42,7 +42,6 @@ router.post("/signUp", async (req,res)=>{
             <h3>🎉 Welcome to MoakLoans! 🎉</h3>
         <h3>Your journey with us to explore financial opportunities begins now. 🚀</h3>
         <h3>Whether you're looking to secure a loan or make smart investments, you've come to the right place. 💼</h3>
-        <h3>At MoakLoans, we're dedicated to providing you with a safe🔒, seamless🤝, and swift financial experience.</h3>
         `,
       url: "/",
       buttonText:"Proceed",

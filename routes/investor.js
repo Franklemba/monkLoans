@@ -98,13 +98,13 @@ router.post('/deposit_fund', async (req,res) => {
       try {
   
           // if(calculatedInvestedData){
-  
-              const maturityDate = calculatedInvestedData.maturityDate;
-              const totalReturns = calculatedInvestedData.totalReturns;
-              const expectedReturns = calculatedInvestedData.expectedReturns;
-              const investmentAmount = calculatedInvestedData.investmentAmount;
-              const serviceFee = calculatedInvestedData.serviceFee;
-              const investmentType = calculatedInvestedData.investmentType;
+
+          const maturityDate = calculatedInvestedData.maturityDate;
+          const totalReturns = calculatedInvestedData.totalReturns;
+          const expectedReturns = calculatedInvestedData.expectedReturns;
+          const investmentAmount = calculatedInvestedData.investmentAmount;
+          const serviceFee = calculatedInvestedData.serviceFee;
+          const investmentType = calculatedInvestedData.investmentType;
   
         
           payload = {
