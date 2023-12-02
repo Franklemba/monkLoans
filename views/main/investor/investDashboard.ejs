@@ -107,10 +107,10 @@
     </div>
     
       <hr>
+      <% if (invest && invest.length > 0) { %>
   <p>Current Investments <i class="fas fa-arrow-down"></i> </p>
     <div class="about-main">
       <div class="row">
-        <% if (invest && invest.length > 0) { %>
 
           <% invest.forEach(function(investment) { %>
             
@@ -152,18 +152,9 @@
             </div>
               <%})%>
 
-        <% } else { %>
-          <div class="null">
-             <p>You've no investments lately</p>
-             
-             <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
-               <a href="/invest"><i class="fas fa-money-bill-wave"></i> Invest</a> 
-           </button>
-           
-          </div>
+        </div>
    <% } %>
 
-       </div>
       
 
   </div>
@@ -172,11 +163,10 @@
   <hr>
   <div class="about-main">
     <div class="row">
+      <% if (maturedInvestment && maturedInvestment.length > 0) {let num = 0 %>
       <div class="col-lg-6 transactionSection">
           <h5>Trasanctions History <i class="fas fa-arrow-down"></i></h5>
      
-           <% if (maturedInvestment && maturedInvestment.length > 0) { %>
-            <% let num = 0 %>
             <ul>
             <% maturedInvestment.forEach(function(Invested) { %>
                 <li id="transactionDropdownBlog" data-toggle="modal" data-target="#transact<%=num%>">
@@ -217,12 +207,10 @@
                 <%})%>
                 
               </ul>
-              <% } else { %>
-                  <p>No transactions available</p>
+                 
+                  
+                </div>
                 <% } %> 
-                           
-              
-        </div>
        
        
        <br>

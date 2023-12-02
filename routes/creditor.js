@@ -35,8 +35,8 @@ app.use(session({
 
 router.post("/page", ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true ,isApproved: true});
-    const unapprovedCredit = await Creditor.find({ creditorEmail: user.email, creditStatus: true, isApproved: false });
+    const credit = await Creditor.find({key:user._id, creditStatus: true ,isApproved: true});
+    const unapprovedCredit = await Creditor.find({ key: user._id, creditStatus: true, isApproved: false });
 
     if(credit.length > 0){
         res.render("main/creditor/credit",{
@@ -132,7 +132,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
         try {
             const {campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber}  = req.body;
             const calculatedData = req.session.calculatedData;
-            const profile = await Profile.findOne({ userEmail: user.email});
+            const profile = await Profile.findOne({ key: user._id});
             console.log(calculatedData)
             
             if (calculatedData) {     // when API is intergrated, this condition should also verify the bank details
@@ -148,7 +148,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
             // ___________SAVING CREDITORS DETAILS __________//
         
                 const creditor = new Creditor({ 
-                    creditorEmail: user.email,
+                    key: user._id,
                     loanAmount, 
                     loanTerm ,
                     serviceFee,
@@ -164,7 +164,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
                  
                  await creditor.save();
                  await Profile.findOneAndUpdate(
-                    { userEmail: user.email}, // Query for the document to update
+                    { key: user._id}, // Query for the document to update
                     { $set: { 
                         totalCreditedAmount: profile.totalCreditedAmount += creditor.loanAmount,
                         total_No_Of_Credits: profile.total_No_Of_Credits + 1,
@@ -217,8 +217,8 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
 
 router.get('/dashboard', ensureAuthenticated, async (req,res) => {
      const user = req.user;
-     const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true, isApproved: true});
-     const repayedLoan = await Creditor.find({ creditorEmail: user.email, creditStatus: false, isApproved: true })
+     const credit = await Creditor.find({key: user._id, creditStatus: true, isApproved: true});
+     const repayedLoan = await Creditor.find({ key: user._id, creditStatus: false, isApproved: true })
      .sort({ createdAt: -1 });
 
      res.render("main/creditor/creditDashboard", {
@@ -239,9 +239,9 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
 
 
 
-    const repayedLoan = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const repayedLoan = await Creditor.find({key: user._id, creditStatus: true });
     const filter = { creditorEmail: user.email, creditStatus: true };
-    const credit = await Creditor.find({creditorEmail:user.email, creditStatus: true });
+    const credit = await Creditor.find({key: user._id, creditStatus: true });
     const update = { 
         creditStatus: false,
         nextPaymentDate: formattedDate

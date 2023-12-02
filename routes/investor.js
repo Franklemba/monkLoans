@@ -159,7 +159,7 @@ router.post('/deposit_fund', async (req,res) => {
                      // ___________SAVING INVESTOR'S DETAILS __________//
   
                         const investor = new Investor({
-                          investorEmail: user.email,
+                          key: user._id,
                           investmentAmount,
                           serviceFee,
                           expectedReturns,
@@ -347,8 +347,8 @@ router.get('/verify/:mechRef/:token', async (req, res) => {
 // ---------------------------Debit dashboard route
 router.get('/dashboard', async (req,res) => {
     const user = req.user;  
-    const invest = await Investor.find({investorEmail:user.email, investmentStatus: true });
-    const maturedInvestment = await Investor.find({investorEmail:user.email, investmentStatus: false });
+    const invest = await Investor.find({key: user._id, investmentStatus: true });
+    const maturedInvestment = await Investor.find({key: user._id, investmentStatus: false });
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split('T')[0];
 
@@ -370,7 +370,7 @@ router.get('/dashboard', async (req,res) => {
 const updateInvestors = async (user, formattedDate ) => {
 
     const investors = await Investor.find({
-        investorEmail: user.email,
+        key: user._id,
         investmentStatus: true,
         maturityDate: { $eq: formattedDate }
     });
@@ -393,25 +393,6 @@ const updateInvestors = async (user, formattedDate ) => {
         console.log('No investors found for the specified date.');
     }
 };
-
-
-  // const verifyTransaction = async (merchantReference, token) => {
-  //   const apiUrl = `https://live.sparco.io/gateway/api/v1/transaction/query?merchantReference=${merchantReference}`;
-    
-  //   try {
-  //     const response = await fetch(apiUrl, {
-  //       method: 'GET',
-  //       headers: {
-  //         'token': token,
-  //       },
-  //     });
-  
-  //     const result = await response.json();
-  //     return result;
-  //   } catch (error) {
-  //     throw error;
-  //   }
-  // };
 
 
 

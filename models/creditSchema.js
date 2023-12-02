@@ -4,7 +4,7 @@ if(mongoose.connection.models['Creditor']){
 }
 
 const creditSchema = new mongoose.Schema({
-  creditorEmail: {
+  key: {
     type: String,
     required: true,
   },

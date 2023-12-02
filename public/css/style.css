@@ -2183,3 +2183,7 @@ textarea {
 .bh {
 	display: none; /* Hide the boarding house elements by default */
 }
+
+.error-message{
+	color: red;
+}

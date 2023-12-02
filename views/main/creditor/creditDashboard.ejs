@@ -109,10 +109,10 @@
          
          <br>
          <br>
+         <% if (repayedLoan && repayedLoan.length > 0) { %>
          <div class="col-lg-6 transactionSection">
             <h5>Trasactions</h5>
             
-            <% if (repayedLoan && repayedLoan.length > 0) { %>
               <% let num = 0 %>
               <ul>
               <% repayedLoan.forEach(function(loan) { %>
@@ -152,12 +152,9 @@
                   <% num++ %>
                   <%})%>
                 </ul>
-                
-                <% } else { %>
-                    <p>No transactions available</p>
+                 
+                  </div>
                   <% } %>             
-               
-         </div>
           
         </div>
         <!-- /.row -->
@@ -165,15 +162,6 @@
     </div>
  </div>	
 
-<!-- 
-                 <button id="openModal">Open Modal</button>
-                            <div id="myModal" class="miniModal">
-                                <div class="miniModal-content">
-                                    <span id="closeModal" class="close">&times;</span>
-                                    <h2>Popup Modal</h2>
-                                    <p>This is a simple jQuery-based modal.</p>
-                                </div>
-                            </div> -->
 
 
 

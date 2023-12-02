@@ -5,7 +5,7 @@ if(mongoose.connection.models['Profile']){
 
 const profileSchema = new mongoose.Schema({
 
-  userEmail: {
+  key: {
     type: String,
     required: true,
   },

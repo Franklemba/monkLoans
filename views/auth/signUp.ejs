@@ -14,20 +14,18 @@
                   <h5 class="modal-title" id="investmentModalLabel">Create Account</h5>
                 </div>
                 <div class="modal-body">
-                  <form action="/auth/signUp" method="post">
+                  <form action="/auth/signUp" id="form" method="post">
                     <hr>
+                    
                     <div class="mb-3">
                       <label for="firstName" class="form-label">First Name</label>
-                      <input type="text" class="form-control" id="firstName" name="firstName" placeholder="first name" required>
+                      <input type="text" class="form-control" id="firstName" name="firstName" pattern="[A-Za-z]+" oninput="this.value = this.value.replace(/[0-9]/g, '');" title="Please enter only letters" placeholder="first name" required>
                     </div>
                     <div class="mb-3">
                       <label for="lastName" class="form-label">Last Name</label>
-                      <input type="text" class="form-control" id="lastName" name="lastName" placeholder="last name" required>
+                      <input type="text" class="form-control" id="lastName" name="lastName" pattern="[A-Za-z]+" oninput="this.value = this.value.replace(/[0-9]/g, '');" title="Please enter only letters" placeholder="last name" required>
                     </div>
-                    <!-- <div class="mb-3">
-                      <label for="nrc" class="form-label">NRC</label>
-                      <input type="text" class="form-control" id="nrc" name="nrc" placeholder="111111/22/3" required>
-                    </div> -->
+                   
                     <div class="mb-3">
                       <label for="school" class="form-label">School</label><br>
                       <select name="school" id="">
@@ -36,16 +34,15 @@
                     </div>
                     <div class="mb-3">
                       <label for="studentNumber" class="form-label">Student Number</label>
-                      <input type="number" class="form-control" id="studentNumber" name="studentNumber" placeholder="student number" required>
+                      <input type="number" class="form-control" id="studentNumber" oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="studentNumber" placeholder="student number" required>
                     </div>
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
                       <input type="email" class="form-control" id="email" name="email" placeholder="email" required>
                     </div>
                     <div class="mb-3">
-                      <!-- <label for="phoneNumber" class="form-label">Phone number <small><i>(preferably mobiley money number registered under your name)</i></small></label> -->
                       <label for="phoneNumber" class="form-label">Phone number </label>
-                      <input type="text" class="form-control" id="phoneNumber" name="phoneNumber" placeholder="phone number" required>
+                      <input type="text" class="form-control" id="phoneNumber" oninput="this.value = this.value.replace(/[^0-9]/g, '');" name="phoneNumber" placeholder="phone number" required>
                     </div>
                     
                     <hr>
@@ -59,14 +56,10 @@
                     </div>
                     <button type="submit" class="btn btn-primary">Submit</button>
                     <hr>
-                   <div class="mb-3">
-                     <span> already have an account? <a href="/auth/login" style="color: blue;">login</a></span> 
-                    </div>
                   </form>
-
-                  <!-- <div class="g-signin2" data-onsuccess="onSignIn">
-                     <button type="button">sign in with google</button>
-                  </div> -->
+                  <div class="mb-3">
+                    <span> already have an account? <a href="/auth/login" style="color: blue;">login</a></span> 
+                   </div>
                 </div>
             
               </div>
@@ -74,69 +67,75 @@
           </div>
           
         </div>
-        <!-- /.row -->
     </div>
  </div>	
 
 
-
-
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
  <script>
-   $(document).ready(function () {
-     // Target the form by its ID
-     const $form = $('#yourFormId');
- 
-     $form.on('submit', function (e) {
-       e.preventDefault();
- 
-       // Validate form fields
-       const firstName = $('#firstName').val();
-       const lastName = $('#lastName').val();
-       const nrc = $('#nrc').val();
-       const studentNumber = $('#studentNumber').val();
-       const email = $('#email').val();
-       const phoneNumber = $('#phoneNumber').val();
-       const password = $('#password').val();
-       const confirmedPassword = $('#confirmedPassword').val();
- 
-       // Basic validation example (you can customize these checks)
-       if (firstName === '') {
-         alert('First Name is required.');
-         return;
-       }
-       if (lastName === '') {
-         alert('Last Name is required.');
-         return;
-       }
-       if (nrc === '') {
-         alert('NRC is required.');
-         return;
-       }
-       if (studentNumber === '') {
-         alert('Student Number is required.');
-         return;
-       }
-       if (email === '') {
-         alert('Email is required.');
-         return;
-       }
-       if (phoneNumber === '') {
-         alert('Phone Number is required.');
-         return;
-       }
-       if (password === '') {
-         alert('Password is required.');
-         return;
-       }
-       if (password !== confirmedPassword) {
-         alert('Passwords do not match.');
-         return;
-       }
- 
-       // If all fields are valid, you can submit the form
-       alert('Form submitted successfully.');
-       $form[0].reset(); // Optionally, reset the form
-     });
-   });
- </script>
- 
+  $(document).ready(function () {
+    const $form = $('#form');
+
+    $form.on('submit', function (e) {
+      e.preventDefault();
+
+      // Clear existing error messages
+      $('.error-message').remove();
+
+      const firstName = $('#firstName').val();
+      const lastName = $('#lastName').val();
+      const studentNumber = $('#studentNumber').val();
+      const email = $('#email').val();
+      const phoneNumber = $('#phoneNumber').val();
+      const password = $('#password').val();
+      const confirmedPassword = $('#confirmedPassword').val();
+      const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+      if (firstName === '' || firstName.length <= 2) {
+        displayErrorMessage('First Name must be at least 3 characters.');
+        return;
+      }
+      if (lastName === '') {
+        displayErrorMessage('Last name must be at least 3 characters.');
+        return;
+      }
+      if (studentNumber === '' || studentNumber.length != 8) {
+        displayErrorMessage('invalid student number');
+        return;
+      }
+      if (email === '') {
+        displayErrorMessage('Email is required.');
+        return;
+      }
+      if (phoneNumber === '' || phoneNumber.length != 10 ) {
+        displayErrorMessage('invalid phone number');
+        return;
+      }
+      if (password === '') {
+        displayErrorMessage('Password is required.');
+        return;
+      }
+
+      if (!passwordPattern.test(password)) {
+        displayErrorMessage('Password must have at least 8 characters, including one uppercase letter, one lowercase letter, and one digit.');
+        return;
+      } 
+      if (password !== confirmedPassword) {
+        displayErrorMessage('Passwords do not match.');
+        return;
+      }
+
+      // If all fields are valid, you can submit the form
+      alert('Form submitted successfully.');
+      $form[0].reset(); // Optionally, reset the form
+    });
+
+    function displayErrorMessage(message) {
+      // Create a new div for the error message
+      const errorDiv = $('<div>').addClass('error-message').text(message);
+
+      // Insert the error message after the form
+      $form.after(errorDiv);
+    }
+  });
+</script>

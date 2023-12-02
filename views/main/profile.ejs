@@ -3,54 +3,63 @@
     <div class="about-main">
         <div class="row">
          <div class="col-lg-6  container">
-           <div class="modal-dialog ">
-             <div class="modal-content">
-               <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">User Details</h5>
-                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-               
-               </div>
-               <div class="modal-body">
-                 <!-- <form action="/credit/card" method="post"> -->
-                   <div class="modalBottom profile">
+          <div class="modal-dialog ">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loanModalLabel">User Details</h5>
+              </div>
+              <div class="modal-body">
+                <form action="/profile/update" method="post">
+                  <div class="modalBottom profile">
                     <div class="mb-3">
-                        <label for="name" class="form-label">Name</label>
-                        <input type="text" class="form-control" id="name" name="name" value="<%=user.firstName%> <%=user.lastName%>"  disabled>
-                      </div>
-                      <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" disabled>
-                      </div>
-                      <div class="mb-3">
-                        <label for="studentNumber" class="form-label">Student Number</label>
-                        <input type="number" class="form-control" id="studentNumber" name="studentNumber" value="<%=user.studentNumber%>" disabled>
-                      </div>
+                      <label for="name" class="form-label">First Name</label>
+                      <input type="text" class="form-control" id="name" name="firstName" value="<%=user.firstName%>" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Last Name</label>
+                      <input type="text" class="form-control" id="name" name="lastName" value="<%=user.lastName%>" disabled>
+                    </div>
+                    <div class="mb-3">
+                      <label for="email" class="form-label">Email</label>
+                      <input type="email" class="form-control" id="email" name="email" value="<%=user.email%>" disabled>
+                    </div>
+                    <!-- Add other input fields as needed -->
+                    <div class="mb-3">
+                      <label for="studentNumber" class="form-label">Student Number</label>
+                      <input type="number" class="form-control" id="studentNumber" name="studentNumber" value="<%=user.studentNumber%>" disabled>
+                    </div>
+ 
+                    <div class="mb-3">
+                      <label for="number" class="form-label">Phone Number</label>
+                      <input type="text" class="form-control" id="number" name="number" value="<%=user.phoneNumber%> " disabled>
+                    </div>
+                 <div class="mb-3">
+                   <label for="school" class="form-label">School </label>
+                   <input type="text" class="form-control" id="school" name="school" value="<%=user.school%>" disabled>
+                 </div>
+                 <div class="mb-3">
+                   <label for="date" class="form-label">Date Joined</label>
+                   <input type="text" class="form-control" id="date" name="date" value="<%= new Date(user.createdAt).toLocaleDateString('en-US') %>" disabled>
+                 </div>
+          
+                 <div class="modal-footer" id="updateButtonSection">
+                  <button type="button" class="btn btn-secondary" id="updateDetailsBtn">Update Details</button>
+                </div>
+                <div class="modal-footer" id="submitSection" style="display: none;">
 
-                      <div class="mb-3">
-                        <label for="number" class="form-label">Phone Number</label>
-                        <input type="text" class="form-control" id="number" name="number" value="<%=user.phoneNumber%> " disabled>
-                      </div>
-                   <div class="mb-3">
-                     <label for="school" class="form-label">School </label>
-                     <input type="text" class="form-control" id="school" name="school" value="<%=user.school%>" disabled>
-                   </div>
-                   <div class="mb-3">
-                     <label for="date" class="form-label">Date Joined</label>
-                     <input type="text" class="form-control" id="date" name="date" value="<%= new Date(user.createdAt).toLocaleDateString('en-US') %>" disabled>
-                   </div>
-                   
-                  
-                  
+                  <button type="button" id="backSection" class="btn btn-primary">Back</button>
+
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
                   </div>
-                 <!-- </form> -->
-               </div>
-               <div class="modal-footer">
-                 <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button> -->
-               </div>
-             </div>
-           </div>
+                </form>
+              </div>
+            </div>
+          </div>
          </div>
          
+
+
          <br>
          <br>
          <div class="col-lg-6">
@@ -201,3 +210,24 @@
 </script>
 
   
+<script>
+  $(document).ready(function () {
+    $('#updateDetailsBtn').on('click', function () {
+      // Enable all input fields
+      $('.modalBottom.profile input').prop('disabled', false);
+
+      // Show the submit button and hide the update button
+      $('#updateButtonSection').hide();
+      $('#submitSection').show();
+    });
+
+    $('#backSection').on('click', function () {
+      // Enable all input fields
+      $('.modalBottom.profile input').prop('disabled', true);
+
+      // Show the submit button and hide the update button
+      $('#updateButtonSection').show();
+      $('#submitSection').hide();
+    });
+  });
+</script>

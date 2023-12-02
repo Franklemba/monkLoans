@@ -6,6 +6,7 @@ const MmService = require('../models/mmServiceSchema');
 const MomoService = require('../models/mmobileSchema');
 const Investor = require('../models/investSchema');
 const Creditor = require('../models/creditSchema');
+const User = require('../models/userSchema');
 
 const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
@@ -27,13 +28,43 @@ router.get("/", (req,res) => {
 // profile page route
 router.get("/profile",  ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const creditor = await Creditor.find({ creditorEmail: user.email});
-    const investor = await Investor.find({ investorEmail: user.email});
+    const creditor = await Creditor.find({ key: user._id});
+    const investor = await Investor.find({ key: user._id});
     res.render("main/profile",{
         user,
         creditor,
         investor
     })
+})
+
+router.post('/profile/update', async (req, res) =>{
+    const user =  req.user;
+    const {firstName, lastName, email, studentNumber, phoneNumber} = req.body;
+
+    await User.findOneAndUpdate(
+        { _id: user._id}, // Query for the document to update
+        { $set: { 
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            studentNumber: studentNumber,
+            phoneNumber: phoneNumber
+         }}, 
+        { new: true } // Options to return the updated document
+      );
+
+      req.session.destroy((err) => {
+        if (err) {
+          console.error('Error destroying session:', err);
+          // Handle error as needed
+          res.status(500).send('Internal Server Error');
+        } else {
+          // Redirect the user to the login or home page
+          res.redirect('/'); // You can replace '/' with the desired destination
+        }
+      });
+      
+
 })
 
   //___________  <MOBILE MONEY>

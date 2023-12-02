@@ -52,8 +52,13 @@ app.use(passport.session());
 
 app.use('/',homeRouter );
 app.use('/auth',authRouter);
-app.use('/credit', creditorRouter)
-app.use('/invest',ensureAuthenticated, investorRouter)
+app.use('/credit', creditorRouter);
+app.use('/invest',ensureAuthenticated, investorRouter);
+
+app.use('*', (req, res) => {
+    // Redirect to the main page or any desired page
+    res.redirect('/'); // You can replace '/' with the URL of your main page
+});
 
 
 

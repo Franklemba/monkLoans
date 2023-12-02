@@ -4,7 +4,7 @@ if(mongoose.connection.models['Investor']){
 }
 
 const investSchema = new mongoose.Schema({
-  investorEmail: {
+  key: {
     type: String,
     required: true,
   },
