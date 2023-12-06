@@ -15,21 +15,20 @@
         </div>
          <div class="col-lg-6  container">
            <div class="modal-dialog ">
-             <div class="modal-content">
+             <form action="/credit/page" method="post">
+            
+             <div class="modal-content" id="loan">
+              
                <div class="modal-header">
                  <h5 class="modal-title" id="loanModalLabel">Get a Loan Upto K500</h5>
-                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
                </div>
                <div class="modal-body">
-                 <form action="/credit/page" method="post">
-                  <!-- <hr> -->
                    <div class="mb-3">
                      <label for="loanAmount" class="form-label">How much would you like?</label>
                      <input type="number" class="form-control" id="loanAmount" name="loanAmount" value="200" min="100" max="500">
                    </div>
                    <div class="mb-3">
                      <label for="loanTerm" class="form-label">Tenure (weeks):</label>
-                     <!-- <input type="number" class="form-control" id="loanTerm" name="loanTerm" value="1" min="1" max="4"> -->
                      <select name="loanTerm" id="loanTerm">
                         <option value="1">1 week</option>
                         <option value="2">2 weeks</option>
@@ -59,14 +58,65 @@
                      <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="2023-10-31" disabled>
                    </div>
                    <hr>
-                   <button type="submit" class="btn btn-primary">APPLY</button>
+                   <button type="button" class="btn btn-primary" id="nextbtn">NEXT</button>
 
                    
                   </div>
-                 </form>
+                 <!-- </form> -->
                </div>
                
              </div>
+
+             <div class="modal-content" id="collateralDetails">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loanModalLabel"><span class="fas fa-cog" id="backBtn"></span> Details</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+              </div>
+              <div class="modal-body">
+                <!-- <form action="/credit/card" method="post"> -->
+                 <!-- <hr> -->
+                 <div class="mb-3">
+                   <label for="cardholderName">Location</label>
+                   <select name="residence" id="locationSelector">
+                       <option value="campus">Campus</option>
+                       <option value="bh">Boarding house</option>
+                   </select>
+               </div>
+                      
+                   <div class="campus mb-3">
+                     <label for="roomNumber">Room Number</label>
+                     <input type="text" id="roomNumber" name="campusLocation" placeholder="e.g nmh201" required>
+                 </div>
+             
+                 <div class="bh mb-3">
+                     <label for="bhLocation">Boarding house location</label>
+                     <textarea name="bhLocation" id="bhLocation" placeholder="e.g. kopa street, along bla bla, plot No. 2310, room number 5, etc." required></textarea>
+                 </div>
+
+                  <div class="mb-3">
+                   <label for="roomMatePhoneNumber">Roommate phone number</label>
+                   <input type="text" id="roomMatePhoneNumber" name="roomMatePhoneNumber" required>
+                  </div>
+                  <div class="mb-3">
+                   <label for="collateralItem">Collateral Item Description</label>
+                   <textarea name="collateralItem" id="" placeholder="e.g. iphone 6, 32gb storage, black color, etc."></textarea>
+                  </div>
+                  <div class="mb-3">
+                   <label for="otherPhoneNumber">Other phone number(Optional)</label>
+                   <input type="text" id="otherPhoneNumber" name="otherPhoneNumber" >
+                  </div>
+                  
+                  <hr>
+
+                  <button type="submit" class="btn btn-primary">APPLY</button>
+
+                  
+                </div>
+                
+              </div>
+
+            </form>
+             
            </div>
          </div>
         </div>
@@ -167,5 +217,51 @@
 
     // Calculate repayment on page load
     calculateRepayment();
+
+
+    
+    $("#collateralDetails").hide();
+   
+   // Handle nextBtn click event
+   $("#nextbtn").click(function () {
+     // Fade out senderData div
+     $("#loan").fadeOut("slow", function () {
+       // Once fadeOut is complete, fade in#collateralDetails div
+       $("#collateralDetails").fadeIn("slow");
+     });
+
+   });
+
+   $("#backBtn").click(function(){
+     $('.error-message').remove();
+     $("#collateralDetails").fadeOut("slow", function () {
+       // Once fadeOut is complete, fade in#collateralDetails div
+       $("#loan").fadeIn("slow");
+     });
+   })
+
+
+
+   updateVisibilityAndRequired();
+
+// Attach an event handler to the location selector
+$('#locationSelector').on('change', function() {
+    updateVisibilityAndRequired();
+});
+
+// Function to update the visibility and required attribute based on the selection
+function updateVisibilityAndRequired() {
+    var selectedLocation = $('#locationSelector').val();
+
+    if (selectedLocation === 'campus') {
+        $('.campus').show().find('input').prop('required', true);
+        $('.bh').hide().find('textarea').prop('required', false);
+    } else if (selectedLocation === 'bh') {
+        $('.campus').hide().find('input').prop('required', false);
+        $('.bh').show().find('textarea').prop('required', true);
+    }
+}
+
+
   });
 </script>

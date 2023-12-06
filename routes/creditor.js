@@ -88,7 +88,7 @@ router.post("/page", ensureAuthenticated, async (req,res) => {
  
     }else{
 
-            const { loanAmount,loanTerm } = req.body;
+            const { loanAmount,loanTerm, campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber} = req.body;
 
             const interestRates = {
                 1: 0.1, // 5% for a 1-week term
@@ -113,41 +113,72 @@ router.post("/page", ensureAuthenticated, async (req,res) => {
         const repaymentDate = nextPaymentDate.toISOString().substr(0, 10);
         const amountReceived = (loanAmount - serviceFee).toFixed(2);
     
-        
-        req.session.calculatedData = {
-            repaymentDate,
-            totalRepayment,
-            amountReceived,
-            loanTerm,
-            loanAmount: parseFloat(loanAmount),
-            serviceFee
-        };
 
-       await res.render("main/creditor/creditPage",{
-            user:req.user,
-            repaymentDate,
-            totalRepayment,
-            amountReceived,
-            loanTerm
-        })
+        if(user.isVerified == true){
+
+            try {
+             
+                // ___________SAVING CREDITORS DETAILS __________//
+            
+                    const creditor = new Creditor({ 
+                        key: user._id,
+                        loanAmount, 
+                        loanTerm ,
+                        serviceFee,
+                        amountReceived,
+                        repaymentAmount:totalRepayment,
+                        nextPaymentDate:repaymentDate,
+                        location: campusLocation +''+bhLocation,
+                        roomMatePhoneNumber,
+                        itemDescription : collateralItem,
+                        otherPhoneNumber
+                      });
+                     
+                     await creditor.save();
+                    // render page to inform user that account has been successfuly approved
+            
+                    res.render("main/creditor/credit",{   
+                    user,        
+                    message: `
+                        <h3> Account Approval is pending </h3>
+                        <hr>
+                    <h3>an agent will attend to you shortly🙂</h3>
+                    <hr>
+                    <h3>thank for using our service 🤝</h3>
+                    `,
+                    url: "/credit/dashboard",
+                    buttonText:"exit"
+                    }); // You may want to redirect to the "/credit/page" route to calculate the data if it's not available
+    
+            } catch (error) {
+                console.error('error verifying credit card', error);
+                res.redirect('/credit');
+            }
+    
+        }else{
+            res.render("main/creditor/credit",{   
+                user,        
+                message: `
+                    <h3>Account is not verified,</h3>
+                    <hr>
+                <h3>please complete registration proceess </h3>
+                <hr>
+                <p>if registration already complete, please wait patiently for account to be verified </p>
+                <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
+                `,
+                url: "/auth/logout",
+                buttonText:"exit"
+            }); 
+        }
+
+   
+
       }
     }
    
 });
 
-router.get("/card", ensureAuthenticated, (req, res) => {
 
-    const calculatedData = req.session.calculatedData;
-    if(calculatedData){
-        res.render("main/creditor/creditCard", {
-            user: req.user
-        });
-    }else{
-        res.redirect('/');
-    }
-     
-   
-}); 
     //  save loan details to datatbase    
 router.post("/card", ensureAuthenticated, async (req, res) => {
     // Retrieve the calculated data from the session
@@ -170,7 +201,6 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
                 const loanAmount = calculatedData.loanAmount;
                 const serviceFee = calculatedData.serviceFee;
     
-        
             // ___________SAVING CREDITORS DETAILS __________//
         
                 const creditor = new Creditor({ 
@@ -188,8 +218,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
                   });
                  
                  await creditor.save();
-                
-        
+          
                 // render page to inform user that account has been successfuly approved
         
                 res.render("main/creditor/credit",{   
