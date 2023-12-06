@@ -11,7 +11,7 @@ const { use } = require("./auth");
 const jwt = require("jsonwebtoken");
 // const { uuid } = require("uuidv4");
 const uuid = require('crypto').randomBytes(16).toString('hex');
-
+const { ensureAuthenticated} = require('../config/auth');
 const Investor = require('../models/investSchema');
 const axios = require('axios');
 
@@ -39,7 +39,7 @@ router.get("/",  (req,res) => {
 
 
 
-router.post("/page", async (req,res) => {
+router.post("/page", ensureAuthenticated, async (req,res) => {
     const user = req.user;
     const {investmentAmount,investmentType}  = req.body;
     
@@ -87,11 +87,36 @@ router.post("/page", async (req,res) => {
 })
 
 
-router.post('/deposit_fund', async (req,res) => {
+router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
 
     const user = req.user;  
     const calculatedInvestedData = req.session.calculatedInvestedData;
     const {newMMnumber} = req.body;
+
+
+    // const maturityDate = calculatedInvestedData.maturityDate;
+    // const totalReturns = calculatedInvestedData.totalReturns;
+    // const expectedReturns = calculatedInvestedData.expectedReturns;
+    // const investmentAmount = calculatedInvestedData.investmentAmount;
+    // const serviceFee = calculatedInvestedData.serviceFee;
+    // const investmentType = calculatedInvestedData.investmentType;
+
+    // const investor = new Investor({
+    //                 key: user._id,
+    //                 investmentAmount,
+    //                 serviceFee,
+    //                 expectedReturns,
+    //                 totalReturns,
+    //                 maturityDate,
+    //                 investmentType,
+    //                 investmentStatus: true,
+    //                 transactionReference: "responseData.transactionReference",
+    //                 transactionToken: "encoded_payload"
+    //             });
+
+    //         await investor.save();
+
+    
 
     if(user.isVerified == true){
 
@@ -185,7 +210,8 @@ router.post('/deposit_fund', async (req,res) => {
                               
                               <h3>please wait for transaction</h3>
                               `,
-                              url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
+                              // url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
+                              url: `/invest`,
                               buttonText:"verify"
                       }); //
                  
@@ -280,7 +306,7 @@ router.post('/deposit_fund', async (req,res) => {
 
 
 // ---------------------------TXN verification route
-router.get('/verify/:mechRef/:token', async (req, res) => {
+router.get('/verify/:mechRef/:token', ensureAuthenticated, async (req, res) => {
   const token = req.params.token;
   const mechRef = req.params.mechRef;
   const user = req.user;
@@ -345,7 +371,7 @@ router.get('/verify/:mechRef/:token', async (req, res) => {
 });
 
 // ---------------------------Debit dashboard route
-router.get('/dashboard', async (req,res) => {
+router.get('/dashboard', ensureAuthenticated, async (req,res) => {
     const user = req.user;  
     const invest = await Investor.find({key: user._id, investmentStatus: true });
     const maturedInvestment = await Investor.find({key: user._id, investmentStatus: false });

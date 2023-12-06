@@ -11,11 +11,14 @@
         <div class="col-lg-6  container">
             <div class="modal-dialog">
               <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header d-flex flex-column">
                   <h5 class="modal-title" id="investmentModalLabel">Sign in</h5>
                 </div>
                 <div class="modal-body">
                   <form action="/auth/login" method="post" id="loginForm">
+                    <% if ( incorrectCreditials) { %>
+                        <p style="color: red;"><%=errorMessage%></p>
+                  <%  } %>
 
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>

@@ -93,41 +93,31 @@
 
       if (firstName === '' || firstName.length <= 2) {
         displayErrorMessage('First Name must be at least 3 characters.');
-        return;
       }
-      if (lastName === '') {
+      if (lastName === '' || lastName.length <= 2) {
         displayErrorMessage('Last name must be at least 3 characters.');
-        return;
       }
-      if (studentNumber === '' || studentNumber.length != 8) {
-        displayErrorMessage('invalid student number');
-        return;
+      if (studentNumber === '' || studentNumber.length !== 8) {
+        displayErrorMessage('Invalid student number.');
       }
       if (email === '') {
         displayErrorMessage('Email is required.');
-        return;
       }
-      if (phoneNumber === '' || phoneNumber.length != 10 ) {
-        displayErrorMessage('invalid phone number');
-        return;
+      if (phoneNumber === '' || phoneNumber.length !== 10) {
+        displayErrorMessage('Invalid phone number.');
       }
       if (password === '') {
         displayErrorMessage('Password is required.');
-        return;
-      }
-
-      if (!passwordPattern.test(password)) {
-        displayErrorMessage('Password must have at least 8 characters, including one uppercase letter, one lowercase letter, and one digit.');
-        return;
-      } 
-      if (password !== confirmedPassword) {
+      } else if (password !== confirmedPassword) {
         displayErrorMessage('Passwords do not match.');
-        return;
       }
-
-      // If all fields are valid, you can submit the form
-      alert('Form submitted successfully.');
-      $form[0].reset(); // Optionally, reset the form
+      
+      // If there are no error messages, submit the form
+      if ($('.error-message').length === 0) {
+        // Perform any additional actions or AJAX submission here if needed
+        $form[0].submit(); // Submit the form
+       
+      }
     });
 
     function displayErrorMessage(message) {
@@ -139,3 +129,4 @@
     }
   });
 </script>
+

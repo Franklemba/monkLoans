@@ -27,25 +27,48 @@
                           <label for="amountReceived" class="form-label">Amount You Received</label>
                           <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=credit[0].amountReceived%>" disabled>
                       </div>
-                      <div class="mb-3">
-                        <label for="repaymentAmount" class="form-label">Repayment Amount</label>
-                        <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=credit[0].repaymentAmount%>" disabled>
-                      </div>
+                      <% if(credit[0].penaltyFee > 0){ %>
+                        <hr>
+                        <p><i>Please repay your loan to reduce extra charges. </i>😒</p>
+                        <div class="mb-3">
+                          <label for="repaymentAmount" class="form-label" style="color: crimson; text-decoration: line-through;">Repayment Amount</label>
+                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" style="color: crimson; text-decoration: line-through;" value="K<%=credit[0].repaymentAmount%>" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="nextPaymentDate" class="form-label" style="color: crimson; text-decoration: line-through;">Repayment Date</label>
+                          <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" style="color: crimson; text-decoration: line-through;" value="<%=credit[0].nextPaymentDate%>" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="repaymentAmount" class="form-label">Penalty Charge:</label>
+                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=Math.round(credit[0].penaltyFee)%>" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="nextPaymentDate" class="form-label">New Repayment Amount:</label>
+                          <input type="text" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="K<%=credit[0].repaymentAmount - credit[0].penaltyFee %>" disabled>
+                        </div>
+                        <hr>
+                      <% }else{ %>
+                        <div class="mb-3">
+                          <label for="repaymentAmount" class="form-label">Repayment Amount</label>
+                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=credit[0].repaymentAmount%>" disabled>
+                        </div>
+                        <div class="mb-3">
+                          <label for="nextPaymentDate" class="form-label d-flex flex-column">Repayment Date <i style="font-size: xx-small; color: blue;">(<%=Math.round((credit[0].penaltyFee) / (credit[0].loanAmount * 0.01)).toFixed(0)%> days left)</i></label>
+                          <input type="text" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=credit[0].nextPaymentDate%>" disabled>
+                        </div>
+                      <% } %>
+                      
                       <div class="mb-3">
                           <label for="period" class="form-label">Tenure</label>
                           <input type="text" class="form-control" id="period" name="period" value="<%=credit[0].loanTerm%> <%= credit[0].loanTerm === 1 ? 'week' : 'weeks' %>" disabled>
                       </div>
                       <div class="mb-3">
                         <label for="createdAt" class="form-label">Date Disbursed</label>
-                          <input type="text" class="form-control" id="createdAt" name="createdAt" value="<%=credit[0].createdAt.toLocaleDateString('en-US')%>" disabled>
+                          <input type="text" class="form-control" id="createdAt" name="createdAt" value="<%=credit[0].createdAt.toLocaleDateString('en-GB')%>" disabled>
                       </div>
                       <div class="mb-3">
-                        <label for="nextPaymentDate" class="form-label">Repayment Date</label>
-                        <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=credit[0].nextPaymentDate%>" disabled>
-                      </div>
-                      <div class="mb-3">
-                        <label for="creditStatus" class="form-label">Status</label>
-                        <input type="text" class="form-control" id="creditStatus" name="creditStatus" value="<%= credit[0].creditStatus === true ? 'unpaid' : 'paid' %>" disabled>
+                        <label for="isPaid" class="form-label">Status</label>
+                        <input type="text" class="form-control" id="isPaid" name="isPaid" value="<%= credit[0].isPaid === true ? 'paid' : 'unpaid' %>" disabled>
                       </div>
                         <hr>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal">MAKE PAYMENT</button>
@@ -137,7 +160,7 @@
                               <p>Amount you received: <span><strong>K<%=loan.amountReceived%></strong></span></p>
                               <p>Amount payed: <span><strong>K<%=loan.repaymentAmount%></strong></span></p>
                               <p>Date payed: <span><strong><%=loan.nextPaymentDate%></strong></span></p>
-                              <p>Status: <span><strong><%= loan.creditStatus === true ? 'unpaid' : 'paid' %></strong></span></p>
+                              <p>Status: <span><strong><%= loan.isPaid === true ? 'paid' : 'unpaid' %></strong></span></p>
 
                             </div>
 

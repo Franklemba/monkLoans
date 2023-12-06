@@ -49,9 +49,15 @@ const creditSchema = new mongoose.Schema({
     type: String,
     required: false
   },
-  creditStatus:{
+  penaltyFee:{
+    type: Number,
+    required: false,
+    default: 0
+  },
+  isPaid:{
     type: Boolean,
     required: true,
+    default: false
   },
   isApproved: {
      type: Boolean,

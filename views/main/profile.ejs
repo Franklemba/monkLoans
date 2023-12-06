@@ -9,15 +9,15 @@
                 <h5 class="modal-title" id="loanModalLabel">User Details</h5>
               </div>
               <div class="modal-body">
-                <form action="/profile/update" method="post">
+                <form action="/profile/update" id="form"  method="post">
                   <div class="modalBottom profile">
                     <div class="mb-3">
                       <label for="name" class="form-label">First Name</label>
-                      <input type="text" class="form-control" id="name" name="firstName" value="<%=user.firstName%>" disabled>
+                      <input type="text" class="form-control" id="firstName" name="firstName" value="<%=user.firstName%>" disabled>
                     </div>
                     <div class="mb-3">
                       <label for="name" class="form-label">Last Name</label>
-                      <input type="text" class="form-control" id="name" name="lastName" value="<%=user.lastName%>" disabled>
+                      <input type="text" class="form-control" id="lastName" name="lastName" value="<%=user.lastName%>" disabled>
                     </div>
                     <div class="mb-3">
                       <label for="email" class="form-label">Email</label>
@@ -31,7 +31,7 @@
  
                     <div class="mb-3">
                       <label for="number" class="form-label">Phone Number</label>
-                      <input type="text" class="form-control" id="number" name="number" value="<%=user.phoneNumber%> " disabled>
+                      <input type="text" class="form-control" id="phoneNumber" name="number" value="<%=user.phoneNumber%> " disabled>
                     </div>
                  <div class="mb-3">
                    <label for="school" class="form-label">School </label>
@@ -39,7 +39,7 @@
                  </div>
                  <div class="mb-3">
                    <label for="date" class="form-label">Date Joined</label>
-                   <input type="text" class="form-control" id="date" name="date" value="<%= new Date(user.createdAt).toLocaleDateString('en-US') %>" disabled>
+                   <input type="text" class="form-control" id="date" name="date" value="<%= new Date(user.createdAt).toLocaleDateString('en-GB') %>" disabled>
                  </div>
           
                  <div class="modal-footer" id="updateButtonSection">
@@ -168,24 +168,44 @@
 
     </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
 <script>
-  const ctxPie = document.getElementById('myPieChart').getContext('2d');
 
+  const ctxPie = document.getElementById('myPieChart').getContext('2d');
+  let totalInvestedAmount = $("#totalInvestedAmount").val();
+  let cashInTotal = $("#cashInTotal").val();
+
+  if (totalInvestedAmount == null || totalInvestedAmount == 'indefined') {
+    totalInvestedAmount = 0;
+    
+  }else{
+    totalInvestedAmount = parseFloat($("#totalInvestedAmount").val().replace(/[^0-9]/g, ''));
+
+  }
+  if (cashInTotal == null || cashInTotal == 'indefined') {
+    
+    cashInTotal = 0;
+  }else{
+    cashInTotal = parseFloat($("#cashInTotal").val().replace(/[^0-9]/g, ''));
+
+  }
+
+  const totalCreditedAmount = parseFloat($("#totalCreditedAmount").val().replace(/[^0-9]/g, ''));
+   
   const dataPie = {
     labels: ['Total Invested', 'Total Returns', 'Total Borrowed Cash'],
     datasets: [
       {
         label: 'Values in K',
         data: [
-          parseFloat($("#totalInvestedAmount").val().replace('K', '')),
-          parseFloat($("#cashInTotal").val()),
-          parseFloat($("#totalCreditedAmount").val().replace('K', '')),
-        
+           totalInvestedAmount,
+           cashInTotal,
+           totalCreditedAmount,
         ],
+        
         backgroundColor: [
           'blue',
           'green',
@@ -197,6 +217,10 @@
     ],
   };
 
+  console.log(totalInvestedAmount)
+  console.log(cashInTotal)
+  console.log(totalCreditedAmount)
+
   const optionsPie = {
     responsive: true,
     maintainAspectRatio: false,
@@ -207,6 +231,7 @@
     data: dataPie,
     options: optionsPie,
   });
+  
 </script>
 
   
@@ -229,5 +254,63 @@
       $('#updateButtonSection').show();
       $('#submitSection').hide();
     });
+  });
+</script>
+
+<script>
+  $(document).ready(function () {
+    const $form = $('#form');
+
+    $form.on('submit', function (e) {
+      e.preventDefault();
+
+      // Clear existing error messages
+      $('.error-message').remove();
+
+      const firstName = $('#firstName').val();
+      const lastName = $('#lastName').val();
+      const studentNumber = $('#studentNumber').val();
+      const email = $('#email').val();
+      const phoneNumber = $('#phoneNumber').val();
+      const password = $('#password').val();
+      const confirmedPassword = $('#confirmedPassword').val();
+      const passwordPattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+
+      if (firstName === '' || firstName.length <= 2) {
+        displayErrorMessage('First Name must be at least 3 characters.');
+      }
+      if (lastName === '' || lastName.length <= 2) {
+        displayErrorMessage('Last name must be at least 3 characters.');
+      }
+      if (studentNumber === '' || studentNumber.length !== 8) {
+        displayErrorMessage('Invalid student number.');
+      }
+      if (email === '') {
+        displayErrorMessage('Email is required.');
+      }
+      if (phoneNumber === '' || phoneNumber.length !== 11) {
+        displayErrorMessage('Invalid phone number.');
+      }
+      if (password === '') {
+        displayErrorMessage('Password is required.');
+      } else if (password !== confirmedPassword) {
+        displayErrorMessage('Passwords do not match.');
+      }
+      
+      // If there are no error messages, submit the form
+      if ($('.error-message').length === 0) {
+        // Perform any additional actions or AJAX submission here if needed
+        $form[0].submit(); // Submit the form
+       
+      }
+    });
+
+    function displayErrorMessage(message) {
+      // Create a new div for the error message
+      const errorDiv = $('<div>').addClass('error-message').text(message);
+
+      // Insert the error message after the form
+      $form.after(errorDiv);
+    }
   });
 </script>

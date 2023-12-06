@@ -9,6 +9,7 @@ const Creditor = require('../models/creditSchema');
 const User = require('../models/userSchema');
 
 const { use } = require("./auth");
+
 const { ensureAuthenticated} = require('../config/auth');
 
 app.use(session({
@@ -18,10 +19,12 @@ app.use(session({
   }));
   
 //   landing page route
-router.get("/", (req,res) => {
+router.get("/", async (req,res) => {
+
+  const user = req.user;
     
     res.render("main/home",{
-        user: req.user
+        user
     })
 })
 
@@ -41,34 +44,52 @@ router.post('/profile/update', async (req, res) =>{
     const user =  req.user;
     const {firstName, lastName, email, studentNumber, phoneNumber} = req.body;
 
-    await User.findOneAndUpdate(
-        { _id: user._id}, // Query for the document to update
-        { $set: { 
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            studentNumber: studentNumber,
-            phoneNumber: phoneNumber
-         }}, 
-        { new: true } // Options to return the updated document
-      );
+    const anyCredit = await Creditor.findOne({key: user._id});
+    const creditor = await Creditor.find({ key: user._id});
+    const investor = await Investor.find({ key: user._id});
+    
 
-      req.session.destroy((err) => {
-        if (err) {
-          console.error('Error destroying session:', err);
-          // Handle error as needed
-          res.status(500).send('Internal Server Error');
-        } else {
-          // Redirect the user to the login or home page
-          res.redirect('/'); // You can replace '/' with the desired destination
-        }
-      });
+    if(anyCredit){
+        res.render("main/profile",{
+            user,
+            creditor,
+            investor,
+            message: "<p>You can not update details if you have a pending loan or an unmature investment in your account</p>",
+            url: "/profile",
+            buttonText:"back"
+        })
+    }else{
+
+        await User.findOneAndUpdate(
+            { _id: user._id}, // Query for the document to update
+            { $set: { 
+                firstName: firstName,
+                lastName: lastName,
+                email: email,
+                studentNumber: studentNumber,
+                phoneNumber: phoneNumber
+             }}, 
+            { new: true } // Options to return the updated document
+          );
+    
+          req.session.destroy((err) => {
+            if (err) {
+              console.error('Error destroying session:', err);
+              // Handle error as needed
+              res.status(500).send('Internal Server Error');
+            } else {
+              // Redirect the user to the login or home page
+              res.redirect('/'); // You can replace '/' with the desired destination
+            }
+          });
+    }
+
       
 
 })
 
   //___________  <MOBILE MONEY>
-router.get("/mmoney", ensureAuthenticated, async (req,res) => {
+router.get("/mmoney", async (req,res) => {
     const user = req.user;
     const momoService = await MomoService.findOne({ agentName: 'Jacob Mwanza'});
 
@@ -167,7 +188,6 @@ router.get('/mmoney_info', ensureAuthenticated, (req,res)=>{
     })
 
 })
-
 
 
 module.exports = router;

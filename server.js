@@ -15,7 +15,7 @@ const investorRouter = require('./routes/investor');
 
 require('./config/passport')(passport);
 
-const { ensureAuthenticated} = require('./config/auth');
+// const { ensureAuthenticated} = require('./config/auth');
 
 const PORT = process.env.PORT || 3001;
 
@@ -53,7 +53,7 @@ app.use(passport.session());
 app.use('/',homeRouter );
 app.use('/auth',authRouter);
 app.use('/credit', creditorRouter);
-app.use('/invest',ensureAuthenticated, investorRouter);
+app.use('/invest', investorRouter);
 
 app.use('*', (req, res) => {
     // Redirect to the main page or any desired page

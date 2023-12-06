@@ -3,13 +3,11 @@ const router = express.Router();
 const app = express();
 const session = require('express-session');
 
-
 const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
 const Creditor = require('../models/creditSchema');
 const Profile = require('../models/profileSchema');
 const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
-
 
 const jwt = require("jsonwebtoken");
 const uuid = require('crypto').randomBytes(16).toString('hex');
@@ -17,26 +15,54 @@ const axios = require('axios');
 
 const SEC_KEY = "477fea6108f74de3a08aac794416046a";
 const PUB_KEY = "c8ef713758684420b3e33eedacb3c626";
-
 merchantPublicKey = "c8ef713758684420b3e33eedacb3c626";
 
 app.use(session({
     secret: 'mysecret',
     resave: false,
     saveUninitialized: false    
-  }));
+}));
 
-  router.get("/", ensureAuthenticated, (req,res) => {
-    const user = req.user;
+router.get("/", async (req,res) => {
+        const user = req.user;
+        
+        if(typeof user !== 'undefined' && user !== null){
+
+            const creditor = await Creditor.findOne({
+                    key: user._id,
+                    isApproved: true,
+                    isPaid : false
+            })
+        
+          // ___________________ checks for clients that haven't paid their due credits on time
+            try {
+                    
+              const pastDate = calculateDaysPast(new Date(creditor.nextPaymentDate))
+              const penaltyFee = ((creditor.loanAmount * 0.01) * pastDate).toFixed(2);
+        
+                  await Creditor.findOneAndUpdate(
+                    { _id: creditor._id },
+                    { $set: { 
+                      penaltyFee: penaltyFee
+                     }},
+                    { new: true } // Returns the updated document
+                  );
+                
+            } catch (error) {
+                 console.log(error) 
+            }
+
+        }
+      
     res.render("main/creditor/credit",{
         user
     })
-})
+});
 
 router.post("/page", ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const credit = await Creditor.find({key:user._id, creditStatus: true ,isApproved: true});
-    const unapprovedCredit = await Creditor.find({ key: user._id, creditStatus: true, isApproved: false });
+    const credit = await Creditor.find({key:user._id, isPaid: false ,isApproved: true});
+    const unapprovedCredit = await Creditor.find({ key: user._id, isPaid: false, isApproved: false });
 
     if(credit.length > 0){
         res.render("main/creditor/credit",{
@@ -107,7 +133,7 @@ router.post("/page", ensureAuthenticated, async (req,res) => {
       }
     }
    
-})
+});
 
 router.get("/card", ensureAuthenticated, (req, res) => {
 
@@ -132,10 +158,10 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
         try {
             const {campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber}  = req.body;
             const calculatedData = req.session.calculatedData;
-            const profile = await Profile.findOne({ key: user._id});
-            console.log(calculatedData)
             
-            if (calculatedData) {     // when API is intergrated, this condition should also verify the bank details
+            // console.log(calculatedData)
+            
+            if (calculatedData != null) {     // when API is intergrated, this condition should also verify the bank details
         
                 const repaymentDate = calculatedData.repaymentDate;
                 const totalRepayment = calculatedData.totalRepayment;
@@ -154,8 +180,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
                     serviceFee,
                     amountReceived,
                     repaymentAmount:totalRepayment,
-                    nextPaymentDate:repaymentDate, 
-                    creditStatus: true,
+                    nextPaymentDate:repaymentDate,
                     location: campusLocation +''+bhLocation,
                     roomMatePhoneNumber,
                     itemDescription : collateralItem,
@@ -163,15 +188,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
                   });
                  
                  await creditor.save();
-                 await Profile.findOneAndUpdate(
-                    { key: user._id}, // Query for the document to update
-                    { $set: { 
-                        totalCreditedAmount: profile.totalCreditedAmount += creditor.loanAmount,
-                        total_No_Of_Credits: profile.total_No_Of_Credits + 1,
-                     } }, 
-                    { new: true } // Options to return the updated document
-                  );
-                 
+                
         
                 // render page to inform user that account has been successfuly approved
         
@@ -190,6 +207,7 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
             }else{
                 res.redirect('/');
             }
+
         } catch (error) {
             console.error('error verifying credit card', error);
             res.redirect('/credit');
@@ -206,19 +224,17 @@ router.post("/card", ensureAuthenticated, async (req, res) => {
             <p>if registration already complete, please wait patiently for account to be verified </p>
             <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
             `,
-            url: "/credit/dashboard",
+            url: "/auth/logout",
             buttonText:"exit"
         }); 
     }
-    
-
 
 });
 
 router.get('/dashboard', ensureAuthenticated, async (req,res) => {
      const user = req.user;
-     const credit = await Creditor.find({key: user._id, creditStatus: true, isApproved: true});
-     const repayedLoan = await Creditor.find({ key: user._id, creditStatus: false, isApproved: true })
+     const credit = await Creditor.find({key: user._id, isPaid: false, isApproved: true});
+     const repayedLoan = await Creditor.find({ key: user._id, isPaid: true, isApproved: true })
      .sort({ createdAt: -1 });
 
      res.render("main/creditor/creditDashboard", {
@@ -228,50 +244,47 @@ router.get('/dashboard', ensureAuthenticated, async (req,res) => {
      })
 })
 
-
 router.post('/repayment', ensureAuthenticated, async (req,res) => {
     const user = req.user;
-    const {newMMnumber} = req.body;
+    const { newMMnumber } = req.body;
 
     const currentDate = new Date();
     const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
     const formattedDate = currentDate.toLocaleDateString('en-US', options);
 
-
-
-    const repayedLoan = await Creditor.find({key: user._id, creditStatus: true });
-    const filter = { creditorEmail: user.email, creditStatus: true };
-    const credit = await Creditor.find({key: user._id, creditStatus: true });
+    const repayedLoan = await Creditor.find({key: user._id, isPaid: false });
+    const filter = { key: user._id, isPaid: false };
+    const credit = await Creditor.find({key: user._id, isPaid: false });
     const update = { 
-        creditStatus: false,
+        isPaid: true,
         nextPaymentDate: formattedDate
     };
 
-    payload = {
-        amount: `${credit[0].repaymentAmount}`,
-        currency: "ZMW",
-        customerEmail: `${user.email}`,
-        customerFirstName: `${user.firstName}`,
-        customerLastName: `${user.lastName}`,
-        customerPhone: `${newMMnumber}`,
-        merchantPublicKey: PUB_KEY,
-        transactionName: "Monk Pay Investment",
-        transactionReference: uuid,
-        wallet: `${newMMnumber}`,
-        returnUrl: `http://localhost:3001?ref=${uuid}`,
-        // autoReturn: varValue,
-        chargeMe: true,
-    };
+        payload = {
+            amount: `${credit[0].repaymentAmount}`,
+            currency: "ZMW",
+            customerEmail: `${user.email}`,
+            customerFirstName: `${user.firstName}`,
+            customerLastName: `${user.lastName}`,
+            customerPhone: `${newMMnumber}`,
+            merchantPublicKey: PUB_KEY,
+            transactionName: "Monk Pay Investment",
+            transactionReference: uuid,
+            wallet: `${newMMnumber}`,
+            returnUrl: `http://localhost:3001?ref=${uuid}`,
+            // autoReturn: varValue,
+            chargeMe: true,
+        };
 
         const encoded_payload = jwt.sign(payload, SEC_KEY);
     
         console.log(encoded_payload);
         // res.send(encoded_payload);
-        console.log(newMMnumber)
+        // console.log(newMMnumber)
    
-        var data = JSON.stringify({
-            "payload": `${encoded_payload}`
-          });
+            var data = JSON.stringify({
+                "payload": `${encoded_payload}`
+            });
   
           var config = {
             method: 'post',
@@ -386,6 +399,14 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
    
 })
 
-// /
 
+function calculateDaysPast(pastDate) {
+
+    const currentDate = new Date();
+    const timeDifference = currentDate - pastDate;
+    const daysPast = Math.floor(timeDifference / (1000 * 60 * 60 * 24));
+    return daysPast;
+
+  }
+  
 module.exports = router;
