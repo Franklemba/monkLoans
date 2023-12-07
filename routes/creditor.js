@@ -1,3 +1,4 @@
+require("dotenv").config()
 const express = require("express");
 const router = express.Router();
 const app = express();
@@ -12,10 +13,6 @@ const { verifyTransaction } = require('../utilities/verifyTransactionUtils');
 const jwt = require("jsonwebtoken");
 const uuid = require('crypto').randomBytes(16).toString('hex');
 const axios = require('axios');
-
-const SEC_KEY = "477fea6108f74de3a08aac794416046a";
-const PUB_KEY = "c8ef713758684420b3e33eedacb3c626";
-merchantPublicKey = "c8ef713758684420b3e33eedacb3c626";
 
 app.use(session({
     secret: 'mysecret',
@@ -296,7 +293,7 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
             customerFirstName: `${user.firstName}`,
             customerLastName: `${user.lastName}`,
             customerPhone: `${newMMnumber}`,
-            merchantPublicKey: PUB_KEY,
+            merchantPublicKey: process.env.PUB_KEY,
             transactionName: "Monk Pay Investment",
             transactionReference: uuid,
             wallet: `${newMMnumber}`,
@@ -305,7 +302,7 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
             chargeMe: true,
         };
 
-        const encoded_payload = jwt.sign(payload, SEC_KEY);
+        const encoded_payload = jwt.sign(payload, process.env.SEC_KEY);
     
         console.log(encoded_payload);
         // res.send(encoded_payload);
@@ -320,7 +317,7 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
           maxBodyLength: Infinity,
             url: 'https://live.sparco.io/gateway/api/v1/momo/debit',
             headers: { 
-              'X-PUB-KEY': PUB_KEY, 
+              'X-PUB-KEY': process.env.PUB_KEY, 
               'Content-Type': 'application/json'
             },
             data : data

@@ -19,12 +19,11 @@
       </div>
       <div class="col-lg-6  container">
           <div class="modal-dialog ">
-            <div class="modal-content">
+            <div class="modal-content" id="investment">
               <div class="modal-header">
                 <h5 class="modal-title" id="investmentModalLabel">Invest up to 2000 for 1 Month</h5>
               </div>
               <div class="modal-body">
-                <form action="/invest/page" method="post">
                   <hr>
                   <div class="mb-3">
                     <label for="investmentAmount" class="form-label">How much would you like to invest?</label>
@@ -58,11 +57,102 @@
                     </div>
                   </div>
                   <hr>
-                  <button type="submit" class="btn btn-primary">INVEST</button>
-                </form>
+                <!-- </form> -->
+                <button type="button" class="btn btn-primary" id="nextbtn">NEXT</button>
               </div>
-              <div class="modal-footer">
+              
+            </div>
+
+            <div class="modal-content" id="confirmDetails">
+              <div class="modal-header">
+                <h5 class="modal-title" id="loanModalLabel"> <span class="fas fa-cog" id="backBtn"></span>Investment Credentials</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+              
               </div>
+              <div class="modal-body">
+               
+                  <div class="modalBottom">
+                     <div class="mb-3">
+                       <label for="investmentAmount" class="form-label">Invested Amount</label>
+                       <input type="text" class="form-control" id="investmentAmountConfirm" name="investmentAmount" value="K" disabled>
+                     </div>
+                     <div class="mb-3">
+                       <label for="serviceFee" class="form-label">Commission</label>
+                       <input type="text" class="form-control" id="serviceFeeConfirm" name="serviceFee" value="" disabled>
+                     </div>
+                  <div class="mb-3">
+                    <label for="expectedReturns" class="form-label">Expected Returns</label>
+                    <input type="text" class="form-control" id="expectedReturnsConfirm" name="expectedReturns" value="K" disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="totalReturns" class="form-label">Total Returns</label>
+                    <input type="text" class="form-control" id="totalReturnsConfirm" name="totalReturns" value="K" disabled>
+                  </div>
+                  <div class="mb-3">
+                   <label for="investmentType" class="form-label">Investment Type</label>
+                   <input type="text" class="form-control" id="investmentTypeConfirm" name="investmentType" value="Coupon Interest" disabled>
+                 </div>
+                  <div class="mb-3">
+                    <label for="nextPaymentDate" class="form-label">Maturity Date</label>
+                    <input type="text" class="form-control" id="nextPaymentDateConfirm" name="nextPaymentDate" value="" disabled>
+                  </div>
+                  <hr>
+                  <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#depositModal">Deposit</button>
+
+                  
+                         <div class="modal fade" id="depositModal" tabindex="-1"  aria-labelledby="exampleModalLabel" aria-hidden="true">
+                           <div class="modal-dialog ">
+                               <div class="modal-content">
+                                   <div class="modal-header">
+                                       <h5 class="modal-title" id="exampleModalLabel">Mobile wallet</h5>
+                                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                           <span aria-hidden="true">&times;</span>
+                                       </button>
+                                   </div>
+                                   <div class="modal-body">
+                                     
+                                     <% if (typeof user !== 'undefined' && user !== null) { %>
+                                      <form action="/invest/deposit_fund" method="post">
+                                        
+                                        <span>click number to proceed</span><br>
+                                        <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" value="<%=user.phoneNumber%>"  required hidden>
+                                        <input type="number" class="form-control" id="investmentAmountVal" name="investmentAmount" value=""   hidden>
+                                        <input type="text" class="form-control" id="investmentType" name="investmentType" value="Coupon Interest"  hidden>
+                                        <button type="submit" class="btn btn-primary btn-icon" id="dashboardButton">
+                                          <%=user.phoneNumber%>
+                                        </button>
+                                      </form>
+                                    <hr>
+                                      <p>or</p>
+                                      <hr>
+                                      <%}else{ %> 
+                        
+                                      <% } %>
+
+
+                                     <form action="/invest/deposit_fund" method="post">
+                                       <div class="mb-2">
+                                         <label for="newMMnumber" class="form-label">user different number</label>
+                                         <input type="number" class="form-control" id="investmentAmountVal" name="investmentAmount" value=""   >
+                                         <input type="text" class="form-control" id="investmentType" name="investmentType" value="Coupon Interest"  hidden>
+                                         <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
+                                     </div>
+                                     <button type="submit" class="btn btn-primary">submit</button>
+                                     </form>
+
+                                   </div>
+                                 
+                               </div>
+                           </div>
+                         </div>
+                  
+                  
+                  
+                 
+                 </div>
+                <!-- </form> -->
+              </div>
+              
             </div>
           </div>
         </div>
@@ -109,12 +199,20 @@ $(document).ready(function () {
       $("#serviceFee").val(`K${serviceFee.toFixed(2)}`);
       $("#expectedReturns").val(`K${expectedReturns.toFixed(2)}`);
       $("#totalReturns").val(`K${totalReturns.toFixed(2)}`);
+
+      $("#serviceFeeConfirm").val(`K${serviceFee.toFixed(2)}`);
+      $("#expectedReturnsConfirm").val(`K${expectedReturns.toFixed(2)}`);
+      $("#totalReturnsConfirm").val(`K${totalReturns.toFixed(2)}`);
+      $("#investmentAmountConfirm").val(`K${investmentAmount.toFixed(2)}`);
+      $("#investmentAmountVal").val(investmentAmount.toFixed(2));
       
       // Calculate and display next payment date (assuming 30 days for 1 month)
       const today = new Date();
       const nextPaymentDate = new Date(today.getTime() + 30 * 24 * 60 * 60 * 1000);
       const formattedDate = nextPaymentDate.toISOString().substr(0, 10);
       $("#nextPaymentDate").val(formattedDate);
+
+      $("#nextPaymentDateConfirm").val(formattedDate);
     }
   }
 
@@ -123,5 +221,31 @@ $(document).ready(function () {
 
   // Calculate investment details on page load
   calculateInvestment();
+
+
+
+  //  initiates the confirmation dialog
+
+  
+  $("#confirmDetails").hide();
+   
+   // Handle nextBtn click event
+   $("#nextbtn").click(function () {
+     // Fade out senderData div
+     $("#investment").fadeOut("slow", function () {
+       // Once fadeOut is complete, fade in#collateralDetails div
+       $("#confirmDetails").fadeIn("slow");
+     });
+
+   });
+
+   $("#backBtn").click(function(){
+     $("#confirmDetails").fadeOut("slow", function () {
+       // Once fadeOut is complete, fade in#collateralDetails div
+       $("#investment").fadeIn("slow");
+     });
+   })
+
+
 });
 </script>
