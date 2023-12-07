@@ -176,87 +176,6 @@ router.post("/page", ensureAuthenticated, async (req,res) => {
 });
 
 
-    //  save loan details to datatbase    
-router.post("/card", ensureAuthenticated, async (req, res) => {
-    // Retrieve the calculated data from the session
-    
-    const user = req.user;
-    if(user.isVerified == true){
-
-        try {
-            const {campusLocation, bhLocation, roomMatePhoneNumber, collateralItem, otherPhoneNumber}  = req.body;
-            const calculatedData = req.session.calculatedData;
-            
-            // console.log(calculatedData)
-            
-            if (calculatedData != null) {     // when API is intergrated, this condition should also verify the bank details
-        
-                const repaymentDate = calculatedData.repaymentDate;
-                const totalRepayment = calculatedData.totalRepayment;
-                const amountReceived = calculatedData.amountReceived;
-                const loanTerm = calculatedData.loanTerm;
-                const loanAmount = calculatedData.loanAmount;
-                const serviceFee = calculatedData.serviceFee;
-    
-            // ___________SAVING CREDITORS DETAILS __________//
-        
-                const creditor = new Creditor({ 
-                    key: user._id,
-                    loanAmount, 
-                    loanTerm ,
-                    serviceFee,
-                    amountReceived,
-                    repaymentAmount:totalRepayment,
-                    nextPaymentDate:repaymentDate,
-                    location: campusLocation +''+bhLocation,
-                    roomMatePhoneNumber,
-                    itemDescription : collateralItem,
-                    otherPhoneNumber
-                  });
-                 
-                 await creditor.save();
-          
-                // render page to inform user that account has been successfuly approved
-        
-                res.render("main/creditor/credit",{   
-                user,        
-                message: `
-                    <h3> Account Approval is pending </h3>
-                    <hr>
-                <h3>an agent will attend to you shortly🙂</h3>
-                <hr>
-                <h3>thank for using our service 🤝</h3>
-                `,
-                url: "/credit/dashboard",
-                buttonText:"exit"
-                }); // You may want to redirect to the "/credit/page" route to calculate the data if it's not available
-            }else{
-                res.redirect('/');
-            }
-
-        } catch (error) {
-            console.error('error verifying credit card', error);
-            res.redirect('/credit');
-        }
-
-    }else{
-        res.render("main/creditor/credit",{   
-            user,        
-            message: `
-                <h3>Account is not verified,</h3>
-                <hr>
-            <h3>please complete registration proceess </h3>
-            <hr>
-            <p>if registration already complete, please wait patiently for account to be verified </p>
-            <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
-            `,
-            url: "/auth/logout",
-            buttonText:"exit"
-        }); 
-    }
-
-});
-
 router.get('/dashboard', ensureAuthenticated, async (req,res) => {
      const user = req.user;
      const credit = await Creditor.find({key: user._id, isPaid: false, isApproved: true});
@@ -315,7 +234,7 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
           var config = {
             method: 'post',
           maxBodyLength: Infinity,
-            url: 'https://live.sparco.io/gateway/api/v1/momo/debit',
+            url: 'https://live.broadpay.io/gateway/api/v1/momo/debit',
             headers: { 
               'X-PUB-KEY': process.env.PUB_KEY, 
               'Content-Type': 'application/json'

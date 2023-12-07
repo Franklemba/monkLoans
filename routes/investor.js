@@ -7,16 +7,13 @@ const fetch = require('node-fetch').default;
 const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
 
 const { use } = require("./auth");
-// const { = require('../config/auth');
 const jwt = require("jsonwebtoken");
-// const { uuid } = require("uuidv4");
 const uuid = require('crypto').randomBytes(16).toString('hex');
 const { ensureAuthenticated} = require('../config/auth');
 const Investor = require('../models/investSchema');
 const axios = require('axios');
 
 
-// merchantPublicKey = "c8ef713758684420b3e33eedacb3c626";
 app.use(session({
     secret: 'mysecret',
     resave: false,
@@ -111,56 +108,54 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
               var config = {
                 method: 'post',
               maxBodyLength: Infinity,
-                url: 'https://live.sparco.io/gateway/api/v1/momo/debit',
+                url: 'https://live.broadpay.io/gateway/api/v1/momo/debit',
+                // url: 'https:/asas',
                 headers: { 
                   'PUB_KEY': process.env.PUB_KEY,
                   'Content-Type': 'application/json'
                 },
                 data : data
               };
+
+              
       
       
               axios(config)
                 .then(async function (response) {
       
                   const responseData = response.data;
-                  console.log(JSON.stringify(response.data));
-      
+                  console.log(response.data);
+
                   switch (responseData.status) {
                       case "TXN_AUTH_PENDING":
       
                         // ___________SAVING INVESTOR'S DETAILS __________//
-      
-                            const investor = new Investor({
-                              key: user._id,
-                              investmentAmount,
-                              serviceFee,
-                              expectedReturns,
-                              totalReturns,
-                              maturityDate,
-                              investmentType,
-                              investmentStatus: true,
-                              transactionReference: responseData.transactionReference,
-                              transactionToken: encoded_payload
-                          });
+                        const investor = new Investor({
+                          key: user._id,
+                          investmentAmount,
+                          serviceFee,
+                          expectedReturns,
+                          totalReturns,
+                          maturityDate,
+                          investmentType,
+                          investmentStatus: true,
+                          transactionReference: responseData.transactionReference,
+                          transactionToken: encoded_payload
+                      });
       
                           await investor.save();
                       
-                        
-                        
                         let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
                         res.render("main/investor/invest",{   
                                   user,        
                                   message: `
-                                      <p>🎉transaction for debiting your mmoney account, will appear on your phone soon 🎉</p>
+                                      <h3>${responseData.message}</h3>
                                       <p>please be patient, </p>
                                       <hr>
-                                  
-                                  <h3>please wait for transaction</h3>
+                                
                                   `,
-                                  // url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
-                                  url: `/invest`,
-                                  buttonText:"verify"
+                                  url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
+                                  buttonText:"complete"
                           }); //
                     
       
@@ -186,38 +181,42 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
       
                               checkStatus();
       
-                      break;
-                      case "TXN_FAILED":
-                      res.render("main/investor/invest",{   
-                        user,        
-                        message: `
-                            <h3>Transaction failed 😞</h3>
-                            <hr>
-                        
-                        <p>please make sure the number you are using is valid</p>
-                        `,
-                        url: `/invest`,
-                        buttonText:"back"
-                        }); //
-                      break;
-                    
-                    // Add more cases as needed for other statuses
-              
-                        default:
+                        break;
+                    case "TXN_FAILED":
                           res.render("main/investor/invest",{   
                             user,        
                             message: `
-                                <h3>Transaction failed 😞</h3>
+                                <h3>${responseData.message}</h3>
                                 <hr>
                             
-                            <p>please make sure the number you are using is valid</p>
                             `,
                             url: `/invest`,
                             buttonText:"back"
                             }); //
+                           break;
+                    
+                    // Add more cases as needed for other statuses
+              
+                      default:
+                        res.render("main/investor/invest",{   
+                          user,        
+                          message: `
+                              <h3>Transaction failed 😞</h3>
+                              <hr>
+                          
+                          <p>please make sure the number you are using is valid</p>
+                          `,
+                          url: `/invest`,
+                          buttonText:"back"
+                          }); //
                         
                       // Handle other cases or do nothing
                   }
+
+
+                  
+
+
       
                 })
                 .catch(function (error) {
@@ -273,11 +272,11 @@ router.get('/verify/:mechRef/:token', ensureAuthenticated, async (req, res) => {
   const checkStatus = async () => {
     
     if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
-      console.log(verifyData.status + ': ' + verifyData.status);
+      console.log(verifyData.status);
       res.render("main/investor/invest",{   
         user,        
         message: `
-        <h3>Transaction was unsuccessful 😞</h3>
+        <h3>${verifyData.message} 😞</h3>
         `,
         url: `/invest`,
         buttonText:"exit"
@@ -292,11 +291,11 @@ router.get('/verify/:mechRef/:token', ensureAuthenticated, async (req, res) => {
 
 
     } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
-      console.log(verifyData.status + ': ' + verifyData.status);
+      console.log(verifyData.status);
       res.render("main/investor/invest",{   
         user,        
         message: `
-        <h3>Transaction was Successful 😀</h3>
+        <h3> ${verifyData.message} 😀</h3>
         <br>
         <p>Thank for investing with us🎉</p>
         `,
@@ -313,7 +312,6 @@ router.get('/verify/:mechRef/:token', ensureAuthenticated, async (req, res) => {
 
 
     } else {
-      console.log(verifyData.status + ': ' + verifyData.status);
       verifyTransaction(mechRef, token).then((newVerifyData) => {
         verifyData = newVerifyData;
         checkStatus(); // Recursively call checkStatus

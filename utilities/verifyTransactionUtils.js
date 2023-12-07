@@ -3,7 +3,7 @@
 const fetch = require('node-fetch');
 
 const verifyTransaction = async (merchantReference, token) => {
-  const apiUrl = `https://live.sparco.io/gateway/api/v1/transaction/query?merchantReference=${merchantReference}`;
+  const apiUrl = `https://live.broadpay.io/gateway/api/v1/transaction/query?merchantReference=${merchantReference}`;
 
   try {
     const response = await fetch(apiUrl, {
