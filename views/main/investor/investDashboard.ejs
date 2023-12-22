@@ -103,139 +103,136 @@
           
         </div>
         
-
-    </div>
-    
-      <hr>
-      <% if (invest && invest.length > 0) { %>
-  <p>Current Investments <i class="fas fa-arrow-down"></i> </p>
-    <div class="about-main">
-      <div class="row">
-
-          <% invest.forEach(function(investment) { %>
-            
-            <div class="col-lg-6 container">
-              <div class="modal-dialog ">
-                <div class="modal-content">
-                 
-                  <div class="modal-body">
-                      <div class="modalBottom">
-         
-                         <div class="mb-3">
-                           <label for="id" class="form-label">Investment id</label>
-                           <input type="text" class="form-control" id="id" name="id" value="<%=investment._id%>" disabled>
-                         </div>
-                         <div class="mb-3">
-                             <label for="investmentAmount" class="form-label">Invested Amount</label>
-                             <input type="text" class="form-control" id="investmentAmount" name="investmentAmount" value="K<%=investment.investmentAmount%>" disabled>
-                       </div>
-                       <div class="mb-3">
-                           <label for="expectedReturns" class="form-label">Interest earned</label>
-                           <input type="text" class="form-control" id="expectedReturns" name="expectedReturns" value="K<%=investment.expectedReturns%>" disabled>
-                       </div>
-                       <div class="mb-3">
-                        <label for="investmentType" class="form-label">Invest type</label>
-                        <input type="text" class="form-control" id="investmentType" name="investmentType" value="<%=investment.investmentType%> " disabled>
-                    </div>
-                    <div class="mb-3">
-                      <label for="maturityDate" class="form-label">Maturity date</label>
-                      <input type="text" class="form-control" id="maturityDate" name="maturityDate" value="<%=investment.maturityDate%>" disabled>
-                  </div>
-         
-                     
-                     </div>
-                    <!-- </form> -->
-                  </div>
-                  
-                </div>
-              </div>
-            </div>
-              <%})%>
-
-        </div>
-   <% } %>
-
+        
+          <hr>
+          <% if (invest && invest.length > 0) { %>
+      <p>Investments <i class="fas fa-arrow-down"></i> </p>
+        
       
+        <div class="table-responsive">
+          <table class="table text-start align-middle table-bordered table-hover mb-0">
+              <thead>
+                  <tr class="text-white">
+                      <!-- <th scope="col"><input class="form-check-input" type="checkbox"></th> -->
+                      <th><i class="fa fa-question-circle fa-1x text-secondary"></i></th>
+                      <th scope="col" style="color: black;">Amount</th>
+                      <th scope="col" style="color: black;">Interest</th>
+                      <th scope="col" style="color: black;">Maturity date</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  <% let id = 0; %>
+                 <% invest.forEach(investment => { %>
+                  <tr class="modal-trigger-row" data-toggle="modal" data-target="#modal<%=id%>">
+                    <% if (investment.isTXNsuccessful == false) { %>
+                      <td>
+                          <i class="fa fa-exclamation-triangle fa-1x text-warning"></i>
+                      </td>                            
+                  <% } else { %>
+                       
+                          <% if (investment.isInvestmentPaidOff == true ) { %>
+                            <td><i class="fa fa-clock fa-1x text-primary"></i></td>
+                            <% } else { %>
+                              <td><i class="fa fa-check-circle fa-1x text-success"></i></td>
+                            <% } %>
+                  <% } %>
+                      <td><%=investment.investmentAmount%></td>
+                      <td><%=investment.expectedReturns%></td>
+                      <td><%=investment.maturityDate%></td>
+                    </tr>
+                    <div class="modal fade" id="modal<%=id%>" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
+                        <div class="modal-dialog">
+                            <div class="modal-content ">
+                                <div class="modal-header">
+                                    <div class="modalTime">
+                                        <span>
+                                            <%=investment.createdAt.toLocaleDateString('en-GB')%>,
+                                        </span>
+                                        <span>
+                                            <i><%=investment.createdAt.toLocaleTimeString('en-GB')%></i>
+                                            
+                                        </span>
+                                    </div>
+                                </div>
+                                <div class="modal-body">
+                                    
+                                    <div class="contentItem">
+                                        <span>Invested Amount:</span>
+                                        <span><%=investment.investmentAmount%></span>
+                                    </div>
+                                    <div class="contentItem">
+                                        <span>Interest Earned:</span>
+                                        <span><%=investment.expectedReturns%></span>
+                                    </div>
+                                    <div class="contentItem">
+                                        <span>Total Returns:</span>
+                                        <span><%=investment.totalReturns%></span>
+                                    </div>
+                                    <div class="contentItem">
+                                        <span>Maturity Date:</span>
+                                        <span><%=investment.maturityDate%></span>
+                                    </div>
+                                    <div class="contentItem">
+                                        <span>TXN successful? :</span>
+                                        <span><%=investment.isTXNsuccessful%></span>
+                                    </div>
+
+                                                                        
+                                </div>
+                                <div class="modal-footer">
+                                    <% if (investment.isTXNsuccessful == false ) { %>
+                                        <button type="button" class="btn btn-secondary" ><a href="/investments/processed/<%=investment._id %>">Refresh</a></button>
+                                    <% } %>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  <%  id++; %>
+                 <% }) %>
+      
+              </tbody>
+          </table>
+      </div>
+       
+      <% } %>
 
   </div>
+
+
+
+
+
+
+
+
+
 
 
   <hr>
-  <div class="about-main">
-    <div class="row">
-      <% if (maturedInvestment && maturedInvestment.length > 0) {let num = 0 %>
-      <div class="col-lg-6 transactionSection">
-          <h5>Trasanctions History <i class="fas fa-arrow-down"></i></h5>
-     
-            <ul>
-            <% maturedInvestment.forEach(function(Invested) { %>
-                <li id="transactionDropdownBlog" data-toggle="modal" data-target="#transact<%=num%>">
-                  <div class="transactionItem">
-                    <span>K<%=Invested.investmentAmount%></span>
-                    <span><%= Invested.createdAt.toLocaleDateString('en-GB') %></span>
-                  </div>
-                </li>
-
-                <div class="modal fade" id="transact<%=num%>" tabindex="-1" role="dialog"  aria-labelledby="exampleModalLabel" aria-hidden="true">
-                  <div class="modal-dialog " role="document">
-                      <div class="modal-content">
-                          <div class="modal-header">
-                              <h6 class="modal-title" id="exampleModalLabel"><%= Invested.createdAt.toLocaleDateString('en-GB') %> <i><%= Invested.createdAt.toLocaleTimeString('en-GB') %></i></h6>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                  <span aria-hidden="true">&times;</span>
-                              </button>
-                          </div>
-                          <div class="modal-body">
-
-                            <p>Invested Amount: <strong>K<%=Invested.investmentAmount%></strong></p>
-                            <p>Interest earned: <strong>K<%=Invested.expectedReturns%></strong></p>
-                            <p>Matured Date: <strong><%=Invested.maturityDate%></strong></p>
-                            <p>Status: <strong><%= Invested.investmentStatus === true ? 'pending' : 'complete' %></strong></p>
-
-                          </div>
-
-                          <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        </div>
-                        
-                      </div>
-                  </div>
-                </div>
-
-                <hr>
-                <% num++ %>
-                <%})%>
-                
-              </ul>
-                 
-                  
-                </div>
-                <% } %> 
-       
-       
-       <br>
-       <br>
-        
-      </div>
-      <!-- /.row -->
-
-  </div>
+ 
  </div>	
 
 
  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
+<!-- Add this script at the end of your HTML, after including jQuery and Bootstrap JS -->
+<script>
+  $(document).ready(function () {
+      $('.modal-trigger-row').on('click', function () {
+          // Remove existing highlight from other rows
+          $('.modal-trigger-row').removeClass('highlighted');
+          // Add highlight to the clicked row
+          $(this).addClass('highlighted');
+      });
 
- <script>
- 
-  $("#investButton").click(function () {
-    // Redirect to the desired page when the button is clicked
-    window.location.href = "/invest";
+      // Clear the highlight when the modal is closed
+      $('.modal').on('hidden.bs.modal', function () {
+          $('.modal-trigger-row').removeClass('highlighted');
+      });
   });
- 
 </script>
-
-
 
  
 

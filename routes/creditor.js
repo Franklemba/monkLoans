@@ -7,10 +7,10 @@ const session = require('express-session');
 const { use } = require("./auth");
 const { ensureAuthenticated} = require('../config/auth');
 const Creditor = require('../models/creditSchema');
-const Profile = require('../models/profileSchema');
-const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
-
-const jwt = require("jsonwebtoken");
+// const Profile = require('../models/profileSchema');
+// const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
+const { debitPayloadMomo } = require('../utilities/payloadUtils');
+// const jwt = require("jsonwebtoken");
 const uuid = require('crypto').randomBytes(16).toString('hex');
 const axios = require('axios');
 
@@ -167,9 +167,6 @@ router.post("/page", ensureAuthenticated, async (req,res) => {
                 buttonText:"exit"
             }); 
         }
-
-   
-
       }
     }
    
@@ -193,121 +190,91 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
     const user = req.user;
     const { newMMnumber } = req.body;
 
-    const currentDate = new Date();
-    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
-    const formattedDate = currentDate.toLocaleDateString('en-US', options);
+    const credit = await Creditor.find({key: user._id, isPaid: false }).sort({ createdAt: -1 });
+ 
 
-    const repayedLoan = await Creditor.find({key: user._id, isPaid: false });
-    const filter = { key: user._id, isPaid: false };
-    const credit = await Creditor.find({key: user._id, isPaid: false });
-    const update = { 
-        isPaid: true,
-        nextPaymentDate: formattedDate
-    };
-
-        payload = {
-            amount: `${credit[0].repaymentAmount}`,
-            currency: "ZMW",
-            customerEmail: `${user.email}`,
-            customerFirstName: `${user.firstName}`,
-            customerLastName: `${user.lastName}`,
-            customerPhone: `${newMMnumber}`,
-            merchantPublicKey: process.env.PUB_KEY,
-            transactionName: "Monk Pay Investment",
-            transactionReference: uuid,
-            wallet: `${newMMnumber}`,
-            returnUrl: `http://localhost:3001?ref=${uuid}`,
-            // autoReturn: varValue,
-            chargeMe: true,
-        };
-
-        const encoded_payload = jwt.sign(payload, process.env.SEC_KEY);
-    
-        console.log(encoded_payload);
-        // res.send(encoded_payload);
-        // console.log(newMMnumber)
-   
-            var data = JSON.stringify({
-                "payload": `${encoded_payload}`
-            });
-  
-          var config = {
-            method: 'post',
-          maxBodyLength: Infinity,
-            url: 'https://live.broadpay.io/gateway/api/v1/momo/debit',
-            headers: { 
-              'X-PUB-KEY': process.env.PUB_KEY, 
-              'Content-Type': 'application/json'
-            },
-            data : data
-          };
-
+  const { config, encoded_payload } =  debitPayloadMomo( credit[0].repaymentAmount, user.email, user.firstName, user.lastName, newMMnumber, uuid);
           axios(config)
           .then(async function (response) {
 
             const responseData = response.data;
-            console.log(JSON.stringify(response.data));
+            console.log(response.data);
 
             switch (responseData.status) {
                 case "TXN_AUTH_PENDING":
-                    let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
-                    const checkStatus = async () => {
-                        if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
-                        console.log(verifyData.status + ': ' + verifyData.status);
-                        console.log(verifyData);
-                            res.render("main/creditor/creditDashboard", {
-                                user,
-                                credit,
-                                repayedLoan,
-                                message: `
-                                <h3>Loan balance clearance was unsuccesfull</h3>
-                                <h3>please try again and repay</h3>
-                                `,
-                                url: "/credit/dashboard",
-                                buttonText:"exit"
-                            })
-                        } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
+                    await Creditor.findOneAndUpdate(
+                         filter, 
+                         {transactionReference:responseData.transactionReference, token:encoded_payload }, 
+                         { new: true });
 
-                            console.log(verifyData.status + ': ' + verifyData.status);
-                            console.log(verifyData);
-                         //------------------ update credit in database
-                            await Creditor.findOneAndUpdate(filter, update, {
-                                new: true, // Return the updated document
-                            });
+                    // const checkStatus = async () => {
+                    //     if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
+                    //     console.log(verifyData.status + ': ' + verifyData.status);
+                    //     console.log(verifyData);
+                    //         res.render("main/creditor/creditDashboard", {
+                    //             user,
+                    //             credit,
+                    //             repayedLoan,
+                    //             message: `
+                    //             <h3>Loan balance clearance was unsuccesfull</h3>
+                    //             <h3>please try again and repay</h3>
+                    //             `,
+                    //             url: "/credit/dashboard",
+                    //             buttonText:"exit"
+                    //         })
+                    //     } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
 
-                            res.render("main/creditor/creditDashboard", {
-                                user,
-                                credit,
-                                repayedLoan,
-                                message: `
-                                <h3>Loan balance cleared succesfully</h3>
-                                <h3>thank for using our service 🤝</h3>
-                                `,
-                                url: "/credit/dashboard",
-                                buttonText:"exit"
-                            })
-                        
-                        } else {
-                        verifyTransaction(responseData.transactionReference, encoded_payload).then((newVerifyData) => {
-                            verifyData = newVerifyData;
-                            checkStatus(); // Recursively call checkStatus
-                        });
-                        
-                        }
-                        
-                    };
+                    //         console.log(verifyData.status + ': ' + verifyData.status);
+                    //         console.log(verifyData);
+                    //      //------------------ update credit in database
+                    //         await Creditor.findOneAndUpdate(filter, update, {
+                    //             new: true, // Return the updated document
+                    //         });
 
-                    checkStatus();
+                    //         res.render("main/creditor/creditDashboard", {
+                    //             user,
+                    //             credit,
+                    //             repayedLoan,
+                    //             message: `
+                    //             <h3>Loan balance cleared succesfully</h3>
+                    //             <h3>thank for using our service 🤝</h3>
+                    //             `,
+                    //             url: "/credit/dashboard",
+                    //             buttonText:"exit"
+                    //         })
+                        
+                    //     } else {
+                    //     verifyTransaction(responseData.transactionReference, encoded_payload).then((newVerifyData) => {
+                    //         verifyData = newVerifyData;
+                    //         checkStatus(); // Recursively call checkStatus
+                    //     });
+                        
+                    //     }
+                        
+                    // };
+
+                    // checkStatus();
+
+                    res.render("main/creditor/credit", {
+                        message:`
+                            <h3>${responseData.message}</h3>
+                            <i>please be patient..🙂, </i>
+                            <hr>
+                        `,
+                    
+                        url:'/credit',
+                        buttonText:'Complete',
+                        user,
+                      });
 
                 break;
               case "TXN_FAILED":
                 res.render("main/creditor/credit",{   
                   user,        
                   message: `
-                      <h3>Transaction failed 😞</h3>
+                      <h3>TXN FAILED: <i> ${responseData.message}</i></h3>
                       <hr>
                   
-                  <p>please make sure the number you are using is valid</p>
                   `,
                   url: `/credit`,
                   buttonText:"back"
@@ -317,16 +284,11 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
               // Add more cases as needed for other statuses
         
               default:
-                res.render("main/investor/invest",{   
+                res.render("main/creditor/credit",{   
                   user,        
                   message: `
-                      <h3>Transaction failed 😞</h3>
-                      <hr>
-                  
-                  <p>
-                       an error occured, try again later.. if problem persists contact
-                       our customer service
-                  </p>
+                      <h3> An error ocurred: <i>${responseData.message}</i></h3>
+                      
                   `,
                   url: `/credit`,
                   buttonText:"back"
@@ -337,8 +299,19 @@ router.post('/repayment', ensureAuthenticated, async (req,res) => {
 
           })
           .catch(function (error) {
-            console.log(error);
-            res.redirect('/credit')
+            console.log(error.message);
+            res.render("main/creditor/credit",{   
+                user,        
+                message: `
+                    <h3><i>${error.message}</i></h3>
+                    <hr>
+                <p>
+                     Error connecting to payment gateway
+                </p>
+                `,
+                url: `/credit`,
+                buttonText:"back"
+                }); //
             // console.log('')
           });
    

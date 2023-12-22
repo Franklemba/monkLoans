@@ -207,7 +207,7 @@ button.btn-secondary:hover{
   top: 0px;
   min-height: auto;
   width: 100%;
-  padding: 0px 0px;
+  /* padding: 0px 0px; */
   background: #ffffff;
   z-index: 0;
   -webkit-box-shadow: 0px 13px 15px -12px rgba(35,35,35,0.15);
@@ -382,6 +382,10 @@ button.btn-secondary:hover{
 .card-img img{
 	width: 100%;
 }
+.card-img.services-img-01{
+	width: 100%;
+}
+
 .portfolio-main{
 	padding: 30px 0px;
 }
@@ -1749,9 +1753,10 @@ footer p {
 	}
 }
 
-/* .modal{
-	z-index: 1500;
+.modal{
+   width: 80% !important;
 }
+/*
 
 .modal-backdrop{
 	display: none !important;
@@ -1816,6 +1821,10 @@ footer p {
   .modal-title {
 	margin-bottom: 0;
 	line-height: 1.5;
+	width: 100%;
+  }
+  .modal-title span i {
+	  cursor: pointer;
   }
   
   .modal-body {
@@ -2186,4 +2195,36 @@ textarea {
 
 .error-message{
 	color: red;
+}
+
+.contentItem{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.contentItem :last-child{
+    color: black;
+    font-weight: bold;
+}
+
+.highlighted {
+	background-color: #c7c2c2; /* Change this to your preferred highlight color */
+}
+
+.logo {
+    background: url(../images/logo.png) no-repeat center;
+    background-size: contain; /* Use contain to maintain aspect ratio */
+    height: 50px; /* Set a fixed height or adjust as needed */
+	width: 10vw; /* Use percentage for responsiveness */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Additional styles for better appearance on small screens */
+@media screen and (max-width: 768px) {
+	.logo {
+		width: 20vw; /* Use percentage for responsiveness */
+        height: 30px; /* Adjust height for smaller screens */
+    }
 }

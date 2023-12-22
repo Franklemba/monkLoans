@@ -10,6 +10,7 @@ const { use } = require("./auth");
 const jwt = require("jsonwebtoken");
 const uuid = require('crypto').randomBytes(16).toString('hex');
 const { ensureAuthenticated} = require('../config/auth');
+const { debitPayloadMomo } = require('../utilities/payloadUtils');
 const Investor = require('../models/investSchema');
 const axios = require('axios');
 
@@ -56,69 +57,12 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
       const nextPaymentDate = new Date(today.getTime() +  30 * 24 * 60 * 60 * 1000);
       const maturityDate = nextPaymentDate.toISOString().substr(0, 10);
 
-          
-    //   const investor = new Investor({
-    //     key: user._id,
-    //     investmentAmount,
-    //     serviceFee,
-    //     expectedReturns,
-    //     totalReturns,
-    //     maturityDate,
-    //     investmentType,
-    //     investmentStatus: true,
-    //     transactionReference: 'responseData.transactionReference',
-    //     transactionToken: 'encoded_payload'
-    // });
-
-    // await investor.save();
-
-    // res.redirect('/invest');
 
           try {
       
-            
-              payload = {
-                  amount: `${investmentAmount}`,
-                  currency: "ZMW",
-                  customerEmail: `${user.email}`,
-                  customerFirstName: `${user.firstName}`,
-                  customerLastName: `${user.lastName}`,
-                  customerPhone: `${newMMnumber}`,
-                  merchantPublicKey: process.env.PUB_KEY,
-                  transactionName: "Monk Pay Investment",
-                  transactionReference: uuid,
-                  wallet: `${newMMnumber}`,
-                  returnUrl: `http://localhost:3001?ref=${uuid}`,
-                  // autoReturn: varValue,
-                  chargeMe: true,
-                  };
-      
-                  const encoded_payload = jwt.sign(payload, process.env.SEC_KEY);
               
-                  console.log(encoded_payload);
-                  // res.send(encoded_payload);
-                  console.log(newMMnumber)
-            
-      
-              
-              var data = JSON.stringify({
-                "payload": `${encoded_payload}`
-              });
-      
-              var config = {
-                method: 'post',
-              maxBodyLength: Infinity,
-                url: 'https://live.broadpay.io/gateway/api/v1/momo/debit',
-                // url: 'https:/asas',
-                headers: { 
-                  'PUB_KEY': process.env.PUB_KEY,
-                  'Content-Type': 'application/json'
-                },
-                data : data
-              };
 
-              
-      
+              const { config, encoded_payload } =  debitPayloadMomo(investmentAmount, user.email, user.firstName, user.lastName, newMMnumber, uuid);
       
               axios(config)
                 .then(async function (response) {
@@ -138,23 +82,22 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
                           totalReturns,
                           maturityDate,
                           investmentType,
-                          investmentStatus: true,
                           transactionReference: responseData.transactionReference,
                           transactionToken: encoded_payload
                       });
       
                           await investor.save();
                       
-                        let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
+                        // let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
                         res.render("main/investor/invest",{   
                                   user,        
                                   message: `
                                       <h3>${responseData.message}</h3>
-                                      <p>please be patient, </p>
+                                      <p>please be patient..🙂</p>
                                       <hr>
                                 
                                   `,
-                                  url: `/invest/verify/${responseData.transactionReference}/${encoded_payload}`,
+                                  url: `/invest`,
                                   buttonText:"complete"
                           }); //
                     
@@ -204,7 +147,7 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
                               <h3>Transaction failed 😞</h3>
                               <hr>
                           
-                          <p>please make sure the number you are using is valid</p>
+                          <p>${responseData.message}</p>
                           `,
                           url: `/invest`,
                           buttonText:"back"
@@ -213,11 +156,6 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
                       // Handle other cases or do nothing
                   }
 
-
-                  
-
-
-      
                 })
                 .catch(function (error) {
                   console.log(error.message);
@@ -258,75 +196,10 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
     
 })
 
-
-// ---------------------------TXN verification route
-router.get('/verify/:mechRef/:token', ensureAuthenticated, async (req, res) => {
-  const token = req.params.token;
-  const mechRef = req.params.mechRef;
-  const user = req.user;
-
-  
-  
-  let verifyData = await verifyTransaction(mechRef, token);
-  
-  const checkStatus = async () => {
-    
-    if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
-      console.log(verifyData.status);
-      res.render("main/investor/invest",{   
-        user,        
-        message: `
-        <h3>${verifyData.message} 😞</h3>
-        `,
-        url: `/invest`,
-        buttonText:"exit"
-      });
-
-      try {
-        await Investor.findOneAndDelete({transactionReference: mechRef});
-      } catch (error) {
-        console.log('Error deleting record: ', error)
-      }
-      console.log(verifyData);
-
-
-    } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
-      console.log(verifyData.status);
-      res.render("main/investor/invest",{   
-        user,        
-        message: `
-        <h3> ${verifyData.message} 😀</h3>
-        <br>
-        <p>Thank for investing with us🎉</p>
-        `,
-        url: `/invest`,
-        buttonText:"exit"
-       });
-
-       try {
-        await Investor.findOneAndUpdate({ transactionReference: mechRef, isTXNsuccessful: true  })
-      } catch (error) {
-        console.log('Error updating record: ', error)
-      }
-      console.log(verifyData);
-
-
-    } else {
-      verifyTransaction(mechRef, token).then((newVerifyData) => {
-        verifyData = newVerifyData;
-        checkStatus(); // Recursively call checkStatus
-      });
-
-    }
-  };
-
-     checkStatus(); // Initial call to checkStatus
-});
-
 // ---------------------------Debit dashboard route
 router.get('/dashboard', ensureAuthenticated, async (req,res) => {
     const user = req.user;  
-    const invest = await Investor.find({key: user._id, investmentStatus: true });
+    const invest = await Investor.find({key: user._id, investmentStatus: true }).sort({ createdAt: -1 });
     const maturedInvestment = await Investor.find({key: user._id, investmentStatus: false });
     const currentDate = new Date();
     const formattedDate = currentDate.toISOString().split('T')[0];

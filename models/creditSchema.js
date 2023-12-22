@@ -64,6 +64,14 @@ const creditSchema = new mongoose.Schema({
      required: true,
      default: false,
   },
+  transactionReference:{
+    type: String,
+    required: false,
+  },
+  token:{
+    type:String,
+    required: false
+  },
   createdAt:{
      type: Date,
      required: true,

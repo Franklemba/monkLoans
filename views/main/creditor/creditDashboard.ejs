@@ -27,24 +27,24 @@
                           <label for="amountReceived" class="form-label">Amount You Received</label>
                           <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=credit[0].amountReceived%>" disabled>
                       </div>
-                      <% if(credit[0].penaltyFee > 0){ %>
+                      <% if(credit[0].penaltyFee > 0 ){ %>
                         <hr>
                         <p><i>Please repay your loan to reduce extra charges. </i>😒</p>
                         <div class="mb-3">
                           <label for="repaymentAmount" class="form-label" style="color: crimson; text-decoration: line-through;">Repayment Amount</label>
-                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" style="color: crimson; text-decoration: line-through;" value="K<%=credit[0].repaymentAmount%>" disabled>
+                          <input type="text" class="form-control" id="repaymentAmount" name="" style="color: crimson; text-decoration: line-through;" value="K<%=credit[0].repaymentAmount%>" disabled>
                         </div>
                         <div class="mb-3">
                           <label for="nextPaymentDate" class="form-label" style="color: crimson; text-decoration: line-through;">Repayment Date</label>
-                          <input type="date" class="form-control" id="nextPaymentDate" name="nextPaymentDate" style="color: crimson; text-decoration: line-through;" value="<%=credit[0].nextPaymentDate%>" disabled>
+                          <input type="text" class="form-control" id="nextPaymentDate" name="" style="color: crimson; text-decoration: line-through;" value="<%=credit[0].nextPaymentDate%>" disabled>
                         </div>
                         <div class="mb-3">
                           <label for="repaymentAmount" class="form-label">Penalty Charge:</label>
-                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=Math.round(credit[0].penaltyFee)%>" disabled>
+                          <input type="text" class="form-control" id="repaymentAmount" name="penaltyFee" value="K<%=Math.round(credit[0].penaltyFee)%>" disabled>
                         </div>
                         <div class="mb-3">
-                          <label for="nextPaymentDate" class="form-label">New Repayment Amount:</label>
-                          <input type="text" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="K<%=credit[0].repaymentAmount - credit[0].penaltyFee %>" disabled>
+                          <label for="nextPaymentDate" class="form-label">New Repayment Amount: <i style="font-size: xx-small; color: red;">(<%= Math.round((credit[0].penaltyFee) / (credit[0].loanAmount * 0.01)).toFixed(0) %> days past)</i></label>
+                          <input type="text" class="form-control" id="nextPaymentDate" name="repaymentAmount" value="K<%=credit[0].repaymentAmount - credit[0].penaltyFee %>" disabled>
                         </div>
                         <hr>
                       <% }else{ %>

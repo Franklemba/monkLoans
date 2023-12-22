@@ -9,24 +9,17 @@
         
         <title> Monk Pay </title>
         <!-- Bootstrap core CSS -->
-        <!-- <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"> -->
         <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-        <!-- Fontawesome CSS -->
-        <link href="/css/all.css" rel="stylesheet">
-        <!-- Owl Carousel CSS -->
-        <link href="/css/owl.carousel.min.css" rel="stylesheet">
-        <!-- Owl Carousel CSS -->
-        <link href="/css/jquery.fancybox.min.css" rel="stylesheet">
-        <!-- Custom styles for this template -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"  crossorigin="anonymous">
         <link href="/css/style.css" rel="stylesheet">
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+
 
     </head>
 <body>
 <div class="wrapper-main">
   
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-light top-nav">
+    <nav class="navbar navbar-expand-lg navbar-dark bg-light top-nav fixed-menu">
         <div class="container">
             <% if (typeof user !== 'undefined' && user !== null) { %>
                 <a class="navbar-brand " href="#" id="navbarDropdownBlog" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true" title="profile"><span><%= user.firstName.charAt(0) + user.lastName.charAt(0) %></span></a>
@@ -40,8 +33,8 @@
                 </div>
               <%}else{ %> 
 
-                <a class="navbar-brand" href="/">
-                    <img src="/images/odtmLogo.png" alt="logo" />
+                <a class="navbar-brand logo" href="/">
+                    <!-- <img src="/images/logo.png" alt="logo" /> -->
                 </a>
               <% } %>
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
@@ -149,9 +142,7 @@
                             <li><a class="twitter hb-xs-margin" href="#"><span class="hb hb-xs spin hb-twitter"><i class="fab fa-twitter"></i></span></a></li>
                             <li><a class="instagram hb-xs-margin" href="#"><span class="hb hb-xs spin hb-instagram"><i class="fab fa-instagram"></i></span></a></li>
                             <li><a class="googleplus hb-xs-margin" href="#"><span class="hb hb-xs spin hb-google-plus"><i class="fab fa-whatsapp"></i></span></a></li>
-                            <!-- <li><a class="whatsapp hb-xs-margin" href="#"><span class="hb hb-xs spin hb-whatsapp"><i class="fab fa-whatsapp"></i></span></a></li> -->
 
-                            <!-- <li><a class="dribbble hb-xs-margin" href="#"><span class="hb hb-xs spin hb-dribbble"><i class="fab fa-dribbble"></i></span></a></li> -->
                         </ul>
                         <!--footer_ul2_amrc ends here-->
                     </div>
@@ -165,17 +156,6 @@
 
 <!--  Bootstrap core JavaScript -->
 </body>
-<!-- <script src="https://apis.google.com/js/platform.js" async defer></script> -->
-<!-- <script src="/vendor/jquery/jquery.min.js"></script> -->
-<!-- <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script> -->
-<script src="/js/imagesloaded.pkgd.min.js"></script>
-<script src="/js/isotope.pkgd.min.js"></script>
-<script src="/js/filter.js"></script>
-<script src="/js/jquery.appear.js"></script>
-<script src="/js/owl.carousel.min.js"></script>
-<script src="/js/jquery.fancybox.min.js"></script>
-<script src="/js/script.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-A3rJD856g0mPOozy7k6bsF210hiAsc1C3QjOZ3h5iLTVYG1RdqcSaC2u5U2T4w1mJ" crossorigin="anonymous"></script>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     

@@ -36,20 +36,21 @@ const investSchema = new mongoose.Schema({
     type: String,
     required: false,
   },
-  investmentStatus:{
-    type: Boolean,
-    required: true
-  },
   isTXNsuccessful:{
     type: Boolean,
     required: true,
     default: false
   },
+  isInvestmentPaidOff:{
+      type: Boolean,
+      required: false,
+      default: false
+  },
   transactionReference:{
     type: String,
     required: false,
   },
-  transactionToken:{
+  token:{
     type:String,
     required: false
   },
