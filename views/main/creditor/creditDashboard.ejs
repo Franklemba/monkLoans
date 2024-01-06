@@ -16,59 +16,58 @@
                    <div class="">
 
 
-                    <% if (credit && credit.length > 0) { %>
-      
-                     <div class="modalBottom">
-                      <div class="mb-3">
-                        <label for="loanAmount" class="form-label">Loan Amount</label>
-                        <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K<%=credit[0].loanAmount%>" disabled>
-                      </div>
-                      <div class="mb-3">
+                    <% if (credit) { %>
+                      <div class="modalBottom">
+                        <div class="mb-3">
+                          <label for="loanAmount" class="form-label">Loan Amount</label>
+                          <input type="text" class="form-control" id="loanAmount" name="loanAmount" value="K<%=credit.loanAmount%>" disabled>
+                        </div>
+                        <div class="mb-3">
                           <label for="amountReceived" class="form-label">Amount You Received</label>
-                          <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=credit[0].amountReceived%>" disabled>
-                      </div>
-                      <% if(credit[0].penaltyFee > 0 ){ %>
+                          <input type="text" class="form-control" id="amountReceived" name="amountReceived" value="K<%=credit.amountReceived%>" disabled>
+                        </div>
+                        <% if(credit.penaltyFee > 0 ){ %>
+                          <% let repaymentAmount = credit.repaymentAmount + credit.penaltyFee; %>
                         <hr>
-                        <p><i>Please repay your loan to reduce extra charges. </i>😒</p>
-                        <div class="mb-3">
-                          <label for="repaymentAmount" class="form-label" style="color: crimson; text-decoration: line-through;">Repayment Amount</label>
-                          <input type="text" class="form-control" id="repaymentAmount" name="" style="color: crimson; text-decoration: line-through;" value="K<%=credit[0].repaymentAmount%>" disabled>
-                        </div>
-                        <div class="mb-3">
-                          <label for="nextPaymentDate" class="form-label" style="color: crimson; text-decoration: line-through;">Repayment Date</label>
-                          <input type="text" class="form-control" id="nextPaymentDate" name="" style="color: crimson; text-decoration: line-through;" value="<%=credit[0].nextPaymentDate%>" disabled>
-                        </div>
-                        <div class="mb-3">
+                        <p><i style="color: red;">Please repay your loan to reduce extra charges. </i>😒</p>
+                          <div class="mb-3">
                           <label for="repaymentAmount" class="form-label">Penalty Charge:</label>
-                          <input type="text" class="form-control" id="repaymentAmount" name="penaltyFee" value="K<%=Math.round(credit[0].penaltyFee)%>" disabled>
+                          <input type="text" class="form-control" id="repaymentAmount" name="penaltyFee" value="K<%=Math.round(credit.penaltyFee)%>" disabled>
                         </div>
                         <div class="mb-3">
-                          <label for="nextPaymentDate" class="form-label">New Repayment Amount: <i style="font-size: xx-small; color: red;">(<%= Math.round((credit[0].penaltyFee) / (credit[0].loanAmount * 0.01)).toFixed(0) %> days past)</i></label>
-                          <input type="text" class="form-control" id="nextPaymentDate" name="repaymentAmount" value="K<%=credit[0].repaymentAmount - credit[0].penaltyFee %>" disabled>
+                          <label for="nextPaymentDate" class="form-label">Repayment Amount: <i style="font-size: xx-small; color: red;">(<%= Math.round((credit.penaltyFee) / (credit.loanAmount * 0.01)).toFixed(0) %> days past)</i></label>
+                          <input type="text" class="form-control" id="nextPaymentDate" name="repaymentAmount" value="K<%=repaymentAmount.toFixed() %>" disabled>
                         </div>
                         <hr>
                       <% }else{ %>
                         <div class="mb-3">
                           <label for="repaymentAmount" class="form-label">Repayment Amount</label>
-                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=credit[0].repaymentAmount%>" disabled>
+                          <input type="text" class="form-control" id="repaymentAmount" name="repaymentAmount" value="K<%=credit.repaymentAmount%>" disabled>
                         </div>
                         <div class="mb-3">
-                          <label for="nextPaymentDate" class="form-label d-flex flex-column">Repayment Date <i style="font-size: xx-small; color: blue;">(<%=Math.round((credit[0].penaltyFee) / (credit[0].loanAmount * 0.01)).toFixed(0)%> days left)</i></label>
-                          <input type="text" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=credit[0].nextPaymentDate%>" disabled>
-                        </div>
+                          <label for="nextPaymentDate" class="form-label d-flex flex-column">Repayment Date <i style="font-size: xx-small; color: blue;">(<%=Math.round((credit.penaltyFee) / (credit.loanAmount * 0.01)).toFixed(0)%> days left)</i></label>
+                            <% if (creditRepayTransactions && creditRepayTransactions.length > 0  && credit.penaltyFee > 0 ) { %>
+                               <input type="text" class="form-control" id="nextPaymentDate" name="nextPaymentDate" style="color: crimson; text-decoration: line-through;" value="<%=credit.nextPaymentDate%>" disabled>
+                              <% } else { %>
+                                <input type="text" class="form-control" id="nextPaymentDate" name="nextPaymentDate" value="<%=credit.nextPaymentDate%>" disabled>
+                            <% } %>
+                          </div>
+
+                           
+                          
                       <% } %>
                       
                       <div class="mb-3">
                           <label for="period" class="form-label">Tenure</label>
-                          <input type="text" class="form-control" id="period" name="period" value="<%=credit[0].loanTerm%> <%= credit[0].loanTerm === 1 ? 'week' : 'weeks' %>" disabled>
+                          <input type="text" class="form-control" id="period" name="period" value="<%=credit.loanTerm%> <%= credit.loanTerm === 1 ? 'week' : 'weeks' %>" disabled>
                       </div>
                       <div class="mb-3">
                         <label for="createdAt" class="form-label">Date Disbursed</label>
-                          <input type="text" class="form-control" id="createdAt" name="createdAt" value="<%=credit[0].createdAt.toLocaleDateString('en-GB')%>" disabled>
+                          <input type="text" class="form-control" id="createdAt" name="createdAt" value="<%=credit.createdAt.toLocaleDateString('en-GB')%>" disabled>
                       </div>
                       <div class="mb-3">
                         <label for="isPaid" class="form-label">Status</label>
-                        <input type="text" class="form-control" id="isPaid" name="isPaid" value="<%= credit[0].isPaid === true ? 'paid' : 'unpaid' %>" disabled>
+                        <input type="text" class="form-control" id="isPaid" name="isPaid" value="<%= credit.isPaid === true ? 'paid' : 'unpaid' %>" disabled>
                       </div>
                         <hr>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#paymentModal">MAKE PAYMENT</button>
@@ -82,23 +81,17 @@
                                   </button>
                               </div>
                               <div class="modal-body">
-                                <form action="/credit/repayment" method="post">
-
-                                  <span>click number to proceed</span><br>
-                                  <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" value="<%=user.phoneNumber%>"  required hidden>
-                                  <button type="submit" class="btn btn-primary btn-icon" id="dashboardButton">
-                                    <%=user.phoneNumber%>
-                                  </button>
-                                </form>
-                              <hr>
-                                <p>or</p>
-                                <hr>
 
                                 <form action="/credit/repayment" method="post">
                                   <div class="mb-2">
-                                    <label for="newMMnumber" class="form-label">user different number</label>
-                                    <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" placeholder="enter phone number" required>
+                                    <label for="newMMnumber" class="form-label">Enter mobile wallet number</label>
+                                    <input type="text" class="form-control" id="newMMnumber" name="newMMnumber" value="<%=user.phoneNumber%>"  required>
                                 </div>
+                                
+                                <div class="mb-2">
+                                  <label for="repayLoan" class="form-label">Enter Amount (K)</label>
+                                  <input type="number" class="form-control" id="repayLoan" name="repayLoan"  required>
+                              </div>
                                 <button type="submit" class="btn btn-primary">submit</button>
                                 </form>
 
@@ -129,12 +122,51 @@
              </div>
            </div>
          </div>
+
+         <% if (creditRepayTransactions && creditRepayTransactions.length > 0) { %>
+          <div class="col-lg-6 transactionSection">
+            <h5>repayment attempts</h5>
+            
+              <% let num = 0 %>
+              <ul>
+              <% creditRepayTransactions.forEach(function(loan) { %>
+                  <li id="transactionDropdownBlog">
+                    <div class="transactionItem">
+                      <span>
+                        <% if (loan.isTxnSuccessful == false ) { %>
+                          <i title="pending TXN verification" class="fa fa-clock fa-1x text-warning"></i>
+                           <a href="/credit/dashboard" style="padding-left: 15px; padding-right: 15px;"><i title="Refresh" class="fas fa-sync fa-1x text-primary"></i>
+                           </a>
+                          <% } else { %>
+                            <i title="TXN successful" class="fa fa-check-circle fa-1x text-success"></i>
+                          <% } %>
+                        <!-- <i class="fa fa-clock fa-1x text-warning"></i> -->
+                         K<%=loan.amount%></span>
+                      <% if (loan.createdAt.toDateString() === new Date().toDateString()) { %>
+                        
+                        <span><%= loan.createdAt.toLocaleTimeString('en-GB') %></span>
+                        
+                        <% } else { %>
+                        <span><%= loan.createdAt.toLocaleDateString('en-GB') %></span>
+                             
+                         
+                     <% } %>
+                    </div>
+                  </li>
+                  
+                  <%})%>
+                </ul>
+                 
+                  </div>
+         <% } %>
          
          <br>
          <br>
+
          <% if (repayedLoan && repayedLoan.length > 0) { %>
          <div class="col-lg-6 transactionSection">
-            <h5>Trasactions</h5>
+          <br>
+            <h5>Recent Trasactions</h5>
             
               <% let num = 0 %>
               <ul>
@@ -158,8 +190,19 @@
 
                               <p>Loan Amount: <span><strong>K<%=loan.loanAmount%></strong></span></p>
                               <p>Amount you received: <span><strong>K<%=loan.amountReceived%></strong></span></p>
-                              <p>Amount payed: <span><strong>K<%=loan.repaymentAmount%></strong></span></p>
+                              <hr>
+                              <% allCreditRepayTransactions.forEach(element => { %>
+                                <% if(element.loanKey == loan._id){ %>
+                                  
+
+                                  <p><strong>K<%=element.amount %></strong>  <i><%= element.createdAt.toLocaleDateString('en-GB') %></i></p>
+                                
+                                 <% }%>
+                                
+                              <% }) %>
+                              <hr>
                               <p>Date payed: <span><strong><%=loan.nextPaymentDate%></strong></span></p>
+                              <p>Tenure: <span><strong><%=credit.loanTerm%> <%= credit.loanTerm === 1 ? 'week' : 'weeks' %></strong></span></p>
                               <p>Status: <span><strong><%= loan.isPaid === true ? 'paid' : 'unpaid' %></strong></span></p>
 
                             </div>

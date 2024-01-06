@@ -5,10 +5,9 @@ const app = express();
 const session = require('express-session');
 const fetch = require('node-fetch').default;
 const { verifyTransaction } = require('../utilities/verifyTransactionUtils'); 
+const { updatePendingInvestmentsTXN, updatePendingCreditsRepaymentTxn } = require('../utilities/verifyTxnUtils')
 
-const { use } = require("./auth");
-const jwt = require("jsonwebtoken");
-const uuid = require('crypto').randomBytes(16).toString('hex');
+
 const { ensureAuthenticated} = require('../config/auth');
 const { debitPayloadMomo } = require('../utilities/payloadUtils');
 const Investor = require('../models/investSchema');
@@ -21,12 +20,21 @@ app.use(session({
     saveUninitialized: false    
   }));
   
-
-
-router.get("/",  (req,res) => {
+router.get("/", async (req,res) => {
     const user = req.user;
+    const message = req.query.message;
+    const totalPendingTransactions = await Investor.countDocuments({key: user._id,isTXNsuccessful: false, isInvestmentPaidOff: false })
+    if(totalPendingTransactions > 0 ){
+      updatePendingInvestmentsTXN(user._id);
+    }
     res.render("main/investor/invest",{
-        user
+        user,
+        message: message !=  undefined
+        ? `<h3>${base64Decode(message)}</h3><hr>`
+        : null ,
+        url:  message !=  undefined
+          ? '/invest/dashboard': null ,
+        buttonText:"Complete"
     })
 })
 
@@ -37,20 +45,17 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
     // const calculatedInvestedData = req.session.calculatedInvestedData;
     const {newMMnumber,investmentAmount,investmentType} = req.body;
 
-
-    
-    
     if(user.isVerified == true  &&  !isNaN(investmentAmount )){
       
       // Calculate interest based on selected investment term
-      const interestRate = 0.15;
+      const interestRate = 0.10;
       // Calculate service fee (assuming a fixed fee of K3.00)
-      const serviceFee = 3;
+      const serviceFee = 5;
       // Calculate expected returns
-      const expectedReturns = investmentAmount * interestRate;
+      const expectedReturns = (investmentAmount - serviceFee ) * interestRate;
       
       // Calculate total returns
-      const totalReturns = parseFloat(investmentAmount) + expectedReturns - serviceFee;
+      const totalReturns = parseFloat(investmentAmount - serviceFee) + expectedReturns;
       
       // Calculate and display next payment date (assuming 7 days per week)
       const today = new Date();
@@ -59,10 +64,8 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
 
 
           try {
-      
-              
 
-              const { config, encoded_payload } =  debitPayloadMomo(investmentAmount, user.email, user.firstName, user.lastName, newMMnumber, uuid);
+              const { config, encoded_payload } =  debitPayloadMomo(investmentAmount, user.email, user.firstName, user.lastName, newMMnumber);
       
               axios(config)
                 .then(async function (response) {
@@ -72,7 +75,6 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
 
                   switch (responseData.status) {
                       case "TXN_AUTH_PENDING":
-      
                         // ___________SAVING INVESTOR'S DETAILS __________//
                         const investor = new Investor({
                           key: user._id,
@@ -87,89 +89,20 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
                       });
       
                           await investor.save();
-                      
-                        // let verifyData = await verifyTransaction(responseData.transactionReference, encoded_payload);
-                        res.render("main/investor/invest",{   
-                                  user,        
-                                  message: `
-                                      <h3>${responseData.message}</h3>
-                                      <p>please be patient..🙂</p>
-                                      <hr>
-                                
-                                  `,
-                                  url: `/invest`,
-                                  buttonText:"complete"
-                          }); //
-                    
-      
-                              const checkStatus = async () => {
-                                if (verifyData.status === 'TXN_AUTH_UNSUCCESSFUL') {
-                                  console.log(verifyData.status + ': ' + verifyData.status);
-                                  console.log(verifyData);
-                                  await Investor.findOneAndDelete({transactionReference: responseData.transactionReference});
-                                } else if (verifyData.status === 'TXN_AUTH_SUCCESSFUL') {
-                                  console.log(verifyData.status + ': ' + verifyData.status);
-                                  console.log(verifyData);
-                                  await Investor.findOneAndUpdate({ transactionReference: responseData.transactionReference, isTXNsuccessful: true  })
-                                  
-                                } else {
-                                  verifyTransaction(responseData.transactionReference, encoded_payload).then((newVerifyData) => {
-                                    verifyData = newVerifyData;
-                                    checkStatus(); // Recursively call checkStatus
-                                  });
-                                
-                                }
-                                
-                              };
-      
-                              checkStatus();
+                          res.redirect(`/invest?message=${encodeURIComponent(base64Encode(responseData.message))}`);
       
                         break;
-                    case "TXN_FAILED":
-                          res.render("main/investor/invest",{   
-                            user,        
-                            message: `
-                                <h3>${responseData.message}</h3>
-                                <hr>
-                            
-                            `,
-                            url: `/invest`,
-                            buttonText:"back"
-                            }); //
-                           break;
-                    
-                    // Add more cases as needed for other statuses
               
                       default:
-                        res.render("main/investor/invest",{   
-                          user,        
-                          message: `
-                              <h3>Transaction failed 😞</h3>
-                              <hr>
-                          
-                          <p>${responseData.message}</p>
-                          `,
-                          url: `/invest`,
-                          buttonText:"back"
-                          }); //
-                        
-                      // Handle other cases or do nothing
+                        res.redirect(`/invest?message=${encodeURIComponent(base64Encode(responseData.message))}`);
+
                   }
 
                 })
                 .catch(function (error) {
                   console.log(error.message);
-                  res.render("main/investor/invest",{   
-                    user,        
-                    message: `
-                        <h3>Error accessing Payment gate 😞</h3>
-                        <hr>
-                        <p>Hostname is down, please try again later</p>
-                        <i>${error.message}</i>
-                    `,
-                    url: "/invest",
-                    buttonText:"exit"
-                }); 
+                  res.redirect(`/invest?message=${encodeURIComponent(base64Encode(error.message))}`);
+                
                 });
               
           } catch (error) {
@@ -179,19 +112,17 @@ router.post('/deposit_fund', ensureAuthenticated, async (req,res) => {
           
 
     }else{
-      res.render("main/investor/invest",{   
-        user,        
-        message: `
+
+      const responseMessage = `
             <h3>Account is not verified,</h3>
             <hr>
-        <h3>please complete registration proceess </h3>
-        <hr>
-        <p>if registration already complete, please wait patiently for account to be verified </p>
-        <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
-        `,
-        url: "/verify",
-        buttonText:"exit"
-    }); 
+            <h3>please complete registration proceess </h3>
+            <hr>
+            <p>if registration already complete, please wait patiently for account to be verified </p>
+            <p>if verifcation process delays, please feel free to contact- 0976958373🙂</p>
+            `;
+            res.redirect(`/invest?message=${encodeURIComponent(base64Encode(responseMessage))}`);
+   
     }
     
 })
@@ -249,3 +180,13 @@ const updateInvestors = async (user, formattedDate ) => {
 
 
 module.exports = router;
+
+
+
+const base64Decode = (data) => {
+  return Buffer.from(data, 'base64').toString('utf-8');
+};
+
+const base64Encode = (data) => {
+  return Buffer.from(data).toString('base64');
+};

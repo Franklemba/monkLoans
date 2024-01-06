@@ -8,7 +8,6 @@ const creditSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-
   loanAmount: {
     type: Number,
     required: true,
@@ -59,18 +58,15 @@ const creditSchema = new mongoose.Schema({
     required: true,
     default: false
   },
+  loanRepayIds: {
+    type: [String], // This specifies that it's an array of strings
+    required: false, // Change to true if you want to make it required
+    default: [], // Default value is an empty array
+  },
   isApproved: {
      type: Boolean,
      required: true,
      default: false,
-  },
-  transactionReference:{
-    type: String,
-    required: false,
-  },
-  token:{
-    type:String,
-    required: false
   },
   createdAt:{
      type: Date,

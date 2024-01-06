@@ -2,17 +2,7 @@
     <!-- About Section -->
     <div class="about-main">
         <div class="row">
-         <div class="col-lg-6">
-           <h2>Borrow</h2>
-           <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-           <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
-           <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
-            <a href="/credit/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
-          </button>
-          
-          <br>
-          <br>
-        </div>
+         
          <div class="col-lg-6  container">
            <div class="modal-dialog ">
              <form action="/credit/page" method="post">
@@ -122,32 +112,37 @@
              
            </div>
          </div>
+         <div class="col-lg-6">
+          <h2>Loan</h2>
+          <ul>
+           <li>
+             To borrow simply means borrowing (money) with the intention of returning the same plus interest.
+           </li>
+           <li>
+             We offer collateral backed loans to help students solve their urgent cash problems
+           </li>
+           <li>
+             The interest paid by the borrower on the monies borrowed depends on the period of the loan, amount borrowed and interest rate of the loan e.g 5% OF K1000 for 1month is 1050 and 5% of K1000 for 2months is K1100.where 5% is the interest rate and 1month and 2month are the period of the loan and K1000 is the amount borrowed.
+           </li>
+           <li>
+             NOTE: The maximum amount to borrow is K500 and a commission fee is charged on every loan
+           </li>
+          </ul>
+          <!-- <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p> -->
+          <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
+           <a href="/credit/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
+         </button>
+         
+         <br>
+         <br>
+       </div>
         </div>
         <!-- /.row -->
 
 
         <br>
         <br>
-        <div class="row">
-            <div class="col-lg-6">
-              <h5>Our Regulations</h5>
-              <ul>
-                 <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
-                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
-                 <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-                 
-              </ul>
-           </div>
-           <div class="col-lg-6">
-            <h5>Requirements</h5>
-            <ul>
-               <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-            </ul>
-         </div>
-             
-           </div>
+        
     </div>
  </div>	
 
@@ -161,9 +156,9 @@
     // Define interest rates for different loan terms
     const interestRates = {
       1: 0.1, // 5% for a 1-week term
-      2: 0.15, // 6% for a 2-week term
-      3: 0.2, // 7% for a 3-week term
-      4: 0.25, // 8% for a 4-week term
+      2: 0.2, // 6% for a 2-week term
+      3: 0.3, // 7% for a 3-week term
+      4: 0.35, // 8% for a 4-week term
     };
 
     // Function to calculate the repayment amount

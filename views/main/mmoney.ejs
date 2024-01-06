@@ -1,27 +1,91 @@
 <div class="container">        
     <!-- About Section -->
     <div>
-        <h2>Mobile Money door to door</h2>
+        <h2>Mobile Money Door 2 Door agent</h2>
     </div>
     <div class="about-main">
 
         <div class="row">
-         <div class="col-lg-6">
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit.</p>
-          <p>Lorem ipsum dolor sit. click more below for more informationon how this works</p>
-          <button id="open-modal">more</button>
-          <br>
-          <br>
-          <div class="modal container">
+          
+         <div class="col-lg-6  container">
+          <div class="modal-dialog ">
             <div class="modal-content">
-                <span class="close">&times;</span>
-                <p class="modalTitle">Order a mobile money agent</p>
-               <hr>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-               <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>            
+              <div class="modal-header">
+                <h5 class="modal-title" id="loanModalLabel">Order a mobile money agent</h5>
+                <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
+              </div>
+              <div class="modal-body">
+                  <div class="modalBottom">
+                      
+                  <div class="mb-3">
+                    <label for="cashAvailable" class="form-label">Amount Available</label>
+                    <input type="text" class="form-control" id="CashAvailable" name="cashAvailable" value="K<%=momoService.mtnCash%>" disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="agentNumber" class="form-label">Agent Number</label>
+                    <input type="text" class="form-control" id="AgentNumber" name="agentNumber" value="<%=momoService.mtnAgentNumber%>" disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="agentName" class="form-label">Agent Name</label>
+                    <input type="text" class="form-control" id="agentName" name="agentName" value="<%=momoService.agentName%>" disabled>
+                  </div>
+                  <hr>
+                  
+                  
+               </div>
+               <form action="/mmoney" method="post">
+                   <!-- <hr> -->
+                   
+                   <div class="mb-3">
+                     <label for="agentService" class="form-label">Agent Service</label>
+                     <div class="AgentService">
+                       <img src="images/mtn.jpg" alt="mtn" width="60" height="50">
+                       <select name="agentService" id="AgentService">
+                           <option value="mtn"> MTN</option>
+                           <option value="airtel">AIRTEL</option>
+                           <option value="zamtel">ZAMTEL</option>
+                       </select>
+                     </div>
+                   </div>
+                   <div class="mb-3">
+                     <label for="serviceType" class="form-label">Service Type</label>
+                     <div class="serviceType">
+                       <select name="serviceType" id="serviceType">
+                           <option value="withdraw"> Withdraw</option>
+                           <option value="deposit">Deposit</option>
+                       </select>
+                     </div>
+                   </div>
+                   <div class="mb-3">
+                     <label for="amount" class="form-label">Amount</label>
+                     <input type="number" class="form-control" id="withdrawAmount" placeholder="transaction amount" name="amount" required>
+                   </div>
+                  
+                  <div class="mb-3">
+                   <label for="location" class="form-label">Room number/current location</label>
+                   <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
+                 </div>
+                
+                 <hr>
+                 <button type="submit" class="btn btn-primary">place order</button>
+
+                </form>
+              </div>
+              
             </div>
+          </div>
         </div>
+         <div class="col-lg-6">
+          <ul>
+            <li>Deposit and Withdraw money hassle-free with our on-campus agents.</li>
+            <li>Transactions are processed manually by our agents. Just place a transaction order and our agents will atend to you physically.</li>
+            <li>we aim to reduce money uncertainity and increase money security for students, in order to enjoy financial convenience.</li>
+            
+          </ul>
+          <P></P>
+          <!-- <button id="open-modal">more</button> -->
+          <br>
+          <br>
 
          
           
@@ -29,74 +93,6 @@
           
           
         </div>
-         <div class="col-lg-6  container">
-           <div class="modal-dialog ">
-             <div class="modal-content">
-               <div class="modal-header">
-                 <h5 class="modal-title" id="loanModalLabel">Order a mobile money agent</h5>
-                 <!-- <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button> -->
-               </div>
-               <div class="modal-body">
-                   <div class="modalBottom">
-                       
-                   <div class="mb-3">
-                     <label for="cashAvailable" class="form-label">Amount Available</label>
-                     <input type="text" class="form-control" id="CashAvailable" name="cashAvailable" value="K<%=momoService.mtnCash%>" disabled>
-                   </div>
-                   <div class="mb-3">
-                     <label for="agentNumber" class="form-label">Agent Number</label>
-                     <input type="text" class="form-control" id="AgentNumber" name="agentNumber" value="<%=momoService.mtnAgentNumber%>" disabled>
-                   </div>
-                   <div class="mb-3">
-                     <label for="agentName" class="form-label">Agent Name</label>
-                     <input type="text" class="form-control" id="agentName" name="agentName" value="<%=momoService.agentName%>" disabled>
-                   </div>
-                   <hr>
-                   
-                   
-                </div>
-                <form action="/mmoney" method="post">
-                    <!-- <hr> -->
-                    
-                    <div class="mb-3">
-                      <label for="agentService" class="form-label">Agent Service</label>
-                      <div class="AgentService">
-                        <img src="images/mtn.jpg" alt="mtn" width="60" height="50">
-                        <select name="agentService" id="AgentService">
-                            <option value="mtn"> MTN</option>
-                            <option value="airtel">AIRTEL</option>
-                            <option value="zamtel">ZAMTEL</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label for="serviceType" class="form-label">Service Type</label>
-                      <div class="serviceType">
-                        <select name="serviceType" id="serviceType">
-                            <option value="withdraw"> Withdraw</option>
-                            <option value="deposit">Deposit</option>
-                        </select>
-                      </div>
-                    </div>
-                    <div class="mb-3">
-                      <label for="amount" class="form-label">Amount</label>
-                      <input type="number" class="form-control" id="withdrawAmount" placeholder="transaction amount" name="amount" required>
-                    </div>
-                   
-                   <div class="mb-3">
-                    <label for="location" class="form-label">Room number/current location</label>
-                    <input type="text" class="form-control" id="location" name="location" placeholder="e.g. K212" required>
-                  </div>
-                 
-                  <hr>
-                  <button type="submit" class="btn btn-primary">place order</button>
- 
-                 </form>
-               </div>
-               
-             </div>
-           </div>
-         </div>
         </div>
         <!-- /.row -->
 

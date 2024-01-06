@@ -47,7 +47,7 @@
                       </div>
                       <div class="mb-3">
                           <label for="totalInvestments" class="form-label">Total investments</label>
-                          <input type="text" class="form-control" id="totalInvestments" name="totalInvestments" value="<%= totalInvestments %>" disabled>
+                          <input type="text" class="form-control" id="totalInvestments" name="totalInvestments" value="K<%= totalInvestments %>" disabled>
                       </div>
                         <% } else { %>
                         <div class="mb-3">
@@ -74,28 +74,9 @@
             <div class="modal-content">
               <div class="modal-body d-flex flex-column align-items-center">
 
-                <% if (maturedInvestment && maturedInvestment.length > 0) { %>
-                 
-                    <!-- INVEST button with an icon -->
-                      <button type="button" class="btn btn-primary btn-icon serviceBtn" id="investButton">
-                        <i class="fas fa-money-bill"></i> Withdraw 
-                      </button>
-                      <br>
-                      <!-- BORROW button with a new icon -->
-                      <button type="button" class="btn btn-secondary btn-icon serviceBtn" id="creditButton">
-                        <i class="fas fa-arrow-circle-up"></i> Re-Invest 
-                      </button>
-
-                    <% } else { %>
-                      
                       <button type="button" class="btn btn-primary btn-icon serviceBtn" id="investButton">
                         <i class="fas fa-hand-holding-usd"></i> INVEST
                       </button>
- 
-                      <% } %> 
-
-                
-              
               </div>
             </div>
           </div>
@@ -115,7 +96,8 @@
                   <tr class="text-white">
                       <!-- <th scope="col"><input class="form-check-input" type="checkbox"></th> -->
                       <th><i class="fa fa-question-circle fa-1x text-secondary"></i></th>
-                      <th scope="col" style="color: black;">Amount</th>
+                      <th scope="col" style="color: black;">Total Amount</th>
+                      <th scope="col" style="color: black;">Invested Amount</th>
                       <th scope="col" style="color: black;">Interest</th>
                       <th scope="col" style="color: black;">Maturity date</th>
                   </tr>
@@ -126,19 +108,34 @@
                   <tr class="modal-trigger-row" data-toggle="modal" data-target="#modal<%=id%>">
                     <% if (investment.isTXNsuccessful == false) { %>
                       <td>
-                          <i class="fa fa-exclamation-triangle fa-1x text-warning"></i>
+                          <i title="TXN not yet verified" class="fa fa-exclamation-triangle fa-1x text-warning"></i>
+                        
                       </td>                            
                   <% } else { %>
                        
                           <% if (investment.isInvestmentPaidOff == true ) { %>
-                            <td><i class="fa fa-clock fa-1x text-primary"></i></td>
+                            <td><i title="Unmatured investment" class="fa fa-clock fa-1x text-primary"></i></td>
                             <% } else { %>
-                              <td><i class="fa fa-check-circle fa-1x text-success"></i></td>
+                              <td><i title="matured investment" class="fa fa-check-circle fa-1x text-success"></i></td>
                             <% } %>
                   <% } %>
-                      <td><%=investment.investmentAmount%></td>
-                      <td><%=investment.expectedReturns%></td>
-                      <td><%=investment.maturityDate%></td>
+                      <td>K<%=investment.investmentAmount%></td>
+                      <td>K<%=investment.investmentAmount - 5 %></td>
+                      <td>K<%=investment.expectedReturns%></td>
+                      <td>
+                        <% if (investment.createdAt.toDateString() === new Date().toDateString()) { %>
+                          <%=investment.createdAt.toLocaleTimeString('en-GB')%>
+                          
+                          <% } else { %>
+                            <%=investment.maturityDate%>  
+                            <i style="font-size: xx-small;"><%=investment.createdAt.toLocaleTimeString('en-GB')%></i>
+                           
+                       <% } %>
+                        
+                      
+                      </td>
+                      
+                  
                     </tr>
                     <div class="modal fade" id="modal<%=id%>" tabindex="-1" aria-labelledby="filterModalLabel" aria-hidden="true">
                         <div class="modal-dialog">
@@ -157,16 +154,20 @@
                                 <div class="modal-body">
                                     
                                     <div class="contentItem">
-                                        <span>Invested Amount:</span>
-                                        <span><%=investment.investmentAmount%></span>
+                                        <span>Toatal Amount:</span>
+                                        <span>K<%=investment.investmentAmount%></span>
                                     </div>
                                     <div class="contentItem">
+                                      <span>Invested Amount:</span>
+                                      <span>K<%=investment.investmentAmount - 5 %></span>
+                                  </div>
+                                    <div class="contentItem">
                                         <span>Interest Earned:</span>
-                                        <span><%=investment.expectedReturns%></span>
+                                        <span>K<%=investment.expectedReturns%></span>
                                     </div>
                                     <div class="contentItem">
                                         <span>Total Returns:</span>
-                                        <span><%=investment.totalReturns%></span>
+                                        <span>K<%=investment.totalReturns%></span>
                                     </div>
                                     <div class="contentItem">
                                         <span>Maturity Date:</span>
@@ -181,7 +182,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <% if (investment.isTXNsuccessful == false ) { %>
-                                        <button type="button" class="btn btn-secondary" ><a href="/investments/processed/<%=investment._id %>">Refresh</a></button>
+                                        <button type="button" class="btn btn-secondary" ><a href="/invest/dashboard">Refresh</a></button>
                                     <% } %>
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 

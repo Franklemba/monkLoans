@@ -2,22 +2,7 @@
   <!-- About Section -->
   <div class="about-main">
       <div class="row">
-       <div class="col-lg-6">
-         <h2>Invest</h2>
-         
-         <h6>COUPON INTEREST</h6> 
-     <p>Coupon interest this is the type of interest rate that allows a student to receive interest on their 
-      principle upon maturity together with the principle.</p>
-   <!-- <h6>ANNUITY INTEREST </h6>
-<p>Annuity interest this is the type of interest rate that allows a student to receive interest on their 
-  principle prior the maturity date and the principle is received upon maturity.</p> -->
-         <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
-          <a href="/invest/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
-        </button>
-        <br>
-        <br>
-      </div>
-      <div class="col-lg-6  container">
+        <div class="col-lg-6  container">
           <div class="modal-dialog ">
             <div class="modal-content" id="investment">
               <div class="modal-header">
@@ -34,14 +19,13 @@
                     <label for="investmentType" class="form-label">Interest Type:</label> 
                     <select name="investmentType" id="investmentType">
                        <option value="coupon">Coupon Interest</option>
-                       <!-- <option value="annuity">Annuity Interest</option> -->
                     </select>
                   </div>
                   
                   <div class="modalBottom">
                     <div class="mb-3">
                       <label for="serviceFee" class="form-label">Commission</label>
-                      <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="K3.00" disabled>
+                      <input type="text" class="form-control" id="serviceFee" name="serviceFee" value="K5.00" disabled>
                     </div>
                     <div class="mb-3">
                       <label for="expectedReturns" class="form-label">Expected Returns</label>
@@ -159,21 +143,28 @@
             </div>
           </div>
         </div>
+       <div class="col-lg-6">
+         <h2>Invest</h2>
+         
+         <ul>
+          <li>Investment is a commit ( money ) in order to earn financial returns.</li>
+          <li>We offer an opportunity to students to allow them to commit ( money ) for a fixed period of time,in order to earn financial returns by receiving interest on the investment.</li>
+          <li>The interest received on the investment depends on the amount (principle), period of the investment and interest rate.</li>
+          <li>E.g 5% of K1000 for 2month is K1100 where 5% is the interest rates 1month and 2month is the period of the investment and K1000 is the investment amount (principle)..</li>
+         
+      </ul>
+         <button type="button" class="btn btn-primary btn-icon" id="dashboardButton">
+          <a href="/invest/dashboard"><i class="fas fa-tachometer-alt"></i> DASHBOARD</a> 
+        </button>
+        <br>
+        <br>
+      </div>
+      
       </div>
       <!-- /.row -->
       <br>
       <br>
-      <div class="row">
-          <div class="col-lg-6">
-            <h5>Our Regulations</h5>
-            <ul>
-               <li>Phasellus quis erat et enim laoreet posuere ac porttitor ipsum.</li>
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>                     
-               <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</li>
-               
-            </ul>
-         </div>
-      </div>
+
   </div>
 </div>
 
@@ -182,7 +173,7 @@
 <script>
 $(document).ready(function () {
   // Define a fixed interest rate of 8% for a 1-month term
-  const interestRate = 0.15;
+  const interestRate = 0.1;
 
   // Function to calculate the investment details
   function calculateInvestment() {
@@ -190,13 +181,13 @@ $(document).ready(function () {
 
     if (!isNaN(investmentAmount)) {
       // Calculate service fee (assuming a fixed fee of K3.00)
-      const serviceFee = 3;
+      const serviceFee = 5;
       
       // Calculate expected returns
-      const expectedReturns = investmentAmount * interestRate;
+      const expectedReturns = (investmentAmount  - serviceFee) * interestRate;
       
       // Calculate total returns
-      const totalReturns = investmentAmount + expectedReturns - serviceFee;
+      const totalReturns = (investmentAmount  - serviceFee) + expectedReturns;
       
       // Display calculated values
       $("#serviceFee").val(`K${serviceFee.toFixed(2)}`);

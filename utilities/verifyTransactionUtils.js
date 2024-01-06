@@ -16,7 +16,9 @@ const verifyTransaction = async (merchantReference, token) => {
     const result = await response.json();
     return result;
   } catch (error) {
+    console.log('Transaction_Verification_Error: ' + error.message);
     throw error;
+    
   }
 };
 

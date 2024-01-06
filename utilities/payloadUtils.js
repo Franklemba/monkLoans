@@ -1,8 +1,10 @@
 
 const jwt = require("jsonwebtoken");
 
-const debitPayloadMomo = (amount, email, firstName, lastName, walletNumber, reference) =>{
-    
+const debitPayloadMomo = (amount, email, firstName, lastName, walletNumber) =>{
+  
+  let uuid = require('crypto').randomBytes(16).toString('hex');
+
     payload = {
         amount: `${amount}`,
         currency: "ZMW",
@@ -12,9 +14,9 @@ const debitPayloadMomo = (amount, email, firstName, lastName, walletNumber, refe
         customerPhone: `${walletNumber}`,
         merchantPublicKey: process.env.PUB_KEY,
         transactionName: "Tayantpay Limited",
-        transactionReference: reference,
+        transactionReference: uuid,
         wallet: `${walletNumber}`,
-        returnUrl: `http://localhost:3000?ref=${reference}`,
+        returnUrl: `http://localhost:3000?ref=${uuid}`,
         // autoReturn: varValue,
         chargeMe: true,
         };
