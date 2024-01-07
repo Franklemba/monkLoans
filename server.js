@@ -22,7 +22,7 @@ const liveDb = 'mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?
 const localDb = 'mongodb://127.0.0.1:27017/moakloans';
 
 mongoose.set('strictQuery', true);
-mongoose.connect(localDb || liveDb ,{useNewUrlParser: true})
+mongoose.connect(liveDb ,{useNewUrlParser: true})
 .then(()=>{
     console.log('database is connected')
 }).catch((err) => console.log(err));
@@ -36,7 +36,6 @@ app.use(bodyParser.urlencoded({limit: '10mb', extended: false}));
 app.use(express.urlencoded({ extended: false }))
 
 app.use(methodOverride('_method'));
-
 
 app.use(session({
     secret: 'mysecret',
@@ -57,7 +56,5 @@ app.use('*', (req, res) => {
     // Redirect to the main page or any desired page
     res.redirect('/'); // You can replace '/' with the URL of your main page
 });
-
-
 
 app.listen(PORT,()=> console.log('Server is Running at port '+ PORT))
