@@ -18,13 +18,11 @@ require('./config/passport')(passport);
 // const { ensureAuthenticated} = require('./config/auth');
 
 const PORT = process.env.PORT || 3001;
+const liveDb = 'mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?retryWrites=true&w=majority';
+const localDb = 'mongodb://127.0.0.1:27017/moakloans';
 
-
-
-// mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?retryWrites=true&w=majority
-// mongodb://127.0.0.1:27017/moakloans
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://franklemba:sharon@svintstore.q1axgo7.mongodb.net/?retryWrites=true&w=majority',{useNewUrlParser: true})
+mongoose.connect(localDb || liveDb ,{useNewUrlParser: true})
 .then(()=>{
     console.log('database is connected')
 }).catch((err) => console.log(err));

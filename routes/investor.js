@@ -23,9 +23,11 @@ app.use(session({
 router.get("/", async (req,res) => {
     const user = req.user;
     const message = req.query.message;
-    const totalPendingTransactions = await Investor.countDocuments({key: user._id,isTXNsuccessful: false, isInvestmentPaidOff: false })
-    if(totalPendingTransactions > 0 ){
-      updatePendingInvestmentsTXN(user._id);
+    if(typeof user !== "undefined" && user !== null){
+      const totalPendingTransactions = await Investor.countDocuments({key: user._id,isTXNsuccessful: false, isInvestmentPaidOff: false })
+      if(totalPendingTransactions > 0 ){
+        updatePendingInvestmentsTXN(user._id);
+      }
     }
     res.render("main/investor/invest",{
         user,
